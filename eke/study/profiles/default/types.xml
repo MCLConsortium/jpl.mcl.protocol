@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2009 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<object name='portal_types' meta_type='Plone Types Tool'>
+    <object name='Protocol'     meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Study Folder' meta_type='Factory-based Type Information with dynamic views'/>
+</object>

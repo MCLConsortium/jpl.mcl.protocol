@@ -1,0 +1,383 @@
+<html xmlns='http://www.w3.org/1999/xhtml'
+    xml:lang='en'
+    lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    metal:use-macro='context/main_template/macros/master'
+    i18n:domain='eke.study'>
+    <head>
+        <title>Protocol</title>
+    </head>
+    <body>
+        <metal:main fill-slot='main'>
+            <tal:main-macro metal:define-macro='main'
+                tal:define='
+                    wtool       context/portal_workflow;
+					getInfoFor  python:wtool.getInfoFor;
+                	portalURL   context/@@plone_portal_state/portal_url;'>
+                <div tal:replace='structure provider:plone.abovecontenttitle' />
+                <h1 class='documentFirstHeading'> 
+                    <span id='parent-fieldname-title' tal:content='context/title'>
+                        Title
+                    </span>
+                </h1>
+                <div>
+                    <label style='margin-top:-35px;padding-left:1px;'
+                        for='parent-fieldname-abbrevName' i18n:translate='label_abbrevName'>
+                        Abbreviated Name:
+                        <span id='parent-fieldname-abbrevName' tal:content='structure context/abbrevName'>H-2</span>
+                    </label>
+                </div>
+                <div tal:replace='structure provider:plone.belowcontenttitle' />
+                <div tal:replace='structure provider:plone.abovecontentbody' />
+                <div>
+                    <label for='parent-fieldname-protocolID' i18n:translate='label_protocolID'>Protocol ID:</label>
+                    <span id='parent-fieldname-protocolID' tal:content='view/protocolID'>3'ish</span>
+                </div>
+                <div id="protocolMetadataContainer">
+                    <div id="protocolShortTextMetadata">
+                        <div tal:define='site context/getLeadInvestigatorSite'>
+                            <label for='parent-fieldname-leadInvestigatorSite' i18n:translate='label_leadInvestigator'>
+                                Lead Investigator:
+                            </label>
+                            <p tal:condition='not:site' class='discreet' i18n:translate='proto_noLeadInvestigator'>
+                                No lead investigator defined.
+                            </p>
+                            <tal:if condition='site'>
+                                <a href='#' tal:attributes='href site/principalInvestigator/absolute_url|nothing'
+                                    tal:content='site/principalInvestigator/title|nothing'>
+                                    Dad Cop 2
+                                </a>
+                                &#x2014;
+                                <a href='#' tal:attributes='href site/absolute_url|nothing' tal:content='site/title|nothing'>
+                                    Filmcow.com
+                                </a>
+                            </tal:if>
+                        </div>
+                        <div tal:define='site context/getCoordinatingInvestigatorSite'>
+                            <label for='parent-fieldname-coordinatingInvestigator'
+                                i18n:translate='label_coordinatingInvestigatorSite'>
+                                Coordinating Investigator:
+                            </label>
+                            <p tal:condition='not:site' class='discreet' i18n:translate='proto_noCoordinatingInvestigator'>
+                                No coordinating investigator defined.
+                            </p>
+                            <tal:if condition='site'>
+                                <a href='#' tal:attributes='href site/principalInvestigator/absolute_url|nothing'
+                                    tal:content='site/principalInvestigator/title|nothing'>
+                                    Dude Man
+                                </a>
+                                &#x2014;
+                                <a href='#' tal:attributes='href site/absolute_url|nothing' tal:content='site/title'>
+                                    Dude Man's site
+                                </a>
+                            </tal:if>
+                        </div>
+                        <div tal:define='sites context/involvedInvestigatorSites'>
+                            <label for='parent-fieldname-involvedInvestigatorSite' 
+                                i18n:translate='label_involvedInvestigatorSite'>
+                                Involved Investigator Sites:
+                            </label>
+                            <p tal:condition='not:sites' class='discreet' i18n:translate='proto_noInvolvedSites'>
+                                No involved investigator sites defined.
+                            </p>
+                            <ul tal:condition='sites'>
+                                <li tal:repeat='site sites'>
+                                    <tal:define define='piName site/principalInvestigator/title|nothing'>
+                                        <tal:if condition='piName'>
+                                            <a href='#' tal:attributes='href site/principalInvestigator/absolute_url'
+                                                tal:content='piName'>
+                                                Dude Woman
+                                            </a>
+                                            &#x2014;
+                                        </tal:if>
+                                    </tal:define>
+                                    <a href='#' title='Some site.'
+                                        tal:attributes='href site/absolute_url; title site/description|nothing'
+                                        tal:content='site/title'>
+                                        Dude Woman's Site
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-bmName' i18n:translate='label_bmName'>Biomarker Name:</label>
+                            <span id='parent-fieldname-bmName' tal:content='structure context/bmName'>
+                                That's one huge BM.
+                            </span>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-design' i18n:translate='label_design'>Design:</label>
+                            <span id='parent-fieldname-design' tal:content='structure context/design'>With style</span>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-fieldOfResearch' i18n:translate='label_fieldOfResearch'>
+                                Field(s) of Research:
+                            </label>
+                            <metal:field use-macro='python:context.widget("fieldOfResearch", mode="view")'>Gynecology</metal:field>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-collaborativeGroupText' 
+                                i18n:translate='label_collaborativeGroupText'>
+                                Collaborative Group Text:
+                            </label>
+                            <span id='parent-fieldname-collaborativeGroupText'
+                                tal:content='structure context/collaborativeGroupText'>
+                                Taboo Villas is a vacation experience unlike any vacation you have ever had or ever will.
+                                We designed Taboo Villas as a custom built "all-inclusive' vacation
+                            </span>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-phasedStatus' i18n:translate='label_phasedStatus'>Phased Status:</label>
+                            <span id='parent-fieldname-phasedStatus' tal:content='structure context/phasedStatus'>Stun</span>
+                        </div>
+                    </div>
+                    <div id="protocolLongTextMetadata">
+                        <label for='parent-fieldname-description' i18n:translate='label_description'>Description:</label>
+                        <p class='documentDescription'>
+                            <span id='parent-fieldname-description' tal:content='context/description'>Description.</span>
+                        </p>
+                        <br/>
+                        <div>
+                            <label for='parent-fieldname-abstract' i18n:translate='label_abstract'>Abstract:</label>
+                            <span id='parent-fieldname-abstract' tal:content='structure context/abstract'>
+                                Subjective scientific research has been conducted in the United States since the late 1960s.
+                            </span>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-aims' i18n:translate='label_aims'>Aims:</label>
+                            <span id='parent-fieldname-aims' tal:content='structure context/aims'>
+                                We want to set ourselves apart from the rest by building special packages to fit
+                                everyone's needs/desires.
+                            </span>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-analyticMethod' i18n:translate='label_analyticMethod'>
+                                Analytic Method:
+                            </label>
+                            <span id='parent-fieldname-analyticMethod' tal:content='structure context/analyticMethod'>
+                                Members have access to all other member profiles via
+                                our fully interactive website, where you can also see
+                                which other members will be attending our events
+                                before committing, includes a multi layer verification
+                                system to eradicate fakes/timewasters.
+                            </span>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-comments' i18n:translate='label_comments'>Comments:</label>
+                            <span id='parent-fieldname-comments' tal:content='structure context/comments'>
+                                Art-Deco Bar with dance floor, entrance hall, big hall with fireplace, first class restaurant,
+                                sauna, solarium.
+                            </span>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-biomarkers' i18n:translate='label_biomarkers'>Biomarkers:</label>
+                            <p class='discreet' i18n:translate='proto_noBiomarkers' tal:condition='not:context/biomarkers'>
+                                There are currently no biomarkers annotated for this protocol.
+                            </p>
+                            <ul tal:condition='context/biomarkers'>
+                                <li tal:repeat='biomarker context/biomarkers'>
+                                    <a href='#' title='Wow, a biomarker. Cool.' tal:content='biomarker/title'
+                                        tal:attributes='href biomarker/absolute_url; title biomarker/description;'>
+                                        Biosmelly-14-3-3-thetacrap
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <label for='parent-fieldname-datasets' i18n:translate='label_datasets'>Datasets:</label>
+                            <p class='discreet' i18n:translate='proto_noDatasets' tal:condition='not:context/datasets'>
+                                No datasets are currently associated with this protocol.
+                            </p>
+                            <ul tal:condition='context/datasets'>
+                                <li tal:repeat='dataset context/datasets'>
+                                    <a href='#' title='Wow, a dataset. Color me impressed, sort of.' tal:content='dataset/title'
+                                        tal:attributes='href dataset/identifier; title dataset/description;'>
+                                        Smelly Data 1.9.1.2.4.76.5.4.4.5.56.7.8.9.5.3.1.56.8.3.1.4.6.45.87.2.3.5.87.32.1.231.6.1
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
+                            Any related items
+                        </div>
+                    </div>
+                    <br style="clear:both;"/>
+                </div>
+                <div tal:condition='view/haveDocumentation'>
+                    <h3 i18n:translate='documentation_heading'>Documentation</h3>
+                    <dl>
+                        <tal:repeat repeat='doc view/documentation'>
+                            <dt><a href='#' tal:attributes='href doc/url' tal:content='doc/title'>My Doc title</a></dt>
+                            <dd tal:content='doc/description'>My doc's sweet, sweet description.</dd>
+                        </tal:repeat>
+                    </dl>
+                </div>
+
+<!--
+  /** COMMENTED OUT FOR NOW...
+    * These can be permanently removed after DC and HK have determined that the values shown above
+    * really ARE the only ones we want to show. 
+    *
+    */
+
+                <div>
+                    <label for='parent-fieldname-blinding' i18n:translate='label_blinding'>Blinding:</label>
+                    <span id='parent-fieldname-blinding' tal:content='structure context/blinding'>AGH!!!1</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-cancerTypes' i18n:translate='label_cancerTypes'>Cancer Types:</label>
+                    <span id='parent-fieldname-cancerTypes' tal:content='structure context/cancerTypes'>Invasive</span>
+                </div>
+                                <div>
+                    <label for='parent-fieldname-dataSharingPlan' i18n:translate='label_dataSharingPlan'>dataSharingPlan:</label>
+                    <span id='parent-fieldname-dataSharingPlan' tal:content='structure context/dataSharingPlan'>Boo.</metal:field>
+                </div>
+                <div>
+                    <label for='parent-fieldname-inSituDataSharingPlan'
+                        i18n:translate='label_inSituDataSharingPlan'>In-Situ Data Sharing Plan:</label>
+                    <span id='parent-fieldname-inSituDataSharingPlan' tal:content='structure context/inSituDataSharingPlan'>
+                        The Showboat is characterized by a natural and welcoming atmosphere, in which everyone will
+                        soon feel at home.
+                    </span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-startDate' i18n:translate='label_startDate'>Start Date:</label>
+                    <span id='parent-fieldname-startDate' tal:content='structure context/startDate'>1969-12-21</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-estimatedFinishDate'
+                        i18n:translate='label_estimatedFinishDate'>Estimated Finish Date:</label>
+                    <span id='parent-fieldname-estimatedFinishDate' tal:content='structure context/estimatedFinishDate'>1971-04-22</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-finishDate' i18n:translate='label_finishDate'>Finish Date:</label>
+                    <span id='parent-fieldname-finishDate' tal:content='structure context/finishDate'>1972-09-21</span>
+                </div>
+                
+                <div>
+                    <label for='parent-fieldname-objective' i18n:translate='label_objective'>Objective:</label>
+                    <span id='parent-fieldname-objective' tal:content='structure context/objective'>
+                        Our parties are no pressure environments designed for the newbie and the experienced partiers.
+                    </span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-project' i18n:translate='label_project'>Project:</label>
+                    <span id='parent-fieldname-project' tal:content='structure context/project'>New Zealand Venture Tour</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-protocolType' i18n:translate='label_protocolType'>Protocol Type:</label>
+                    <span id='parent-fieldname-protocolType' tal:content='structure context/protocolType'>Members Only</span>
+                </div>
+                <h4 i18n:translate='protocol_publicationsHeading'>Publications:</h4>
+                <div>
+                    <label for='parent-fieldname-publications' i18n:translate='label_publications'>Publications:</label>
+                    <span id='parent-fieldname-publications' tal:content='structure context/publications'>
+                        O'Neill and O'Neill, 1972; Wesp, 1992.
+                    </span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-outcome' i18n:translate='label_outcome'>Outcome:</label>
+                    <span id='parent-fieldname-outcome' tal:content='structure context/outcome'>Censored</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-secureOutcome' i18n:translate='label_secureOutcome'>Secure Outcome:</label>
+                    <span id='parent-fieldname-secureOutcome' tal:content='structure context/secureOutcome'>Uncensored</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-plannedSampleSize'
+                        i18n:translate='label_plannedSampleSize'>Planned Sample Size:</label>
+                    <span id='parent-fieldname-plannedSampleSize' tal:content='structure context/plannedSampleSize'>52</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-finalSampleSize' i18n:translate='label_finalSampleSize'>Final Sample Size:</label>
+                    <span id='parent-fieldname-finalSampleSize' tal:content='structure context/finalSampleSize'>196</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-isAPilotFor' i18n:translate='label_isAPilotFor'>Piloting For:</label>
+                    <span id='parent-fieldname-isAPilotFor' tal:content='structure context/isAPilotFor'>Another protocol</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-obtainsData' i18n:translate='label_obtainsData'>Obtains Data From:</label>
+                    <span id='parent-fieldname-obtainsData' tal:content='structure context/obtainsData'>Another protocol</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-providesData' i18n:translate='label_providesData'>Provides Data To:</label>
+                    <span id='parent-fieldname-providesData' tal:content='structure context/providesData'>Another protocol</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-obtainsSpecimens' i18n:translate='label_obtainsSpecimens'>
+                        Obtains Specimens From:</label>
+                    <span id='parent-fieldname-obtainsSpecimens' tal:content='structure context/obtainsSpecimens'>Another protocol</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-providesSpecimens'
+                        i18n:translate='label_providesSpecimens'>Provides Specimens To:</label>
+                    <span id='parent-fieldname-providesSpecimens' tal:content='structure context/providesSpecimens'>Another protocol</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-relatedProtocols' i18n:translate='label_relatedProtocols'>
+                        Related Protocols:
+                    </label>
+                    <span id='parent-fieldname-relatedProtocols' tal:content='structure context/relatedProtocols'>Another protocol</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-animalSubjectTraining'
+                        i18n:translate='label_animalSubjectTraining'>Animal Subject Training:</label>
+                    <span id='parent-fieldname-animalSubjectTraining' tal:content='structure context/animalSubjectTraining'>Bestial</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-humanSubjectTraining'
+                        i18n:translate='label_humanSubjectTraining'>Human Subject Training:</label>
+                    <span id='parent-fieldname-humanSubjectTraining' tal:content='structure context/humanSubjectTraining'>Deep</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-irbApproval' i18n:translate='label_irbApproval'>IRB Approval:</label>
+                    <span id='parent-fieldname-irbApproval' tal:content='structure context/irbApproval'>
+                        Conditional on if the pictures are ever released.
+                    </span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-originalIRBApprovalDate'
+                        i18n:translate='label_originalIRBApprovalDate'>Original IRB Approval Date:</label>
+                    <span id='parent-fieldname-originalIRBApprovalDate' tal:content='structure context/originalIRBApprovalDate'>1996-1-1</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-currentIRBApprovalDate'
+                        i18n:translate='label_currentIRBApprovalDate'>Current IRB Approval Date:</label>
+                    <span id='parent-fieldname-currentIRBApprovalDate' tal:content='structure context/currentIRBApprovalDate'>1997-2-2</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-currentIRBExpirationDate'
+                        i18n:translate='label_currentIRBExpirationDate'>Current IRB ExpirationDate:</label>
+                    <span id='parent-fieldname-currentIRBExpirationDate' tal:content='structure context/currentIRBExpirationDate'>1998-3-3</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-irbNotes' i18n:translate='label_irbNotes'>IRB Notes:</label>
+                    <span id='parent-fieldname-irbNotes' tal:content='structure context/irbNotes'>Top Secret</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-irbNumber' i18n:translate='label_irbNumber'>IRB Number:</label>
+                    <span id='parent-fieldname-irbNumber' tal:content='structure context/irbNumber'>1970</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-siteRoles' i18n:translate='label_siteRoles'>Site Roles:</label>
+                    <span id='parent-fieldname-siteRoles' tal:content='structure context/siteRoles'>Top, bottom</span>
+                </div>
+                <div>
+                    <label for='parent-fieldname-reportingStage' i18n:translate='label_reportingStage'>Reporting Stage:</label>
+                    <span id='parent-fieldname-reportingStage' tal:content='structure context/reportingStage'>Ongoing</span>
+                </div>
+/**
+ * END COMMENTED OUT ATTRIBUTES
+ *
+**/
+-->
+
+
+                <div tal:replace='structure provider:plone.belowcontentbody' />
+            </tal:main-macro>
+        </metal:main>
+    </body>
+</html>

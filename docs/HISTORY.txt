@@ -1,0 +1,91 @@
+Changelog
+=========
+
+A retrospective of the various releases this component has had, what's been
+changed, what's been fixed, and so forth, follows.  For issue IDs mentioned
+below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
+
+
+1.1.0 - Plone 4
+---------------
+
+This release makes eke.study compatible with Plone 4.
+
+
+1.0.2 - A Mixed Bag
+-------------------
+
+This release fixes a couple of issues:
+
+* CA-583 - Add PDFs to Protocols
+* CA-620 - Locks appear on biomarkers listed under a protocol incorrectly
+  (implementation)
+
+
+1.0.1 - Protocol IDs
+--------------------
+
+This release addresses just one tiny little issue:
+
+* CA-659 - Add protocol ID to protocol view
+
+You can find the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
+
+
+1.0.0 - Prime Time
+------------------
+
+This release addresses a number of issues 
+that make this component (and some of its
+selected counterparts) "prime time" for
+the operational NCI portal. 
+
+This release addresses the following issues:
+
+* CA-528 Automatic periodic ingest of RDF
+
+You can find the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
+
+
+0.0.3 - Filler Text
+-------------------
+
+This release addresses the following issues:
+
+* CA-586 - Show alternative text (if abstract text is empty) on protocol list
+  page
+* CA-604 - Add PI to Protocol List
+
+You can find the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
+
+
+0.0.2 - To Be Named At Release Time
+-----------------------------------
+
+This release addresses the following issues:
+
+* https://oodt.jpl.nasa.gov/jira/browse/CA-551 - Add lock icon to biomarkers
+  and science data that are "secure" to protocol pages
+* https://oodt.jpl.nasa.gov/jira/browse/CA-523 - Create search indexes; in
+  particular, searches are enabled for abbreviated protocol name, biomarker
+  names, PI names, collaborative group text, dataset names (courtesy of
+  updates to ``eke.ecas``), and involved investigator sites.
+
+
+0.0.1 - HTML Formatting
+-----------------------
+
+The following issue is the sole issue addressed in this release:
+
+* http://oodt.jpl.nasa.gov/jira/browse/CA-472 - Protocols and other items seem
+  to still have encoded ASCII characters in the titles
+
+
+Release 0.0.0
+-------------
+
+Beta release. This release is destined to become the FCS_.
+
+
+.. References:
+.. _FCS: http://en.wikipedia.org/wiki/Development_stage

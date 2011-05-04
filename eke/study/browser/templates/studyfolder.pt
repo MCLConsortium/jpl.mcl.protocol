@@ -1,0 +1,113 @@
+<html xmlns='http://www.w3.org/1999/xhtml'
+    xml:lang='en'
+    lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    metal:use-macro='context/main_template/macros/master'
+    i18n:domain='eke.study'>
+    <head>
+        <title>Study Folder</title>
+    </head>
+    <body>
+        <metal:main fill-slot='main'>
+            <tal:main-macro metal:define-macro='main'
+                tal:define='
+                    haveContents   view/haveProtocols;
+                    contents       view/protocols;
+                    subfolders     view/subfolders;
+                    kssClassesView context/@@kss_field_decorator_view;
+                    getKssClasses  nocall:kssClassesView/getKssClassesInlineEditable;
+                    templateId     template/getId;
+                    descLength     site_properties/search_results_description_length;
+                    descEllipsis   site_properties/ellipsis;
+                    Batch          python:modules["Products.CMFPlone"].Batch;
+                    b_size         python:30;
+                    b_start        python:0;
+                    b_start        request/b_start|b_start;
+                '>
+                <div tal:replace='structure provider:plone.abovecontenttitle' />
+                <h1 class='documentFirstHeading'> 
+                    <metal:field use-macro='python:context.widget("title", mode="view")'>
+                        Title
+                    </metal:field>
+                </h1>
+
+                <div tal:replace='structure provider:plone.belowcontenttitle' />
+                <p class='documentDescription'>
+                    <metal:field use-macro='python:context.widget("description", mode="view")'>Description.</metal:field>
+                </p>
+                <div tal:replace='structure provider:plone.abovecontentbody' />
+                <div metal:use-macro='context/@@standardRDFAttribute/macros/rdfDataSource'>Standard RDF</div>
+                <div tal:condition='subfolders' tal:omit-tag=''>
+                    <f3 i18n:translate='studyFolder_subfolders'>Subfolders in this Folder</f3>
+                    <ul>
+                       <li tal:repeat='subfolder subfolders'>
+                            <a href='#' title='Scintilating sub-folders exposed!' tal:content='subfolder/title'
+                                tal:attributes='href subfolder/url; title subfolder/description'>
+                                Sub-Protocol Action Folder
+                            </a>
+                       </li> 
+                    </ul>
+                </div>
+
+                <h2 i18n:translate='studyFolder_inThisFolder'>Contents</h2>
+                <p tal:condition='not:contents' i18n:translate='studyFolder_noProtocols' class='discreet'>
+                    There are currently no protocols in this folder.
+                </p>
+                <div tal:condition='haveContents' tal:define='batch python:Batch(contents, b_size, int(b_start), orphan=1);'
+                    tal:omit-tag=''>
+                    <table class='listing'>
+                        <thead>
+                            <tr>
+                                <th i18n:translate='studyFolder_titleHeading'>Title</th>
+                                <th i18n:translate='studyFolder_abstractHeading'>Abstract</th>
+                                <th i18n:translate='studyFolder_piHeading'>Investigator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tal:row repeat='item batch'>
+                                <tal:def define='url item/url; description item/description; title item/title;
+                                    oddrow repeat/item/odd; piName item/piName; piURL item/piURL;'>
+                                    <tr tal:attributes='class python:oddrow and "odd" or "even";'>
+                                        <td>
+                                            <a href='#' title='A questionable protocol of ill repute.' tal:content='title'
+                                                tal:attributes='href url; title description;'> 
+                                                Slimiest Protocol Ever
+                                            </a>
+                                        </td>
+                                        <td tal:content='python:plone_view.cropText(description, descLength, descEllipsis)'>
+                                            Lorem ipsum etc.
+                                        </td>
+                                        <td>
+                                            <a href='#' tal:condition='python:piURL and piName' tal:attributes='href piURL'
+                                                tal:content='piName'>
+                                                Joe Smellbucket
+                                            </a>
+                                            <a href='#' tal:condition='python:piURL and not piName' tal:attributes='href piURL'
+                                                i18n:translate='studyFolder_unknownPIbutKnownURL'>
+                                                Unnamed
+                                            </a>
+                                            <span tal:condition='python:not piURL and piName' ta:content='piName'>
+                                                Joe Smellbucket
+                                            </span>
+                                            <span class='discreet' tal:condition='python:not piURL and not piName'
+                                                i18n:translate='studyFolder_unknownPIandURL'>
+                                                Not listed
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tal:def>
+                            </tal:row>
+                        </tbody>
+                    </table>
+                    <div metal:use-macro='context/batch_macros/macros/navigation'>Navigation here.</div>
+                </div>
+                <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
+                    Any related items
+                </div>
+                <div tal:replace='structure provider:plone.belowcontentbody' />
+            </tal:main-macro>
+        </metal:main>
+    </body>
+</html>

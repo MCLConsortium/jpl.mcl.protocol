@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2009 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<configure xmlns='http://namespaces.zope.org'
+    xmlns:browser='http://namespaces.zope.org/browser'
+    i18n_domain='eke.study'>
+    <include package='plone.app.contentmenu'/>
+    
+    <!-- Study Folder -->
+    <browser:resource name='study-folder.gif' file='images/study-folder.gif'/>
+    <browser:page
+        class='.views.StudyFolderView'
+        for='..interfaces.IStudyFolder'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:page
+        class='.rdf.StudyFolderIngestor'
+        for='..interfaces.IStudyFolder'
+        name='ingest'
+        permission='cmf.ManagePortal'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Study Folder.'
+        for='..interfaces.IStudyFolder'
+        menu='plone_displayviews'
+        title='Study Folder view'
+    />
+
+    <!-- Protocol -->
+    <browser:resource name='protocol.gif' file='images/protocol.gif'/>
+    <browser:page
+        class='.views.ProtocolView'
+        for='..interfaces.IProtocol'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Protocol.'
+        for='..interfaces.IProtocol'
+        menu='plone_displayviews'
+        title='Protocol view'
+    />
+    
+</configure>

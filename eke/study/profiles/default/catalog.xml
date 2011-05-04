@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2009 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<!-- There are no indexes or catalog schema (brain metadata, mmmm brainz) needed at this time. -->
+<object name='portal_catalog' meta_type='Plone Catalog Tool'>
+    <index name='abstract' meta_type='ZCTextIndex'>
+        <indexed_attr value='abstract' />
+        <extra name='index_type' value='Okapi BM25 Rank'/>
+        <extra name='lexicon_id' value='plone_lexicon'/>
+    </index>
+    <index name='piUID' meta_type='FieldIndex'>
+        <indexed_attr value='piUID' />
+    </index>
+    <column value='abstract'/>
+    <column value='piUID'/>
+</object>

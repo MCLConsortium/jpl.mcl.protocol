@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2009-2010 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<configure xmlns='http://namespaces.zope.org/zope' i18n_domain='eke.study'>
+    <class class='.studyfolder.StudyFolder'>
+        <require permission='zope2.View' interface='..interfaces.IStudyFolder'/>
+    </class>
+    <class class='.protocol.Protocol'>
+        <require permission='zope2.View' interface='..interfaces.IProtocol'/>
+    </class>
+    <utility
+        component='.protocol.ProtocolVocabularyFactory'
+        name='eke.study.ProtocolsVocabulary'
+    />
+    <subscriber
+        for='..interfaces.IProtocol zope.lifecycleevent.interfaces.IObjectModifiedEvent'
+        handler='.protocol.ProtocolUpdater'
+    />
+</configure>
