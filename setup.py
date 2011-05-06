@@ -3,6 +3,7 @@
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 from setuptools import setup, find_packages
+from ConfigParser import SafeConfigParser
 import os.path
 
 # Package data
@@ -20,13 +21,8 @@ _namespaces  = ['eke']
 _entryPoints = {}
 _zipSafe     = False
 _keywords    = 'web zope plone edrn cancer biomarkers eke study protocol'
-_requirements = [
+_externalRequirements = [
     'setuptools',
-    'eke.knowledge',
-    'eke.publications',
-    'eke.site',
-    'eke.biomarker',
-    'eke.ecas',
     'Plone',
 ]
 _classifiers = [
@@ -53,6 +49,9 @@ _header = '*' * len(_name) + '\n' + _name + '\n' + '*' * len(_name)
 _longDescription = _header + '\n\n' + _read('README.txt') + '\n\n' + _read('docs', 'INSTALL.txt') + '\n\n' \
     + _read('docs', 'HISTORY.txt') + '\n\n' + _read('docs', 'LICENSE.txt')
 open('doc.txt', 'w').write(_longDescription)
+_cp = SafeConfigParser()
+_cp.read([os.path.join(os.path.dirname(__file__), 'setup.cfg')])
+_reqs = _externalRequirements + _cp.get('source-dependencies', 'eggs').strip().split()
 
 setup(
     author=_author,
@@ -62,7 +61,7 @@ setup(
     download_url=_downloadURL,
     entry_points=_entryPoints,
     include_package_data=True,
-    install_requires=_requirements,
+    install_requires=_reqs,
     keywords=_keywords,
     license=_license,
     long_description=_longDescription,
