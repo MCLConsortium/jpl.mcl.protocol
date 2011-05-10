@@ -1,14 +1,16 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
-Copyright 2009-2010 California Institute of Technology. ALL RIGHTS
+Copyright 2009-2011 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <metadata>
-    <version>1</version>
+    <version>4</version>
     <description>Study and protocol information for the EDRN Knowledge Environment</description>
     <dependencies>
         <dependency>profile-eke.knowledge:default</dependency>
         <dependency>profile-eke.publications:default</dependency>
         <dependency>profile-eke.site:default</dependency>
+        <dependency>profile-eke.biomarker:default</dependency>
+        <dependency>profile-eke.ecas:default</dependency>
     </dependencies>
 </metadata>
