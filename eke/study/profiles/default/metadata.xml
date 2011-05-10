@@ -10,7 +10,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <dependency>profile-eke.knowledge:default</dependency>
         <dependency>profile-eke.publications:default</dependency>
         <dependency>profile-eke.site:default</dependency>
-        <dependency>profile-eke.biomarker:default</dependency>
-        <dependency>profile-eke.ecas:default</dependency>
     </dependencies>
 </metadata>
