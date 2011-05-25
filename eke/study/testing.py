@@ -3,11 +3,13 @@
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 from eke.knowledge.testing import EKE_KNOWLEDGE_FIXTURE
+from eke.publications.testing import EKE_PUBLICATIONS_FIXTURE
+from eke.site.testing import EKE_SITE_FIXTURE
 from plone.app.testing import PloneSandboxLayer, IntegrationTesting, FunctionalTesting
 from plone.testing import z2
 
 class EKEStudy(PloneSandboxLayer):
-    defaultBases = (EKE_KNOWLEDGE_FIXTURE,)
+    defaultBases = (EKE_SITE_FIXTURE, EKE_PUBLICATIONS_FIXTURE, EKE_KNOWLEDGE_FIXTURE)
     def setUpZope(self, app, configurationContext):
         import eke.study
         self.loadZCML(package=eke.study)
