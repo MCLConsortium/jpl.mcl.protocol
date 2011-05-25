@@ -1,0 +1,30 @@
+# encoding: utf-8
+# Copyright 2011 California Institute of Technology. ALL RIGHTS
+# RESERVED. U.S. Government Sponsorship acknowledged.
+
+from eke.knowledge.testing import EKE_KNOWLEDGE_FIXTURE
+from plone.app.testing import PloneSandboxLayer, IntegrationTesting, FunctionalTesting
+from plone.testing import z2
+
+class EKEStudy(PloneSandboxLayer):
+    defaultBases = (EKE_KNOWLEDGE_FIXTURE,)
+    def setUpZope(self, app, configurationContext):
+        import eke.study
+        self.loadZCML(package=eke.study)
+        z2.installProduct(app, 'eke.study')
+        import eke.study.tests.base
+        eke.study.tests.base.registerLocalTestData()
+    def setUpPloneSite(self, portal):
+        self.applyProfile(portal, 'eke.study:default')
+    def teatDownZope(self, app):
+        z2.uninstallProduct(app, 'eke.study')
+
+EKE_STUDY_FIXTURE = EKEStudy()
+EKE_STUDY_INTEGRATION_TESTING = IntegrationTesting(
+    bases=(EKE_STUDY_FIXTURE,),
+    name='EKEStudy:Integration',
+)
+EKE_STUDY_FUNCTIONAL_TESTING = FunctionalTesting(
+    bases=(EKE_STUDY_FIXTURE,),
+    name='EKEStudy:Functional',
+)
