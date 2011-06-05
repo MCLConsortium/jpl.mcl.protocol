@@ -6,6 +6,13 @@ changed, what's been fixed, and so forth, follows.  For issue IDs mentioned
 below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+1.1.2 - Yay Team!
+-----------------
+
+This release expands on team projects, adding an index for projects, badging
+of projects, and a vocabulary to enumerate them.
+
+
 1.1.1 - Upgrade Cleanup
 -----------------------
  
