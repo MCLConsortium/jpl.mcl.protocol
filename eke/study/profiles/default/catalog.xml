@@ -13,6 +13,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <index name='piUID' meta_type='FieldIndex'>
         <indexed_attr value='piUID' />
     </index>
+    <index name='project' meta_type='FieldIndex'>
+        <indexed_attr value='project' />
+    </index>
     <column value='abstract'/>
     <column value='piUID'/>
 </object>
