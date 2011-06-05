@@ -17,6 +17,8 @@
 					getInfoFor  python:wtool.getInfoFor;
                 	portalURL   context/@@plone_portal_state/portal_url;'>
                 <div tal:replace='structure provider:plone.abovecontenttitle' />
+                <img src='#' tal:condition='context/project|nothing' alt='Team Project' i18n:attributes='alt'
+                    class='teamProjectBeacon' tal:attributes='src string:${context/++resource++teamProject.png}'/>
                 <h1 class='documentFirstHeading'> 
                     <span id='parent-fieldname-title' tal:content='context/title'>
                         Title
@@ -379,5 +381,8 @@
                 <div tal:replace='structure provider:plone.belowcontentbody' />
             </tal:main-macro>
         </metal:main>
+        <metal:css fill-slot='style_slot'>
+            <style type='text/css' media='all' tal:content='string:@import url(${context/++resource++protocol.css});'></style>
+        </metal:css>
     </body>
 </html>
