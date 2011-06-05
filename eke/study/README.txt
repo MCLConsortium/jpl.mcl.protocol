@@ -186,7 +186,7 @@ Now we can create our test Protocol::
     >>> browser.getControl(name='fieldOfResearch:lines').value = '3\n14\n7'
     >>> browser.getControl(name='abbrevName').value = 'MKU'
     >>> browser.getControl(name='objective').value = 'The cat utility reads files sequentially, writing them to standard output.'
-    >>> browser.getControl('Project?').selected = True
+    >>> browser.getControl('Project?').selected = False
     >>> browser.getControl(name='protocolType').value = 'Silly'
     >>> browser.getControl(name='publications:list').displayValue = ['Teriyaki Beef', 'Glazed Roast Chicken']
     >>> browser.getControl(name='outcome').value = "Tar is short for ``tape archiver'', so named for historical reasons."
@@ -275,7 +275,7 @@ Now we can create our test Protocol::
     >>> mku.objective
     'The cat utility reads files sequentially, writing them to standard output.'
     >>> mku.project
-    True
+    False
     >>> mku.protocolType
     'Silly'
     >>> [i.title for i in mku.publications]
@@ -388,6 +388,27 @@ prominently displayed::
     '...Documentation...avoiding-capture...how-to-poison-millions...injection-site...'
 
 Works great!
+
+
+Team Projects
+'''''''''''''
+
+Apparently, some protocols are so perilous, so dicey, so dangerously hard to
+execute that they gain the distinction of being not just mere protocols, but
+*Team Projects*, requiring an entire squad of intrepid researchers.
+
+What does that mean for protocols?  Not much, luckily.  In fact, protocols
+already have a field "project" that indicates if they're a team project or a
+mere protocol::
+
+    >>> browser.open(portalURL + '/questionable-studies/mk-ultra')
+    >>> 'Team Project' in browser.contents
+    False
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl('Project?').selected = True
+    >>> browser.getControl(name='form.button.save').click()
+    >>> 'Team Project' in browser.contents
+    True
 
 
 Inter-Protocol Relationships
