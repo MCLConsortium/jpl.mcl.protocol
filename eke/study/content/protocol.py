@@ -734,6 +734,14 @@ def ProtocolVocabularyFactory(context):
     return SimpleVocabulary.fromItems(items)
 directlyProvides(ProtocolVocabularyFactory, IVocabularyFactory)
 
+def TeamProjectsVocabularyFactory(context):
+    catalog = getToolByName(context, 'portal_catalog')
+    # TODO: filter by review_state?
+    results = catalog(object_provides=IProtocol.__identifier__, sort_on='sortable_title', project=True)
+    items = [(i.Title, i.UID) for i in results]
+    return SimpleVocabulary.fromItems(items)
+directlyProvides(TeamProjectsVocabularyFactory, IVocabularyFactory)
+
 def ProtocolUpdater(context, event):
     context.piName = context._computePIName()
     context.datasetNames = context._computeDatasetNames()
