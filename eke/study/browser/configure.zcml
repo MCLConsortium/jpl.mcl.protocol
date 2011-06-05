@@ -7,6 +7,9 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     xmlns:browser='http://namespaces.zope.org/browser'
     i18n_domain='eke.study'>
     <include package='plone.app.contentmenu'/>
+
+    <!-- Package-specific stylesheet -->
+    <browser:resource name='protocol.css' file='stylesheets/protocol.css' />
     
     <!-- Study Folder -->
     <browser:resource name='study-folder.gif' file='images/study-folder.gif'/>
@@ -32,6 +35,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 
     <!-- Protocol -->
     <browser:resource name='protocol.gif' file='images/protocol.gif'/>
+    <browser:resource name='teamProject.png' file='images/teamProject.png'/>
     <browser:page
         class='.views.ProtocolView'
         for='..interfaces.IProtocol'
