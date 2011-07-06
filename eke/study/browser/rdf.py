@@ -15,6 +15,10 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 from Products.CMFCore.utils import getToolByName
 from rdflib import ConjunctiveGraph, URLInputSource
 from zope.component import queryUtility
+from eke.study.utils import COLLABORATIVE_GROUP_DMCC_IDS_TO_NAMES
+
+# Interface identifier for EDRN Collaborative Group, from edrnsite.collaborations
+_collabGroup = 'edrnsite.collaborations.interfaces.collaborativegroupindex.ICollaborativeGroupIndex'
 
 class StudyFolderIngestor(KnowledgeFolderIngestor):
     '''Study folder ingestion.'''
@@ -59,8 +63,22 @@ class StudyFolderIngestor(KnowledgeFolderIngestor):
                 obj.reindex()
             createdObjects.extend(created)
         self.objects = createdObjects
+        self.updateCollaborativeGroups(createdObjects, catalog)
         self._results = Results(self.objects, warnings=[])
         return self.renderResults()
+    def updateCollaborativeGroups(self, createdObjects, catalog):
+        for protocol in [i.obj for i in createdObjects]:
+            cbText = protocol.collaborativeGroupText
+            if not cbText: continue
+            cbText = cbText.strip() # DMCC sometimes has a single space in their database
+            for cbID in cbText.split(', '):
+                cbName = COLLABORATIVE_GROUP_DMCC_IDS_TO_NAMES.get(cbID)
+                if cbName:
+                    for collabGroup in [i.getObject() for i in catalog(object_provides=_collabGroup, Title=cbName)]:
+                        currentProtocols = collabGroup.getProtocols()
+                        if protocol not in currentProtocols:
+                            currentProtocols.append(protocol)
+                            collabGroup.setProtocols(currentProtocols)
 
 class StudyHandler(IngestHandler):
     '''Handler for ``Protocol`` objects.'''

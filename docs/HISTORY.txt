@@ -10,7 +10,8 @@ below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 -----------------
 
 This release expands on team projects, adding an index for projects, badging
-of projects, and a vocabulary to enumerate them.
+of projects, and a vocabulary to enumerate them.  Also, during RDF ingest, it
+connects protocols to collaborative groups.
 
 
 1.1.1 - Upgrade Cleanup
