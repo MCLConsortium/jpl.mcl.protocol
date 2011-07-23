@@ -240,7 +240,9 @@ Now we can create our test Protocol::
     'Duis aute irure dolor in reprehenderit in voluptate velit.'
     >>> mku.blinding
     'AGGH! THE LIGHT!!!1'
-    >>> [i.title for i in mku.cancerTypes]
+    >>> cancerTypes = [i.title for i in mku.cancerTypes]
+    >>> cancerTypes.sort()
+    >>> cancerTypes
     ['Anal seepage', 'Rectocele']
     >>> mku.comments
     'Eyew.'
