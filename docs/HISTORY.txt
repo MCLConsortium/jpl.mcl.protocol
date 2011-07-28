@@ -5,6 +5,13 @@ A retrospective of the various releases this component has had, what's been
 changed, what's been fixed, and so forth, follows.  For issue IDs mentioned
 below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
+
+1.1.4 — Permanently adds 15 resilience to a shoulder slot item
+--------------------------------------------------------------
+
+This release makes functional tests even more resilient.
+
+
 1.1.3 — Adds 40 Resilience Rating
 ---------------------------------
 

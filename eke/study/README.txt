@@ -280,7 +280,9 @@ Now we can create our test Protocol::
     False
     >>> mku.protocolType
     'Silly'
-    >>> [i.title for i in mku.publications]
+    >>> pubTitles = [i.title for i in mku.publications]
+    >>> pubTitles.sort()
+    >>> pubTitles
     ['Glazed Roast Chicken', 'Teriyaki Beef']
     >>> mku.outcome
     "Tar is short for ``tape archiver'', so named for historical reasons."
