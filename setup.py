@@ -26,7 +26,7 @@ _extras = {
 }
 _externalRequirements = [
     'setuptools',
-    'Plone',
+    'Products.CMFPlone',
 ]
 _classifiers = [
     'Development Status :: 4 - Beta',

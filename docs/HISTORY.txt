@@ -6,6 +6,14 @@ changed, what's been fixed, and so forth, follows.  For issue IDs mentioned
 below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+1.1.5 — TBD
+-----------
+
+This release includes:
+
+* Depending on just Plone the framework instead of Plone the application.
+
+
 1.1.4 — Permanently adds 15 resilience to a shoulder slot item
 --------------------------------------------------------------
 
