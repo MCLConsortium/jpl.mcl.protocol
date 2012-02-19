@@ -6,32 +6,9 @@
 Testing base code.
 '''
 
-from Products.Five import zcml
-from Products.Five import fiveconfigure
-from Testing import ZopeTestCase as ztc
-from Products.PloneTestCase import PloneTestCase as ptc
-from Products.PloneTestCase.layer import onsetup
 import eke.knowledge.tests.base as ekeKnowledgeBase
 import eke.publications.tests.base as ekePublicationsBase
 import eke.site.tests.base as ekeSiteBase
-
-# Traditional Products we have to load manually for test cases:
-# (none at this time)
-
-@onsetup
-def setupEKESite():
-    '''Set up additional products required.'''
-    fiveconfigure.debug_mode = True
-    import eke.study
-    zcml.load_config('configure.zcml', eke.study)
-    fiveconfigure.debug_mode = False
-    ztc.installPackage('eke.knowledge')
-    ztc.installPackage('eke.publications')
-    ztc.installPackage('eke.site')
-    ztc.installPackage('eke.study')
-
-setupEKESite()
-ptc.setupPloneSite(products=['eke.study'])
 
 _firstProtocolRDF = '''<?xml version="1.0" encoding="UTF-8"?>
 <rdf:RDF
@@ -157,18 +134,5 @@ def registerLocalTestData():
     ekeKnowledgeBase.registerTestData('/protocols/b', _secondProtocolRDF)
     ekeKnowledgeBase.registerTestData('/protocols/c', _markedUpProtocolRDF)
     ekeKnowledgeBase.registerTestData('/protocols/d', _manyProtocolsRDF)
-    
-
-class BaseTestCase(ekeKnowledgeBase.BaseTestCase):
-    '''Base for tests in this package.'''
-    def setUp(self):
-        super(BaseTestCase, self).setUp()
-        registerLocalTestData()
-    
-class FunctionalBaseTestCase(ekeKnowledgeBase.FunctionalBaseTestCase):
-    '''Base class for functional (doc-)tests.'''
-    def setUp(self):
-        super(FunctionalBaseTestCase, self).setUp()
-        registerLocalTestData()
     
 

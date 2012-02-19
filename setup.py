@@ -27,6 +27,11 @@ _extras = {
 _externalRequirements = [
     'setuptools',
     'Products.CMFPlone',
+    'eke.knowledge',
+    'eke.site',
+    'eke.publications',
+    'eke.biomarker',
+    'eke.ecas',
 ]
 _classifiers = [
     'Development Status :: 4 - Beta',
