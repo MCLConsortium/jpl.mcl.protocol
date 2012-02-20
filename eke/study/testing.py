@@ -9,11 +9,21 @@ from plone.app.testing import PloneSandboxLayer, IntegrationTesting, FunctionalT
 from plone.testing import z2
 
 class EKEStudy(PloneSandboxLayer):
-    defaultBases = (EKE_SITE_FIXTURE, EKE_PUBLICATIONS_FIXTURE, EKE_KNOWLEDGE_FIXTURE)
+    # defaultBases = (EKE_SITE_FIXTURE, EKE_PUBLICATIONS_FIXTURE, EKE_KNOWLEDGE_FIXTURE)
+    defaultBases = (EKE_KNOWLEDGE_FIXTURE,)
     def setUpZope(self, app, configurationContext):
         import eke.study
         self.loadZCML(package=eke.study)
         z2.installProduct(app, 'eke.study')
+
+        # No idea why we can't just include these packages as defaultBases.
+        import eke.site
+        self.loadZCML(package=eke.site)
+        z2.installProduct(app, 'eke.site')
+        import eke.publications
+        self.loadZCML(package=eke.publications)
+        z2.installProduct(app, 'eke.publications')
+
         import eke.study.tests.base
         eke.study.tests.base.registerLocalTestData()
     def setUpPloneSite(self, portal):
