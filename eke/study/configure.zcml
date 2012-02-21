@@ -11,7 +11,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     i18n_domain='eke.study'>
 
     <include package='z3c.autoinclude' file='meta.zcml' />
-    <includeDependenciesOverrides package='.' />
     <includeDependencies package='.' />
 
     <five:registerPackage package="." initialize=".initialize" />
@@ -24,11 +23,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         description='Studies and protocols of the EDRN Knowledge Environment.'
         provides='Products.GenericSetup.interfaces.EXTENSION'
     />
-    <!-- <include package='eke.knowledge' />
-    <include package='eke.publications' />
-    <include package='eke.site' />
-    <include package='eke.biomarker' />
-    <include package='eke.ecas' /> -->
     <include
         zcml:condition='installed Products.GenericSetup.upgrade'
         file='upgrades.zcml'
