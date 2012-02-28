@@ -12,6 +12,7 @@ below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 This release includes:
 
 * Depending on just Plone the framework instead of Plone the application.
+* Working around null dataset names and investigator names.
 
 
 1.1.4 — Permanently adds 15 resilience to a shoulder slot item

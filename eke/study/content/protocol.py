@@ -706,11 +706,11 @@ class Protocol(folder.ATFolder, knowledgeobject.KnowledgeObject):
     def _computeDatasetNames(self):
         if not self.datasets:
             return []
-        return [i.title for i in self.datasets]
+        return [i.title for i in self.datasets if i and i.title]
     def _computeInvolvedSiteNames(self):
         if not self.involvedInvestigatorSites:
             return []
-        return [i.title for i in self.involvedInvestigatorSites]
+        return [i.title for i in self.involvedInvestigatorSites if i and i.title]
     def _computeDescription(self):
         # CA-580 order: abstract is most important; then objective, then aims, finally outcome.
         # If none of those have any text, punt.
