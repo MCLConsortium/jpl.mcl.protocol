@@ -32,6 +32,7 @@ _externalRequirements = [
     'eke.publications',
     'eke.biomarker',
     'eke.ecas',
+    'zope.globalrequest',
 ]
 _classifiers = [
     'Development Status :: 4 - Beta',
