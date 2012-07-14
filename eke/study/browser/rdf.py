@@ -1,5 +1,5 @@
 # encoding: utf-8
-# Copyright 2009 California Institute of Technology. ALL RIGHTS
+# Copyright 2009–2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 '''
@@ -16,6 +16,9 @@ from Products.CMFCore.utils import getToolByName
 from rdflib import ConjunctiveGraph, URLInputSource
 from zope.component import queryUtility
 from eke.study.utils import COLLABORATIVE_GROUP_DMCC_IDS_TO_NAMES
+import logging, time
+
+_logger = logging.getLogger(__name__)
 
 # Interface identifier for EDRN Collaborative Group, from edrnsite.collaborations
 _collabGroup = 'edrnsite.collaborations.interfaces.collaborativegroupindex.ICollaborativeGroupIndex'
@@ -25,17 +28,22 @@ class StudyFolderIngestor(KnowledgeFolderIngestor):
     def __call__(self, rdfDataSource=None):
         '''Ingest and render a results page'''
         context = aq_inner(self.context)
+        _logger.info('Study Folder RDF ingest for folder at %s', '/'.join(context.getPhysicalPath()))
         catalog = getToolByName(context, 'portal_catalog')
         if rdfDataSource is None:
             rdfDataSource = context.rdfDataSource
         if not rdfDataSource:
             raise RDFIngestException(_(u'This folder has no RDF data source URL.'))
         normalizerFunction = queryUtility(IIDNormalizer).normalize
+        t0 = time.time()
         graph = ConjunctiveGraph()
         graph.parse(URLInputSource(rdfDataSource))
         statements = self._parseRDF(graph)
+        delta = time.time() - t0
+        _logger.info('Took %f seconds to read and parse %s', delta, rdfDataSource)
         createdObjects = []
         handler = StudyHandler()
+        t0 = time.time()
         for uri, predicates in statements.items():
             results = catalog(identifier=uri, object_provides=IProtocol.__identifier__)
             objectID = handler.generateID(uri, predicates, normalizerFunction)
@@ -62,8 +70,11 @@ class StudyFolderIngestor(KnowledgeFolderIngestor):
             for obj in created:
                 obj.reindex()
             createdObjects.extend(created)
+        _logger.info('Took %f seconds to process %d statements', time.time() - t0, len(statements))
         self.objects = createdObjects
+        t0 = time.time()
         self.updateCollaborativeGroups(createdObjects, catalog)
+        _logger.info('Took %f seconds to update collaborative groups', time.time() - t0)
         self._results = Results(self.objects, warnings=[])
         return self.renderResults()
     def updateCollaborativeGroups(self, createdObjects, catalog):
