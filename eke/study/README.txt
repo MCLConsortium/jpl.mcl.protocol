@@ -754,6 +754,41 @@ Woot!  How about involved investigator sites?
     '...Esophagus Methylation Profiles...'
 
 
+Duplicates
+~~~~~~~~~~
+
+CA-978 noticed that the DMCC started outputting protocols with duplicate
+titles in its RDF output.  This causes this package's protocol vocabulary to
+choke, since it used to require unique titles.  But not any more, watch::
+
+    >>> browser.open(portalURL)
+    >>> browser.getLink(id='study-folder').click()
+    >>> browser.getControl(name='title').value = u'Duplicated Studies'
+    >>> browser.getControl(name='description').value = u'This folder is to reveal bugs.'
+    >>> browser.getControl(name='rdfDataSource').value = u'testscheme://localhost/protocols/dups'
+    >>> browser.getControl(name='form.button.save').click()
+
+Now we'll ingest from its "dups" data source::
+
+    >>> browser.getLink('Ingest').click()
+
+That "dups" data source has two protocols in it with identical titles.  Yet,
+as you can see, they ingested just fine::
+
+    >>> dups = portal['duplicated-studies']
+    >>> keys = dups.keys()
+    >>> keys.sort()
+    >>> keys
+    ['1-a-duplicate-title', '2-a-duplicate-title']
+
+We can also edit one of them and not get a stack trace::
+
+    >>> browser.open(portalURL + '/duplicated-studies/1-a-duplicate-title')
+    >>> browser.getLink('Edit').click()
+
+All better.
+
+
 
 RDF Data Sources
 ~~~~~~~~~~~~~~~~
