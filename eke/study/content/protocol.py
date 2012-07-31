@@ -24,6 +24,9 @@ from zope.interface import implements, directlyProvides
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleVocabulary
 
+# Maximum number of protocols that we'll allow to all have the same title.
+MAX_PROTOCOL_INDEX = 100
+
 # To support CA-586, we'll make "description" a computed field whose value comes from
 # the abstract, objectives, aims, or results outcome.
 ProtocolSchema = knowledgeobject.KnowledgeObjectSchema.copy() + ConstrainTypesMixinSchema.copy() + NextPreviousAwareSchema.copy()
@@ -726,11 +729,27 @@ class Protocol(folder.ATFolder, knowledgeobject.KnowledgeObject):
 
 atapi.registerType(Protocol, PROJECTNAME)
 
+def getUniqueLabel(title, protocols):
+    if title not in protocols: return title
+    index = 1
+    while index < MAX_PROTOCOL_INDEX:
+        index += 1
+        newTitle = u'%s (%d)' % (title, index)
+        if newTitle not in protocols: return newTitle
+    raise ValueError("There can't be %d protocols all named '%s'. Something else is wrong." % (index, title))
+
 def ProtocolVocabularyFactory(context):
     catalog = getToolByName(context, 'portal_catalog')
     # TODO: filter by review_state?
-    results = catalog(object_provides=IProtocol.__identifier__, sort_on='sortable_title')
-    items = [(i.Title, i.UID) for i in results]
+    results = catalog(object_provides=IProtocol.__identifier__)
+    protocols = {}
+    for i in results:
+        title, uid = i.Title, i.UID
+        label = getUniqueLabel(title, protocols)
+        protocols[label] = uid
+    labels = protocols.keys()
+    labels.sort()
+    items = [(i, protocols[i]) for i in labels]
     return SimpleVocabulary.fromItems(items)
 directlyProvides(ProtocolVocabularyFactory, IVocabularyFactory)
 
