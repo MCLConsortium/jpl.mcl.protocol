@@ -748,7 +748,7 @@ def ProtocolVocabularyFactory(context):
         label = getUniqueLabel(title, protocols)
         protocols[label] = uid
     labels = protocols.keys()
-    labels.sort()
+    labels.sort(lambda a, b: cmp(a.decode('utf-8'), b.decode('utf-8')))
     items = [(i, protocols[i]) for i in labels]
     return SimpleVocabulary.fromItems(items)
 directlyProvides(ProtocolVocabularyFactory, IVocabularyFactory)
