@@ -10,7 +10,7 @@ from eke.publications.interfaces import IPublication
 from eke.site.interfaces import ISite
 from eke.study import ProjectMessageFactory as _
 from zope import schema
-from zope.app.container.constraints import contains
+from zope.container.constraints import contains
 from zope.interface import Interface
 
 class IStudyFolder(IKnowledgeFolder):
