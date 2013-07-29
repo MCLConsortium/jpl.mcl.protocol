@@ -201,9 +201,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <div metal:use-macro='context/document_relateditems/macros/relatedItems'>
-                            Any related items
-                        </div>
                     </div>
                     <br style="clear:both;"/>
                 </div>
