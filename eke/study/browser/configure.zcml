@@ -36,6 +36,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <!-- Protocol -->
     <browser:resource name='protocol.gif' file='images/protocol.gif'/>
     <browser:resource name='teamProject.png' file='images/teamProject.png'/>
+    <browser:resource name='nonEDRNProtocol.png' file='images/nonEDRNProtocol.png'/>
     <browser:page
         class='.views.ProtocolView'
         for='..interfaces.IProtocol'

@@ -13,6 +13,8 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from eke.knowledge.browser.views import KnowledgeFolderView, KnowledgeObjectView
 from eke.study.interfaces import IStudyFolder, IProtocol
 
+EDRN_PROTOCOL_ID_LIMIT = 1000
+
 class StudyFolderView(KnowledgeFolderView):
     '''Default view of a Study folder.'''
     __call__ = ViewPageTemplateFile('templates/studyfolder.pt')
@@ -64,4 +66,12 @@ class ProtocolView(KnowledgeObjectView):
         if not context.identifier:
             return u'?'
         return context.identifier.split('/')[-1]
-    
+    def isEDRNProtocol(self):
+        protocolID = self.protocolID()
+        try:
+            protocolID = int(protocolID)
+            return protocolID < EDRN_PROTOCOL_ID_LIMIT
+        except ValueError:
+            return False
+        
+        

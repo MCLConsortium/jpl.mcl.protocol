@@ -19,7 +19,9 @@
                 <div tal:replace='structure provider:plone.abovecontenttitle' />
                 <img src='#' tal:condition='context/project|nothing' alt='Team Project' i18n:attributes='alt'
                     class='teamProjectBeacon' tal:attributes='src string:${context/++resource++teamProject.png}'/>
-                <h1 class='documentFirstHeading'> 
+                <img src='#' tal:condition='not:view/isEDRNProtocol' alt='Not an EDRN Protocol' i18n:attributes='alt'
+                    class='nonEDRNBeacon' tal:attributes='src string:${context/++resource++nonEDRNProtocol.png}'/>
+                <h1 class='documentFirstHeading protocolTitle'> 
                     <span id='parent-fieldname-title' tal:content='context/title'>
                         Title
                     </span>
