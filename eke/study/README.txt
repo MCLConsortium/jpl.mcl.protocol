@@ -460,6 +460,19 @@ Works great!  Also, CA-659 wants the protocol ID on the view::
 
 Also works great.
 
+CA-1122 wants non-EDRN protocols to display a warning to that effect::
+
+    >>> browser.open(portalURL + '/questionable-studies')
+    >>> browser.getLink(id='protocol').click()
+    >>> browser.getControl(name='title').value = 'The Outsiders'
+    >>> browser.getControl(name='identifier').value = 'http://edrn.nci.nih.gov/data/protocols/23456'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.contents
+    '...Not an EDRN Protocol...'
+
+It knows it's not an EDRN protocol because the last component of the
+identifier is a number ≥ 1000.
+
 
 Study Folder View
 ~~~~~~~~~~~~~~~~~
@@ -507,7 +520,7 @@ protocols to our folder and see if it paginates::
     ...     browser.getControl(name='form.button.save').click()
     >>> browser.open(portalURL + '/questionable-studies')
     >>> browser.contents
-    '...Next...12...items...'
+    '...Next...13...items...'
 
 
 RDF Ingestion
