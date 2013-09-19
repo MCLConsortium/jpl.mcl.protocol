@@ -138,17 +138,10 @@
                         </div>
                     </div>
                     <div id="protocolLongTextMetadata">
-                        <label for='parent-fieldname-description' i18n:translate='label_description'>Description:</label>
-                        <p class='documentDescription'>
-                            <span id='parent-fieldname-description' tal:content='context/description'>Description.</span>
+                        <label for='parent-fieldname-description' i18n:translate='label_abstract'>Abstract:</label>
+                        <p class='documentDescription' tal:content='context/description'>
+                            Subjective scientific research has been conducted in the United States since the late 1960s.
                         </p>
-                        <br/>
-                        <div>
-                            <label for='parent-fieldname-abstract' i18n:translate='label_abstract'>Abstract:</label>
-                            <span id='parent-fieldname-abstract' tal:content='structure context/abstract'>
-                                Subjective scientific research has been conducted in the United States since the late 1960s.
-                            </span>
-                        </div>
                         <div>
                             <label for='parent-fieldname-aims' i18n:translate='label_aims'>Aims:</label>
                             <span id='parent-fieldname-aims' tal:content='structure context/aims'>

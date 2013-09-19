@@ -9,6 +9,7 @@ below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 ------------
 
 • CA-1122 - Indicate if Protocol is not an EDRN Protocol
+• CA-1148 - Remove description from Protocols it's duplicated in the abstract
 
 
 1.1.9 — Closing Security Holes
