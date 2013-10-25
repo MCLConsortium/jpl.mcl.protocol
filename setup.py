@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'eke.study'
-_version     = '1.1.10'
+_version     = '1.1.11'
 _description = 'Study and protocol information for the EDRN Knowledge Environment'
 _url         = 'http://cancer.jpl.nasa.gov/products/eke-study'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/eke'
