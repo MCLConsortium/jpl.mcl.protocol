@@ -19,7 +19,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         <element value='File' />
         <element value='Image' />
     </property>
-    <property name='allow_discussion'>True</property>
+    <property name='allow_discussion'>False</property>
     <property name='default_view'>view</property>
     <property name='view_methods'>
         <element value='view'/>

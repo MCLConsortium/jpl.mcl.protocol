@@ -39,6 +39,10 @@ class SetupTest(unittest.TestCase):
         for v in vocabs:
             vocab = queryUtility(IVocabularyFactory, name=v)
             self.failIf(vocab is None, u'Vocabulary "%s" not available' % v)
+    def testDiscussion(self):
+        types = getToolByName(self.portal, 'portal_types')
+        for i in ('Protocol', 'Study Folder'):
+            self.failIf(types[i].allow_discussion, 'Type "%s" allows discussion but should not' % i)
 
 def test_suite():
     return unittest.defaultTestLoader.loadTestsFromName(__name__)
