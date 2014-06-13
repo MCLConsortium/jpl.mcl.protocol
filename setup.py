@@ -16,7 +16,7 @@ _url         = 'http://cancer.jpl.nasa.gov/products/eke-study'
 _downloadURL = 'http://oodt.jpl.nasa.gov/dist/eke'
 _author      = 'Sean Kelly'
 _authorEmail = 'sean.kelly@jpl.nasa.gov'
-_license     = 'Proprietary'
+_license     = 'ALv2'
 _namespaces  = ['eke']
 _zipSafe     = False
 _keywords    = 'web zope plone edrn cancer biomarkers eke study protocol'
@@ -44,7 +44,7 @@ _classifiers = [
     'Intended Audience :: Healthcare Industry',
     'Intended Audience :: Science/Research',
     'License :: Other/Proprietary License',
-    'Operating System :: OS Independent',
+    'License :: OSI Approved :: Apache Software License',
     'Programming Language :: Python',
     'Topic :: Internet :: WWW/HTTP',
     'Topic :: Scientific/Engineering :: Bio-Informatics',
