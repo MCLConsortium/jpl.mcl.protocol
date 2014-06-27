@@ -10,7 +10,7 @@ import os.path
 # ------------
 
 _name        = 'eke.study'
-_version     = '1.1.12'
+_version     = '1.1.13'
 _description = 'Study and protocol information for the EDRN Knowledge Environment'
 _author      = 'Sean Kelly'
 _authorEmail = 'sean.kelly@jpl.nasa.gov'
