@@ -6,6 +6,12 @@ changed, what's been fixed, and so forth, follows.  For issue IDs mentioned
 below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 
+1.1.13 — TBD
+------------
+
+• CA-1300
+
+
 1.1.12 — I Had Some Chicken; Pass Me the FLOSS
 ----------------------------------------------
 

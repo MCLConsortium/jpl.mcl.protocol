@@ -734,9 +734,9 @@ def getUniqueLabel(title, protocols):
     index = 1
     while index < MAX_PROTOCOL_INDEX:
         index += 1
-        newTitle = u'%s (%d)' % (title, index)
+        newTitle = u'{} ({})'.format(title, index)
         if newTitle not in protocols: return newTitle
-    raise ValueError("There can't be %d protocols all named '%s'. Something else is wrong." % (index, title))
+    raise ValueError(u"There can't be {} protocols all named '{}'. Something else is wrong.".format(index, title))
 
 def ProtocolVocabularyFactory(context):
     catalog = getToolByName(context, 'portal_catalog')
@@ -744,21 +744,20 @@ def ProtocolVocabularyFactory(context):
     results = catalog(object_provides=IProtocol.__identifier__)
     protocols = {}
     for i in results:
-        title, uid = i.Title, i.UID
+        title, uid = i.Title.decode('utf-8'), i.UID
         label = getUniqueLabel(title, protocols)
         protocols[label] = uid
     labels = protocols.keys()
-    labels.sort(lambda a, b: cmp(a.decode('utf-8'), b.decode('utf-8')))
-    items = [(i, protocols[i]) for i in labels]
-    return SimpleVocabulary.fromItems(items)
+    labels.sort()
+    terms = [SimpleVocabulary.createTerm(protocols[i], protocols[i], i) for i in labels]
+    return SimpleVocabulary(terms)
 directlyProvides(ProtocolVocabularyFactory, IVocabularyFactory)
 
 def TeamProjectsVocabularyFactory(context):
     catalog = getToolByName(context, 'portal_catalog')
     # TODO: filter by review_state?
     results = catalog(object_provides=IProtocol.__identifier__, sort_on='sortable_title', project=True)
-    items = [(i.Title, i.UID) for i in results]
-    return SimpleVocabulary.fromItems(items)
+    return SimpleVocabulary([SimpleVocabulary.createTerm(i.UID, i.UID, i.Title.decode('utf-8')) for i in results])
 directlyProvides(TeamProjectsVocabularyFactory, IVocabularyFactory)
 
 def ProtocolUpdater(context, event):
