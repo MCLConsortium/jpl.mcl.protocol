@@ -802,6 +802,41 @@ We can also edit one of them and not get a stack trace::
 All better.
 
 
+Duplicatations on Ingest
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+CA-1292 points out that if a protocol name changes, we get a duplicate: one
+protocol with the new name, one with the old.  Does that happen?  Let's see::
+
+    >>> browser.open(portalURL)
+    >>> browser.getLink(id='study-folder').click()
+    >>> browser.getControl(name='title').value = u'More Duplicated Studies'
+    >>> browser.getControl(name='description').value = u'This folder is to reveal bugs.'
+    >>> browser.getControl(name='rdfDataSource').value = u'testscheme://localhost/protocols/name1'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.getLink('Ingest').click()
+
+There's just one protocol now::
+
+    >>> folder = portal['more-duplicated-studies']
+    >>> len(folder.keys())
+    1
+
+Now let's ingest again, but with a new name::
+
+    >>> browser.getLink('Ingest').click()
+    >>> browser.getLink('Edit').click()
+    >>> browser.getControl(name='rdfDataSource').value = u'testscheme://localhost/protocols/name2'
+    >>> browser.getControl(name='form.button.save').click()
+    >>> browser.getLink('Ingest').click()
+
+Still just one::
+
+    >>> len(folder.keys())
+    1
+
+Yay!
+
 
 RDF Data Sources
 ~~~~~~~~~~~~~~~~

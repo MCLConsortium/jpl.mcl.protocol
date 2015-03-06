@@ -45,7 +45,7 @@ class StudyFolderIngestor(KnowledgeFolderIngestor):
         handler = StudyHandler()
         t0 = time.time()
         for uri, predicates in statements.items():
-            results = catalog(identifier=uri, object_provides=IProtocol.__identifier__)
+            results = catalog(identifier=unicode(uri), object_provides=IProtocol.__identifier__)
             objectID = handler.generateID(uri, predicates, normalizerFunction)
             if len(results) == 1 or objectID in context.keys():
                 # Existing protocol. Update it.

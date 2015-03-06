@@ -147,6 +147,36 @@ _duplicateProtocolsRDF = '''<?xml version='1.0' encoding='UTF-8'?>
     </rdf:Description>
 </rdf:RDF>'''
 
+_name1RDF = u'''<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF
+    xmlns:edrn='http://edrn.nci.nih.gov/rdf/schema.rdf#'
+    xmlns:dc='http://purl.org/dc/terms/'
+    xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <rdf:Description rdf:about='http://protocols.com/protocols/renamed/1'>
+        <rdf:type rdf:resource='http://edrn.nci.nih.gov/rdf/types.rdf#Protocol'/>
+        <dc:title>Name 1</dc:title>
+        <dc:description>Abstract.</dc:description>
+        <edrn:objective>Objective.</edrn:objective>
+        <edrn:aims>Aims.</edrn:aims>
+        <edrn:outcome>Finally, an outcome!</edrn:outcome>
+    </rdf:Description>
+</rdf:RDF>'''
+
+_name2RDF = u'''<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF
+    xmlns:edrn='http://edrn.nci.nih.gov/rdf/schema.rdf#'
+    xmlns:dc='http://purl.org/dc/terms/'
+    xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'>
+    <rdf:Description rdf:about='http://protocols.com/protocols/renamed/1'>
+        <rdf:type rdf:resource='http://edrn.nci.nih.gov/rdf/types.rdf#Protocol'/>
+        <dc:title>Name 2</dc:title>
+        <dc:description>Abstract.</dc:description>
+        <edrn:objective>Objective.</edrn:objective>
+        <edrn:aims>Aims.</edrn:aims>
+        <edrn:outcome>Finally, an outcome!</edrn:outcome>
+    </rdf:Description>
+</rdf:RDF>'''
+
 
 def registerLocalTestData():
     ekeKnowledgeBase.registerLocalTestData()
@@ -157,4 +187,5 @@ def registerLocalTestData():
     ekeKnowledgeBase.registerTestData('/protocols/c', _markedUpProtocolRDF)
     ekeKnowledgeBase.registerTestData('/protocols/d', _manyProtocolsRDF)
     ekeKnowledgeBase.registerTestData('/protocols/dups', _duplicateProtocolsRDF)
-
+    ekeKnowledgeBase.registerTestData('/protocols/name1', _name1RDF)
+    ekeKnowledgeBase.registerTestData('/protocols/name2', _name2RDF)
