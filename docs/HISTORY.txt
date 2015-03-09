@@ -11,6 +11,7 @@ below, see the issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA
 
 • CA-1300
 • CA-1292
+• CA-1302
 
 
 1.1.12 — I Had Some Chicken; Pass Me the FLOSS

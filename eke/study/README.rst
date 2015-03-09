@@ -175,7 +175,7 @@ Now we can create our test Protocol::
     >>> browser.getControl(name='objective').value = 'The cat utility reads files sequentially, writing them to standard output.'
     >>> browser.getControl('Project?').selected = False
     >>> browser.getControl(name='protocolType').value = 'Silly'
-    >>> browser.getControl(name='publications:list').displayValue = ['Teriyaki Beef', 'Glazed Roast Chicken']
+    >>> browser.getControl(name='publications:list').displayValue = ['Early detection biomarkers for ovarian cancer.', 'Letter to the editor: SeqXML and OrthoXML: standards for sequence and orthology information.']
     >>> browser.getControl(name='outcome').value = "Tar is short for ``tape archiver'', so named for historical reasons."
     >>> browser.getControl(name='secureOutcome').value = 'OpenSSL is a cryptography toolkit.'
     >>> browser.getControl(name='plannedSampleSize').value = '156'
@@ -270,7 +270,7 @@ Now we can create our test Protocol::
     >>> pubTitles = [i.title for i in mku.publications]
     >>> pubTitles.sort()
     >>> pubTitles
-    ['Glazed Roast Chicken', 'Teriyaki Beef']
+    ['Early detection biomarkers for ovarian cancer.', 'Letter to the editor: SeqXML and OrthoXML: standards for sequence and orthology information.']
     >>> mku.outcome
     "Tar is short for ``tape archiver'', so named for historical reasons."
     >>> mku.secureOutcome
@@ -599,7 +599,7 @@ Ingesting from the RDF data source ``testscheme://localhost/studies/a``::
     >>> p1.protocolType
     'Fictional'
     >>> p1.publications[0].title
-    'Teriyaki Beef'
+    'Letter to the editor: SeqXML and OrthoXML: standards for sequence and orthology information.'
     >>> p1.outcome
     'Increased public safety.'
     >>> p1.secureOutcome
