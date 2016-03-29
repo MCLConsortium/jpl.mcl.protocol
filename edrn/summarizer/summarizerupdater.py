@@ -41,8 +41,6 @@ class SummarizerUpdater(grok.Adapter):
 
         # Is there an active file?
         #if context.approvedFile:
-            #print "HERE"
-            #print Graph().parse(data=context.approvedFile.to_object.get_data())
             # Is it identical to what we just generated?
         #    current = Graph().parse(data=context.approvedFile.to_object.get_data())
         #    if isomorphic(json, current):

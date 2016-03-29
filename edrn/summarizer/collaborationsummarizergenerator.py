@@ -22,17 +22,17 @@ from plone.i18n.normalizer.interfaces import IIDNormalizer
 import jsonlib
 
 COLLABORATIVE_GROUP_BMDB_IDS_TO_NAMES = {
-    u'Breast and Gynecologic':          u'Breast and Gynecologic Cancers Research Group',
-    u'G.I. and Other Associated':       u'G.I. and Other Associated Cancers Research Group',
-    u'Lung and Upper Aerodigestive':    u'Lung and Upper Aerodigestive Cancers Research Group',
-    u'Prostate and Urologic':           u'Prostate and Urologic Cancers Research Group',
+    Literal(u'Breast and Gynecologic'):          Literal(u'Breast and Gynecologic Cancers Research Group'),
+    Literal(u'G.I. and Other Associated'):       Literal(u'G.I. and Other Associated Cancers Research Group'),
+    Literal(u'Lung and Upper Aerodigestive'):    Literal(u'Lung and Upper Aerodigestive Cancers Research Group'),
+    Literal(u'Prostate and Urologic'):           Literal(u'Prostate and Urologic Cancers Research Group'),
 }
 
 COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES = {
-    u'Breast/GYN':                      u'Breast and Gynecologic Cancers Research Group',
-    u'GI and Other Associated':         u'G.I. and Other Associated Cancers Research Group',
-    u'Lung and Upper Aerodigestive':    u'Lung and Upper Aerodigestive Cancers Research Group',
-    u'Prostate and Urologic':           u'Prostate and Urologic Cancers Research Group',
+    Literal(u'Breast/GYN'):                      Literal(u'Breast and Gynecologic Cancers Research Group'),
+    Literal(u'GI and Other Associated'):         Literal(u'G.I. and Other Associated Cancers Research Group'),
+    Literal(u'Lung and Upper Aerodigestive'):    Literal(u'Lung and Upper Aerodigestive Cancers Research Group'),
+    Literal(u'Prostate and Urologic'):           Literal(u'Prostate and Urologic Cancers Research Group'),
 }
 
 INV_COLLABORATIVE_GROUP_BMDB_IDS_TO_NAMES = {v: k for k, v in COLLABORATIVE_GROUP_BMDB_IDS_TO_NAMES.items()}
@@ -87,7 +87,11 @@ class ICollaborationSummarizerGenerator(ISummarizerGenerator):
 class CollaborationJsonGenerator(grok.Adapter):
     '''A Json generator that produces statements about EDRN's biomarker statistics using the BMDB's web service.'''
     def updateCollaborativeGroup(self, objects, groups, allObj, collabFreq):
+        print "updateCollab"
+        print "groups"
+        print groups
         for groupID in groups:
+            groupName = ""
             if groupID in COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES:
                 groupName = COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES[groupID]
             elif groupID in COLLABORATIVE_GROUP_BMDB_IDS_TO_NAMES:
@@ -96,16 +100,22 @@ class CollaborationJsonGenerator(grok.Adapter):
                 groupName = groupID
             else:
                 continue
+            print "objects:"
+            print objects
             for obj in objects:
-                if obj not in allObj:
-                    allObj.append(obj)
+                #if obj not in allObj:
+                #    allObj[obj]=1
 
                 if groupName in collabFreq:
                     collabFreq[groupName] += 1
                 else:
                     collabFreq[groupName] = 1
+        return collabFreq
 
-    def updateCollaboratorFreq(self, predicates, allBiomarkers, collabBmFreq):
+    def updateCollaboratorFreq(self, biomarker, predicates, allBiomarkers, collabBmFreq):
+        print "updateBm"
+        print "accessGroups"
+        print predicates[_groupPredicateURI]
         for accessGroup in predicates[_groupPredicateURI]:
             collabGroup = COLLABORATIVE_GROUP_BMDB_IDS_TO_NAMES.get(accessGroup)
             if not collabGroup: continue
@@ -114,6 +124,8 @@ class CollaborationJsonGenerator(grok.Adapter):
                     collabBmFreq[collabGroup] += 1
                 else:
                     collabBmFreq[collabGroup] = 1
+        return collabBmFreq
+
     def _parseRDF(self, graph):
         '''Parse the statements in graph into a mapping {u→{p→o}} where u is a
         resource URI, p is a predicate URI, and o is a list of objects which
@@ -167,9 +179,9 @@ class CollaborationJsonGenerator(grok.Adapter):
                     continue
                 #Add frequencies for biomarker associated with biomarker type (Gene, Protein, etc...)
                 if isPanel:
-                    self.updateCollaboratorFreq(predicates, allBiomarkers, collabPnFreq)
+                    collabPnFreq = self.updateCollaboratorFreq(objID, predicates, allBiomarkers, collabPnFreq)
                 else:
-                    self.updateCollaboratorFreq(predicates, allBiomarkers, collabBmFreq)
+                    collabBmFreq = self.updateCollaboratorFreq(objID, predicates, allBiomarkers, collabBmFreq)
                 allBiomarkers[URIRef(uri)] = objID
             except KeyError:
                 pass
@@ -179,27 +191,25 @@ class CollaborationJsonGenerator(grok.Adapter):
         statements = self._parseRDF(graph)
         for uri, predicates in statements.items():
             if _collaborativeGroupDataURI in predicates:
-                self.updateCollaborativeGroup(predicates[_datasetIdURI], predicates[_collaborativeGroupDataURI], allDatasets, collabDataFreq)
+                collabDataFreq = self.updateCollaborativeGroup(predicates[_datasetIdURI], predicates[_collaborativeGroupDataURI], allDatasets, collabDataFreq)
 
         graph = ConjunctiveGraph()
         graph.parse(URLInputSource(protocolDataSource))
         statements = self._parseRDF(graph)
         for uri, predicates in statements.items():
             if _collaborativeGroupProURI in predicates:
-                self.updateCollaborativeGroup(predicates[_protocolNameURI], predicates[_collaborativeGroupProURI], allProtocols, collabProFreq)
+                collabProtoFreq = self.updateCollaborativeGroup(predicates[_protocolNameURI], predicates[_collaborativeGroupProURI], allProtocols, collabProtoFreq)
 
         graph = ConjunctiveGraph()
         graph.parse(URLInputSource(memberDataSource))
         statements = self._parseRDF(graph)
         for uri, predicates in statements.items():
-            print "PREDICATE"
-            print predicates
-            if _titlePredicateURI in predicates:
-                self.updateCollaborativeGroup(predicates[_memberPredicateURI], predicates[_titlePredicateURI], allMembers, collabMemFreq)
+            if _memberPredicateURI in predicates:
+                collabMemFreq = self.updateCollaborativeGroup(predicates[_memberPredicateURI], predicates[_titlePredicateURI], allMembers, collabMemFreq)
         
         # Coalate all dictionaries into one
         
-        jsondata = {"biomarker" : collabBmFreq, "panel" : collabPnFreq, "data" : collabDataFreq, "protocol" : collabProFreq, "member" : collabMemFreq}
+        jsondata = {"biomarker" : collabBmFreq, "panel" : collabPnFreq, "data" : collabDataFreq, "protocol" : collabProtoFreq, "member" : collabMemFreq}
 
         # C'est tout.
         return jsonlib.write(jsondata)
