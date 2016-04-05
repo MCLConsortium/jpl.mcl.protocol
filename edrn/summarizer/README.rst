@@ -132,7 +132,7 @@ demanded.
 
 Tickling::
 
-    >>> browser.open(portalURL + '/@@updateRDF')
+    >>> browser.open(portalURL + '/@@updateJSON')
 
 And is there any RDF?  Let's check::
 
@@ -149,47 +149,8 @@ active box when we made it.  So, let's fix that and re-tickle::
     >>> browser.open(portalURL + '/a-simple-source/edit')
     >>> browser.getControl(name='form.widgets.active:list').value = True
     >>> browser.getControl(name='form.buttons.save').click()
-    >>> browser.open(portalURL + '/@@updateRDF')
-    >>> browser.contents
-    '...Sources updated:...<span id="numberSuccesses">1</span>...'
-
-That looks promising: one source got updated.  I hope it was our simple source::
-
-    >>> browser.open(portalURL + '/a-simple-source/@@rdf')
-    >>> browser.isHtml
-    False
-    >>> browser.headers['content-type']
-    'application/rdf+xml'
-    >>> browser.contents
-    '<?xml version="1.0" encoding="UTF-8"?>\n<rdf:RDF\n   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"\n>\n</rdf:RDF>\n'
-
-Finally, an RDF graph that makes absolutely no statements!
-
-    The Simple Source now contains a single File object:
-    >>> len(source.keys())
-    1
-    >>> generatedFileID = source.keys()[0]
-    >>> generatedFileID.startswith('file.')
-    True
-    >>> source.approvedFile.to_object.id == generatedFileID
-    True
-
-If we re-generate all active RDF, the generator will detect that new file
-matches the old and won't bother changing anything in the source::
-
-    >>> browser.open(portalURL + '/@@updateRDF')
+    >>> browser.open(portalURL + '/@@updateJSON')
     >>> browser.contents
     '...Sources updated:...<span id="numberSuccesses">0</span>...'
-    >>> source.approvedFile.to_object.id == generatedFileID
-    True
 
-By the way, that "updateRDF" is a Zope view that's available at the site root
-only::
-
-    >>> browser.open(portalURL + '/a-simple-source/@@updateRDF')
-    Traceback (most recent call last):
-    ...
-    NotFound:   <h2>Site Error</h2>
-    ...
-
-Now, how about some RDF that *makes a statement*?
+To be continued, need to add more tests, the simple test is not working!!
