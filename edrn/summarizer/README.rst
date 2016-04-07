@@ -1,4 +1,4 @@
-This package provides an RDF-based web service that describes the knowledge
+This package provides an JSON-based web service that describes the knowledge
 assets of the Early Detection Research Network (EDRN).
 
 
@@ -20,10 +20,10 @@ to do so, we'll need a test browser::
 Here we go.
 
 
-RDF Source
+Summarizer Source
 ==========
 
-An RDF Source is a source of RDF data.  They can be added anywhere in the
+An Summarizer Source is a source of JSON data.  They can be added anywhere in the
 portal::
 
 
@@ -46,31 +46,30 @@ portal::
     >>> source.active
     False
 
-Now, these things are supposed to produce RDF when called with the appropriate
+Now, these things are supposed to produce JSON when called with the appropriate
 view.  Does it?
 
-    >>> browser.open(portalURL + '/a-simple-source/@@rdf')
+    >>> browser.open(portalURL + '/a-simple-source/@@json')
     Traceback (most recent call last):
     ...
     ValueError: The Summarizer Source at /plone/a-simple-source does not have an active Summarizer file to send
 
-It doesn't because it hasn't yet made any RDF files to send, and it can't do
-that without an RDF generator.  RDF Sources get their data from RDF
-Generators.
+It doesn't because it hasn't yet made any JSON files to send, and it can't do
+that without an JSON generator.  JSON Sources get their data from JSON Generators.
 
 
-RDF Generators
+Summarizer Generators
 ==============
 
-RDF Generators have the responsibility of accessing various sources of data
-(notably the DMCC's web service) and yielding an RDF graph, suitable for
+Summarizer Generators have the responsibility of accessing various sources of data
+(notably the DMCC's web service) and yielding an Summarizer graph, suitable for
 serializing into XML or some other format.  There are several kinds available.
 
 
-Null RDF Generator
+Null Summarizer Generator
 ------------------
 
-One such generator does absolutely nothing: it's the Null RDF Generator, and
+One such generator does absolutely nothing: it's the Null Summarizer Generator, and
 all it ever does it make zero statements about anything.  It's not very
 useful, but it's nice to have for testing.  Check it out::
 
@@ -90,7 +89,7 @@ useful, but it's nice to have for testing.  Check it out::
     >>> generator.description
     u'Just for testing.'
 
-We'll set up our RDF source with this generator (and hand-craft the POST
+We'll set up our Summarizer source with this generator (and hand-craft the POST
 because it's AJAX)::
 
     >>> from urllib import urlencode
@@ -109,9 +108,9 @@ because it's AJAX)::
     >>> browser.contents
     '...Generator...href="http://nohost/plone/silence"...Silence...'
 
-The RDF source still doesn't produce any RDF, though::
+The Summarizer source still doesn't produce any JSON, though::
 
-    >>> browser.open(portalURL + '/a-simple-source/@@rdf')
+    >>> browser.open(portalURL + '/a-simple-source/@@json')
     Traceback (most recent call last):
     ...
     ValueError: The Summarizer Source at /plone/a-simple-source does not have an active Summarizer file to send
@@ -124,25 +123,25 @@ Running the Generators
 ----------------------
 
 Tickled by either a cron job or a Zope clock event, a special URL finds every
-RDF source and asks it to run its generator to produce a fresh update.  Each
-RDF source may (in the future) run its validators against the generated graph
+Summarizer source and asks it to run its generator to produce a fresh update.  Each
+Summarizer source may (in the future) run its validators against the generated graph
 to ensure it has the expected information.  Assuming it passes muster, the
-source then saves that output as the latest and greatest RDF to deliver when
+source then saves that output as the latest and greatest Summarizer to deliver when
 demanded.
 
 Tickling::
 
     >>> browser.open(portalURL + '/@@updateJSON')
 
-And is there any RDF?  Let's check::
+And is there any JSON?  Let's check::
 
-    >>> browser.open(portalURL + '/a-simple-source/@@rdf')
+    >>> browser.open(portalURL + '/a-simple-source/@@json')
     Traceback (most recent call last):
     ...
     ValueError: The Summarizer Source at /plone/a-simple-source does not have an active Summarizer file to send
 
-Still no RDF?!  Right, because RDF Sources can be active or not.  If they're
-active, then when it's time to generate RDF their generator will actually get
+Still no JSON?!  Right, because Summarizer Sources can be active or not.  If they're
+active, then when it's time to generate Summarizer their generator will actually get
 run.  But the source "A Simple Source" is *not* active.  We didn't check the
 active box when we made it.  So, let's fix that and re-tickle::
 

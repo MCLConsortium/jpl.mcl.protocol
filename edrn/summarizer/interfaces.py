@@ -9,7 +9,7 @@ from zope.interface import Interface
 
 class ISummarizerUpdater(Interface):
     '''An object whose Summarizer may be updated'''
-    def updateRDF():
+    def updateJSON():
         '''Update this object's Summarizer file.'''
 
 class IGraphGenerator(Interface):

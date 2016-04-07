@@ -27,10 +27,10 @@ class SummarizerUpdater(grok.Adapter):
         self.context = context
     def updateJSON(self):
         context = aq_inner(self.context)
-        # If the RDF Source is inactive, we're done
+        # If the Summarizer Source is inactive, we're done
         if not context.active:
             raise SourceNotActive(context)
-        # Check if the RDF Source has an RDF Generator
+        # Check if the Summarizer Source has an Summarizer Generator
         if not context.generator:
             raise NoGeneratorError(context)
         generator = context.generator.to_object

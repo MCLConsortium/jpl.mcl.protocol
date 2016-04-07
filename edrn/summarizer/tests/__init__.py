@@ -3,5 +3,5 @@
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
 '''
-EDRN RDF Service: unit and functional tests.
+EDRN Summarizer Service: unit and functional tests.
 '''

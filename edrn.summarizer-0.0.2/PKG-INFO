@@ -1,0 +1,70 @@
+Metadata-Version: 1.1
+Name: edrn.summarizer
+Version: 0.0.2
+Summary: EDRN Summarizer Server
+Home-page: https://github.com/EDRN/edrn.summarizer
+Author: David Liu
+Author-email: david.liu@jpl.nasa.gov
+License: ALv2
+Description: ***************
+        edrn.summarizer
+        ***************
+        
+        Server for the Early Detection Research Network (EDRN) that provides
+        summary of EDRN's knowledge using the various summarization methods.
+        
+        
+        
+        edrn.summarizer Installation
+        =====================
+        
+        Use zc.buildout and the plone.recipe.zope2instance recipe to manage your
+        project, and do the following:
+        
+        * Add ``edrn.summarizer`` to the list of eggs to install, e.g.::
+        
+            [buildout]
+            ...
+            eggs =
+                ...
+                edrn.summarizer
+            
+        * Re-run buildout, e.g. with::
+        
+            $ ./bin/buildout
+            
+        You don't need a ZCML slug because it uses z3c.autoinclude.plugin with the
+        Plone target.
+        
+        
+        Changelog
+        =========
+        
+        What follows is a log of changes from release to release.  Where issue
+        identifiers appear, you can find more about them by visiting this project's
+        issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
+        
+        0.0.0 - Unreleased
+        ------------------
+        
+        * Initial release
+        
+        
+        .. References:
+        .. _EDRN: http://edrn.nci.nih.gov/
+        .. _Summarizer: http://w3.org/Summarizer/
+        
+        
+Keywords: summary summarizer web zope plone cancer bioinformatics detection informatics edrn
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Intended Audience :: Healthcare Industry
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

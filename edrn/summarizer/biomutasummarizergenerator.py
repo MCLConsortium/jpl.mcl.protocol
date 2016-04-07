@@ -28,7 +28,7 @@ _biomarkerPredicates = {
 }
 
 class IBiomutaSummarizerGenerator(ISummarizerGenerator):
-    '''DMCC Committee RDF Generator.'''
+    '''Biomuta from WSU JSON Generator.'''
     webServiceURL = schema.TextLine(
         title=_(u'Web Service URL'),
         description=_(u'The Uniform Resource Locator to the DMCC SOAP web service.'),

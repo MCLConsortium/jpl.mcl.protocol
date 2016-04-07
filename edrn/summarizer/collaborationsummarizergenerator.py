@@ -87,9 +87,6 @@ class ICollaborationSummarizerGenerator(ISummarizerGenerator):
 class CollaborationJsonGenerator(grok.Adapter):
     '''A Json generator that produces statements about EDRN's biomarker statistics using the BMDB's web service.'''
     def updateCollaborativeGroup(self, objects, groups, allObj, collabFreq):
-        print "updateCollab"
-        print "groups"
-        print groups
         for groupID in groups:
             groupName = ""
             if groupID in COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES:
@@ -100,8 +97,6 @@ class CollaborationJsonGenerator(grok.Adapter):
                 groupName = groupID
             else:
                 continue
-            print "objects:"
-            print objects
             for obj in objects:
                 #if obj not in allObj:
                 #    allObj[obj]=1
@@ -113,9 +108,6 @@ class CollaborationJsonGenerator(grok.Adapter):
         return collabFreq
 
     def updateCollaboratorFreq(self, biomarker, predicates, allBiomarkers, collabBmFreq):
-        print "updateBm"
-        print "accessGroups"
-        print predicates[_groupPredicateURI]
         for accessGroup in predicates[_groupPredicateURI]:
             collabGroup = COLLABORATIVE_GROUP_BMDB_IDS_TO_NAMES.get(accessGroup)
             if not collabGroup: continue

@@ -1,26 +1,26 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:tal="http://xml.zope.org/namespaces/tal"
     xmlns:metal="http://xml.zope.org/namespaces/metal" xmlns:i18n="http://xml.zope.org/namespaces/i18n" xml:lang="en" lang="en"
-    metal:use-macro="context/main_template/macros/master" i18n:domain="edrn.rdf">
+    metal:use-macro="context/main_template/macros/master" i18n:domain="edrn.summarizer">
     <body>
         <metal:main fill-slot="main">
             <metal:main define-macro="main" tal:define="successCount view/count; failureCount view/numFailed;">
-                <h1 class="documentFirstHeading" i18n:translate="rdfUpdateReportHeading">
-                    RDF Update Report
+                <h1 class="documentFirstHeading" i18n:translate="summarizeUpdateReportHeading">
+                    Summarizer Update Report
                 </h1>
-                <p class="documentDescription" i18n:translate="rdfUpdateReportDescription">
-                    This report shows the results of the RDF update.
+                <p class="documentDescription" i18n:translate="summarizeUpdateReportDescription">
+                    This report shows the results of the Summarizer update.
                 </p>
                 <p>
-                    <label for="numberSuccesses" i18n:translate="rdfUpdateLabelNumSuccess">Sources updated:</label>
+                    <label for="numberSuccesses" i18n:translate="summarizeUpdateLabelNumSuccess">Sources updated:</label>
                     <span id="numberSuccesses" tal:content="successCount">42</span>
                 </p>
                 <div tal:condition="python:failureCount &gt; 0">
-                    <h2 i18n:translate="rdfUpdateFailuresHeading">Not Updated</h2>
+                    <h2 i18n:translate="summarizeUpdateFailuresHeading">Not Updated</h2>
                     <table tal:define="failures view/failures" class="listing">
                         <thead>
                             <tr>
-                                <th i18n:translate="rdfUpdateFailuresColHeadingTitle">Source</th>
-                                <th i18n:translate="rdfUpdateFailuresColHeadingMessage">Reason</th>
+                                <th i18n:translate="summarizeUpdateFailuresColHeadingTitle">Source</th>
+                                <th i18n:translate="summarizeUpdateFailuresColHeadingMessage">Reason</th>
                             </tr>
                         </thead>
                         <tbody>
