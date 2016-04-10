@@ -88,6 +88,7 @@ class CollaborationJsonGenerator(grok.Adapter):
     '''A Json generator that produces statements about EDRN's biomarker statistics using the BMDB's web service.'''
     def updateCollaborativeGroup(self, objects, groups, allObj, collabFreq):
         for groupID in groups:
+            print "groupID"+groupID
             groupName = ""
             if groupID in COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES:
                 groupName = COLLABORATIVE_GROUP_ECAS_IDS_TO_NAMES[groupID]
@@ -188,8 +189,12 @@ class CollaborationJsonGenerator(grok.Adapter):
         graph = ConjunctiveGraph()
         graph.parse(URLInputSource(protocolDataSource))
         statements = self._parseRDF(graph)
+        print "ingesting protocol"
         for uri, predicates in statements.items():
             if _collaborativeGroupProURI in predicates:
+                print "we are in!"
+                print "arg1"+predicates[_protocolNameURI]
+                print "arg2"+predicates[_collaborativeGroupProURI]
                 collabProtoFreq = self.updateCollaborativeGroup(predicates[_protocolNameURI], predicates[_collaborativeGroupProURI], allProtocols, collabProtoFreq)
 
         graph = ConjunctiveGraph()

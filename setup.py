@@ -33,6 +33,7 @@ _requirements = [
     'Products.CMFPlone',
     'rdflib',
     'jsonlib',
+    'biopython',
     'setuptools',
     'z3c.suds',
 ]
