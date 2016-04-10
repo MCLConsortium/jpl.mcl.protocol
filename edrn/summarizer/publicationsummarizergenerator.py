@@ -6,7 +6,7 @@
 '''
 
 from Acquisition import aq_inner
-from edrn.summarizer import _
+from edrn.summarizer import _, ENTREZ_TOOL, ENTREZ_EMAIL
 from five import grok
 from interfaces import IJsonGenerator
 from summarizergenerator import ISummarizerGenerator
@@ -30,6 +30,9 @@ _publicationTypeURI = URIRef('http://edrn.nci.nih.gov/rdf/types.rdf#Publication'
 _typeURI            = URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
 _pmidURI            = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#pmid')
 _yearURI            = URIRef('http://edrn.nci.nih.gov/rdf/schema.rdf#year')
+
+Entrez.tool = ENTREZ_TOOL
+Entrez.email = ENTREZ_EMAIL
 
 class IPublicationSummarizerGenerator(ISummarizerGenerator):
     '''Publication JSON Statistics Generator.'''
@@ -105,43 +108,18 @@ class PublicationJsonGenerator(grok.Adapter):
             group = identifiers[:FETCH_GROUP_SIZE]
             identifiers = identifiers[FETCH_GROUP_SIZE:]
             yield group
-    def createMissingPublications(self, identifiers, allPublications, pubMedYears):
+    def queryPubmedYear(self, identifiers, allPublications, pubMedYears):
         u'''Given a dict {uri → PubMedID}, create Publications using data from PubMed.  Return a sequence
         of CreatedObjects.'''
         context = aq_inner(self.context)
         normalize = getUtility(IIDNormalizer).normalize
         for group in self.divvy(identifiers):
             identifiers, pubMedIDs = [i[0] for i in group], [i[1] for i in group]
-            print "Parameters"
-            print pubMedIDs
-            #_logger.warning(u'Fetching from Entrez %d PubMedIDs', len(pubMedIDs))
             with contextlib.closing(Entrez.efetch(db='pubmed',retmode='xml',rettype='medline',id=pubMedIDs)) as handle:
-                print "Handle"
-                print handle
                 records = Entrez.read(handle)
                 for i in zip(identifiers, records):
                     identifier, medline = unicode(i[0]), i[1]
                     pubMedID = unicode(medline[u'MedlineCitation'][u'PMID'])
-                    #title = self.getTitle(medline)
-                    #objID = normalize(pubMedID + u' ' + title)
-                    #try:
-                    #    pub = context[context.invokeFactory('Publication', objID)]
-                    #except:
-                    #    _logger.warning('Publication %s already exists, skipping', objID)
-                    #    continue
-                    #pub.identifier = identifier
-                    #pub.title = title
-                    #abstract = medline[u'MedlineCitation'][u'Article'].get(u'Abstract', None)
-                    #if abstract:
-                    #    paragraphs = abstract.get(u'AbstractText', [])
-                    #    if len(paragraphs) > 0:
-                    #        pub.abstract = u'\n'.join([u'<p>{}</p>'.format(cgi.escape(j)) for j in paragraphs])
-                    #self.setAuthors(pub, medline)
-                    #issue = medline[u'MedlineCitation'][u'Article'][u'Journal'][u'JournalIssue'].get(u'Issue', None)
-                    #if issue: pub.issue = unicode(issue)
-                    #volume = medline[u'MedlineCitation'][u'Article'][u'Journal'][u'JournalIssue'].get(u'Volume', None)
-                    #if volume: pub.volume = unicode(volume)
-                    #pub.journal = unicode(medline[u'MedlineCitation'][u'Article'][u'Journal'][u'ISOAbbreviation'])
                     year = medline[u'MedlineCitation'][u'Article'][u'Journal'][u'JournalIssue'][u'PubDate'].get(
                         u'Year', None
                     )
@@ -154,14 +132,6 @@ class PublicationJsonGenerator(grok.Adapter):
                             pubMedYears[year] += 1
                         else:
                             pubMedYears[year] = 1
-                    #month = medline[u'MedlineCitation'][u'Article'][u'Journal'][u'JournalIssue'][u'PubDate'].get(
-                    #    u'Month', None
-                    #)
-
-                    #if month: pub.month = unicode(month)
-                    #pub.pubMedID = pubMedID
-                    #pub.reindexObject()
-                    #createdObjects.append(CreatedObject(pub))
         return pubMedYears
 
     def _parseRDF(self, graph):
@@ -185,8 +155,7 @@ class PublicationJsonGenerator(grok.Adapter):
         allPublications = {}
         statements = self.getRDFStatements()
         allPubmedIds, pubMedYears = self.getIdentifiersForPubMedID(statements, pubMedYears)
-        pubMedYears = self.createMissingPublications(allPubmedIds, allPublications, pubMedYears)
-        print pubMedYears
+        pubMedYears = self.queryPubmedYear(allPubmedIds, allPublications, pubMedYears)
 
         # C'est tout.
         return jsonlib.write(pubMedYears)

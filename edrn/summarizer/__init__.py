@@ -7,6 +7,8 @@
 
 from zope.i18nmessageid import MessageFactory
 
-PACKAGE_NAME = __name__
+PACKAGE_NAME    = __name__
 DEFAULT_PROFILE = u'profile-' + PACKAGE_NAME + ':default'
-_ = MessageFactory(PACKAGE_NAME)
+_               = MessageFactory(PACKAGE_NAME)
+ENTREZ_TOOL     = 'edrn-portal'
+ENTREZ_EMAIL    = 'sean.kelly@nih.gov'
