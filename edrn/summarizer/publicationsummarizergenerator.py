@@ -25,6 +25,7 @@ from Bio import Entrez
 
 # Constants
 FETCH_GROUP_SIZE = 450 # Fetch this many publications in Entrez.fetch, pausing to construct objects between each
+START_YEAR = 2000
 
 _publicationTypeURI = URIRef('http://edrn.nci.nih.gov/rdf/types.rdf#Publication')
 _typeURI            = URIRef('http://www.w3.org/1999/02/22-rdf-syntax-ns#type')
@@ -93,6 +94,8 @@ class PublicationJsonGenerator(grok.Adapter):
             pubMedIDs.add(pmID)
             if _yearURI in predicates:
                 year = predicates[_yearURI][0]
+                if int(year) < START_YEAR:
+                    continue
                 #Get pubmed year frequencies
                 if year in pubMedYears:
                     pubMedYears[year] += 1
@@ -124,6 +127,8 @@ class PublicationJsonGenerator(grok.Adapter):
                         u'Year', None
                     )
                     if not year or year is None : continue
+                    if int(year) < START_YEAR:
+                        continue
                     year = str(unicode(year))
                     if pubMedID not in allPublications:
                         allPublications[pubMedID] = 1
