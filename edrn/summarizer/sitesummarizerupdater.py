@@ -11,10 +11,10 @@ import logging
 
 _logger = logging.getLogger('edrn.summarizer')
 
-class SiteJSONUpdater(grok.View):
-    '''A "view" that instructs all JSON sources to generate fresh JSON.'''
+class SiteSummarizerUpdater(grok.View):
+    '''A "view" that instructs all Summarizer sources to generate fresh summaries.'''
     grok.context(INavigationRoot)
-    grok.name('updateJSON')
+    grok.name('updateSummary')
     grok.require('cmf.ManagePortal')
     def update(self):
         self.request.set('disable_border', True)
@@ -25,9 +25,9 @@ class SiteJSONUpdater(grok.View):
             source = i.getObject()
             updater = ISummarizerUpdater(source)
             try:
-                updater.updateJSON()
+                updater.updateSummary()
                 self.count += 1
             except Exception, ex:
-                _logger.exception('Failure updating JSON for "%s"', i.getPath())
+                _logger.exception('Failure updating Summarizer for "%s"', i.getPath())
                 self.failures.append(dict(title=i.Title, url=source.absolute_url(), message=unicode(ex)))
         self.numFailed = len(self.failures)

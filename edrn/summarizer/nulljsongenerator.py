@@ -7,19 +7,19 @@ a statement graph, always produces an empty graph containing no statements whats
 '''
 
 from five import grok
-from interfaces import IGraphGenerator
+from interfaces import IJsonGenerator
 from summarizergenerator import ISummarizerGenerator
-import rdflib
+import jsonlib
 
-class INullRDFGenerator(ISummarizerGenerator):
+class INullJsonGenerator(ISummarizerGenerator):
     '''A null Summarizer generator that produces no statements at all.'''
     
 
 class NullGraphGenerator(grok.Adapter):
     '''A statement graph generator that always produces an empty graph.'''
-    grok.provides(IGraphGenerator)
-    grok.context(INullRDFGenerator)
-    def generateGraph(self):
+    grok.provides(IJsonGenerator)
+    grok.context(INullJsonGenerator)
+    def generateJson(self):
         '''Generate an empty graph.'''
-        return rdflib.Graph()
+        return jsonlib.write({})
     

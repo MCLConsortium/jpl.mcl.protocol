@@ -15,6 +15,11 @@ class NoGeneratorError(SummarizerUpdateError):
     def __init__(self, summarizationSource):
         super(NoGeneratorError, self).__init__(summarizationSource, 'No Summarizer generator configured')
 
+class UnknownGeneratorError(SummarizerUpdateError):
+    '''Exception indicating that an Summarizer generator is an unknown generator type.'''
+    def __init__(self, summarizationSource):
+        super(UnknownGeneratorError, self).__init__(summarizationSource, 'Unknown Summarizer generator configured')
+
 class NoUpdateRequired(SummarizerUpdateError):
     '''A quasi-exceptional condition that indicates no Summarizer update is necessary.'''
     def __init__(self, summarizationSource):

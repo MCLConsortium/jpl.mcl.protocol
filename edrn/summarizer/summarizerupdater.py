@@ -5,7 +5,7 @@
 from rdflib import Graph
 from rdflib.compare import isomorphic
 from Acquisition import aq_inner
-from edrn.summarizer.interfaces import ISummarizerUpdater, IJsonGenerator
+from edrn.summarizer.interfaces import ISummarizerUpdater, IJsonGenerator, IGraphGenerator
 from edrn.summarizer.summarizersource import ISummarizerSource
 from z3c.relationfield import RelationValue
 from zope.app.intid.interfaces import IIntIds
@@ -13,7 +13,7 @@ from zope.component import getUtility
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
 from five import grok
-from exceptions import NoGeneratorError, NoUpdateRequired, SourceNotActive
+from exceptions import NoGeneratorError, NoUpdateRequired, SourceNotActive, UnknownGeneratorError
 import datetime
 
 SUMMARIZER_XML_MIMETYPE = 'application/rdf+xml'
@@ -25,7 +25,7 @@ class SummarizerUpdater(grok.Adapter):
     grok.context(ISummarizerSource)
     def __init__(self, context):
         self.context = context
-    def updateJSON(self):
+    def updateSummary(self):
         context = aq_inner(self.context)
         # If the Summarizer Source is inactive, we're done
         if not context.active:
@@ -36,9 +36,21 @@ class SummarizerUpdater(grok.Adapter):
         generator = context.generator.to_object
         generatorPath = '/'.join(generator.getPhysicalPath())
         # Adapt the generator to a graph generator, and get the graph in XML form.
-        generator = IJsonGenerator(generator)
-        json = generator.generateJson()
-
+        serialized = None
+        mimetype = None
+        if generator.datatype == 'json':
+            generator = IJsonGenerator(generator)
+            json = generator.generateJson()
+            serialized = json
+            mimetype = SUMMARIZER_JSON_MIMETYPE
+        elif generator.datatype == 'rdf':
+            generator = IGraphGenerator(generator)
+            rdf = generator.generateGraph()
+            serialized = rdf.serialize()
+            mimetype = SUMMARIZER_XML_MIMETYPE
+        else:
+            raise UnknownGeneratorError(context)
+            
         # Is there an active file?
         #if context.approvedFile:
             # Is it identical to what we just generated?
@@ -48,16 +60,16 @@ class SummarizerUpdater(grok.Adapter):
 
         # Create a new file and set it active
         # TODO: Add validation steps here
-        serialized = json
+
         timestamp = datetime.datetime.utcnow().isoformat()
         newFile = context[context.invokeFactory(
             'File',
             context.generateUniqueId('File'),
-            title=u'JSON %s' % timestamp,
+            title=u'Summary %s' % timestamp,
             description=u'Generated at %s by %s' % (timestamp, generatorPath),
             file=serialized,
         )]
-        newFile.getFile().setContentType(SUMMARIZER_JSON_MIMETYPE)
+        newFile.getFile().setContentType(mimetype)
         newFile.reindexObject()
         intIDs = getUtility(IIntIds)
         newFileID = intIDs.getId(newFile)

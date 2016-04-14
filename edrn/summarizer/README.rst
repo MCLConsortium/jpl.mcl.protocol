@@ -74,8 +74,8 @@ all it ever does it make zero statements about anything.  It's not very
 useful, but it's nice to have for testing.  Check it out::
 
     >>> browser.open(portalURL)
-    >>> l = browser.getLink(id='edrn-summarizer-nullrdfgenerator')
-    >>> l.url.endswith('++add++edrn.summarizer.nullrdfgenerator')
+    >>> l = browser.getLink(id='edrn-summarizer-nulljsongenerator')
+    >>> l.url.endswith('++add++edrn.summarizer.nulljsongenerator')
     True
     >>> l.click()
     >>> browser.getControl(name='form.widgets.title').value = u'Silence'
@@ -150,6 +150,38 @@ active box when we made it.  So, let's fix that and re-tickle::
     >>> browser.getControl(name='form.buttons.save').click()
     >>> browser.open(portalURL + '/@@updateJSON')
     >>> browser.contents
-    '...Sources updated:...<span id="numberSuccesses">0</span>...'
+    '...Sources updated:...<span id="numberSuccesses">1</span>...'
 
-To be continued, need to add more tests, the simple test is not working!!
+That looks promising: one source got updated.  I hope it was our simple source::
+
+    >>> browser.open(portalURL + '/a-simple-source/@@json')
+    >>> browser.isHtml
+    False
+    >>> browser.headers['content-type']
+    'application/json'
+    >>> browser.contents
+    '{}'
+
+Finally, an JSON graph that makes absolutely no statements!
+
+    The Simple Source now contains a single File object:
+    >>> len(source.keys())
+    1
+    >>> generatedFileID = source.keys()[0]
+    >>> generatedFileID.startswith('file.')
+    True
+    >>> source.approvedFile.to_object.id == generatedFileID
+    True
+
+By the way, that "updateJSON" is a Zope view that's available at the site root
+only::
+
+    >>> browser.open(portalURL + '/a-simple-source/@@updateJSON')
+    Traceback (most recent call last):
+    ...
+    NotFound:   <h2>Site Error</h2>
+    ...
+
+Now, how about some JSON that *makes a statement*?
+
+

@@ -2,7 +2,7 @@
 # Copyright 2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
-'''Biomarker Json Generator. An Json generator that describes EDRN biomarker mutation statistics using Biomarker webservices.
+'''Collaboration Json Generator. An Json generator that describes EDRN collaboration mutation statistics using collaboration webservices.
 '''
 
 from Acquisition import aq_inner
@@ -85,7 +85,7 @@ class ICollaborationSummarizerGenerator(ISummarizerGenerator):
     )
 
 class CollaborationJsonGenerator(grok.Adapter):
-    '''A Json generator that produces statements about EDRN's biomarker statistics using the BMDB's web service.'''
+    '''A Json generator that produces statements about EDRN's collaboration frequencies using the BMDB's web service.'''
     def updateCollaborativeGroup(self, objects, groups, allObj, collabFreq):
         for groupID in groups:
             groupID = Literal(groupID.strip())
@@ -170,7 +170,7 @@ class CollaborationJsonGenerator(grok.Adapter):
                 objID = hgnc if hgnc else normalizerFunction(title)
                 if URIRef(uri) in allBiomarkers:
                     continue
-                #Add frequencies for biomarker associated with biomarker type (Gene, Protein, etc...)
+                #Add frequencies for collaboration associated with frequencies in contribution
                 if isPanel:
                     collabPnFreq = self.updateCollaboratorFreq(objID, predicates, allBiomarkers, collabPnFreq)
                 else:

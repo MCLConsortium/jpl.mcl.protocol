@@ -50,7 +50,7 @@ class View(grok.View):
     '''Sumarizer output from an Summarizer source.'''
     grok.context(ISummarizerSource)
     grok.require('zope2.View')
-    grok.name('json')
+    grok.name('summary')
     def render(self):
         context = aq_inner(self.context)
         if context.approvedFile and context.approvedFile.to_object:

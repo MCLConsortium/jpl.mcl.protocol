@@ -54,7 +54,8 @@ def createBiomutaGenerator(context):
         mutCountPredicateURI=u'http://edrn.nci.nih.gov/xml/rdf/edrn.summarizer#mutationCount',
         pmidCountPredicateURI=u'http://edrn.nci.nih.gov/xml/rdf/edrn.summarizer#pubmedIDCount',
         cancerDOCountPredicateURI=u'http://edrn.nci.nih.gov/xml/rdf/edrn.summarizer#cancerDOCount',
-        affProtFuncSiteCountPredicateURI=u'http://edrn.nci.nih.gov/xml/rdf/edrn.summarizer#affectedProtFuncSiteCount'
+        affProtFuncSiteCountPredicateURI=u'http://edrn.nci.nih.gov/xml/rdf/edrn.summarizer#affectedProtFuncSiteCount',
+        datatype = u'rdf'
     )
 
 def createPublicationGenerator(context):
@@ -65,6 +66,7 @@ def createPublicationGenerator(context):
         description=u'Generates json describing the EDRN\'s publication statistics.',
         rdfDataSource=_dmccpublicationURL,
         additionalDataSources=_bmdbpublicationURL,
+        datatype = u'json'
     )
 
 def createBiomarkerGenerator(context):
@@ -75,6 +77,17 @@ def createBiomarkerGenerator(context):
         description=u'Generates json describing the EDRN\'s biomaker statistics.',
         biomarkerURL=_biomarkerURL,
         organURL    =_organURL,
+        datatype = u'json'
+    )
+
+def createExtResourceGenerator(context):
+    return createContentInContainer(
+        context,
+        'edrn.summarizer.extresourcesummarizergenerator',
+        title=u'External Resource Generator',
+        description=u'Generates json describing the EDRN\'s External Resource information.',
+        biomarkerURL=_biomarkerURL,
+        datatype = u'json'
     )
 
 def createCollaborationGenerator(context):
@@ -87,6 +100,7 @@ def createCollaborationGenerator(context):
         dataURL =_fmproddatasetURL,
         protocolURL =_dmccprotocolURL,
         memberURL =_dmcccommitteeURL,
+        datatype = u'json'
     )
 
 def createSummarizerGenerators(context):
@@ -95,9 +109,10 @@ def createSummarizerGenerators(context):
         'Folder', 'summarizer-generators', title=u'Summarizer Generators', description=u'These objects are used to generate graphs of statements.'
     )]
     generators['biomuta']           = createBiomutaGenerator(folder)
-    generators['biomarker']           = createBiomarkerGenerator(folder)
-    generators['publication']           = createPublicationGenerator(folder)
-    generators['collaboration']           = createCollaborationGenerator(folder)
+    generators['biomarker']         = createBiomarkerGenerator(folder)
+    generators['publication']       = createPublicationGenerator(folder)
+    generators['collaboration']     = createCollaborationGenerator(folder)
+    generators['extresources']      = createExtResourceGenerator(folder)
 
     return generators
 
@@ -109,7 +124,8 @@ def createSummarizerSources(context, generators):
         ('biomuta', u'Biomuta', u'Source of Summarizer for biomarker mutation statistics in EDRN.'),
         ('publication', u'Publication', u'Source of Summarizer for publication statistics in EDRN.'),
         ('collaboration', u'Collaboration', u'Source of Summarizer for collaboration statistics in EDRN.'),
-        ('biomarker', u'Biomarker', u'Source of Summarizer for biomarker statistics in EDRN.')
+        ('biomarker', u'Biomarker', u'Source of Summarizer for biomarker statistics in EDRN.'),
+        ('extresources', u'External Resources', u'Source of Summarizer for External Resource references in EDRN.')
     ):
         generator = RelationValue(generators[objID])
         createContentInContainer(folder, 'edrn.summarizer.summarizersource', title=title, description=desc, generator=generator, active=True)

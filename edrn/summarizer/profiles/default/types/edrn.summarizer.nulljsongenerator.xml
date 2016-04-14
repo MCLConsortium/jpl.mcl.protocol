@@ -3,16 +3,16 @@
 Copyright 2012 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
-<object name='edrn.summarizer.nullrdfgenerator' meta_type='Dexterity FTI' i18n:domain='edrn.summarizer'
+<object name='edrn.summarizer.nulljsongenerator' meta_type='Dexterity FTI' i18n:domain='edrn.summarizer'
     xmlns:i18n='http://xml.zope.org/namespaces/i18n'>
-    <property name='title' i18n:translate=''>Null RDF Generator</property>
-    <property name='description' i18n:translate=''>A generator of RDF that never makes any statements.</property>
-    <property name='content_icon'>++resource++edrn.summarizer/nullrdfgenerator.png</property>
+    <property name='title' i18n:translate=''>Null Json Generator</property>
+    <property name='description' i18n:translate=''>A generator of Json that never makes any statements.</property>
+    <property name='content_icon'>++resource++edrn.summarizer/nulljsongenerator.png</property>
     <property name='allow_discussion'>False</property>
     <property name='global_allow'>True</property>
     <property name='filter_content_types'>True</property>
     <property name='allowed_content_types' />
-    <property name='schema'>edrn.summarizer.nullrdfgenerator.INullRDFGenerator</property>
+    <property name='schema'>edrn.summarizer.nulljsongenerator.INullJsonGenerator</property>
     <property name='klass'>plone.dexterity.content.Item</property>
     <property name='add_permission'>cmf.AddPortalContent</property>
     <property name='behaviors'>

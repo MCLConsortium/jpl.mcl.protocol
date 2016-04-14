@@ -5,12 +5,10 @@ RESERVED. U.S. Government Sponsorship acknowledged.
 -->
 <object name='portal_types' meta_type='Plone Types Tool'>
     <object name='edrn.summarizer.summarizersource' meta_type='Dexterity FTI' />
-    <object name='edrn.summarizer.nullrdfgenerator' meta_type='Dexterity FTI' />
-    <object name='edrn.summarizer.literalpredicatehandler' meta_type='Dexterity FTI' />
-    <object name='edrn.summarizer.multiliteralpredicatehandler' meta_type='Dexterity FTI' />
-    <object name='edrn.summarizer.referencepredicatehandler' meta_type='Dexterity FTI' />
+    <object name='edrn.summarizer.nulljsongenerator' meta_type='Dexterity FTI' />
     <object name='edrn.summarizer.biomutasummarizergenerator' meta_type='Dexterity FTI' />
     <object name='edrn.summarizer.biomarkersummarizergenerator' meta_type='Dexterity FTI' />
     <object name='edrn.summarizer.publicationsummarizergenerator' meta_type='Dexterity FTI' />
     <object name='edrn.summarizer.collaborationsummarizergenerator' meta_type='Dexterity FTI' />
+    <object name='edrn.summarizer.extresourcesummarizergenerator' meta_type='Dexterity FTI' />
 </object>

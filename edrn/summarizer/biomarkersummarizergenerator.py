@@ -2,7 +2,7 @@
 # Copyright 2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
-'''Biomarker Json Generator. An Json generator that describes EDRN biomarker mutation statistics using Biomarker webservices.
+'''Biomarker Json Generator. An Json generator that describes EDRN biomarker organ statistics using Biomarker webservices.
 '''
 
 from Acquisition import aq_inner
@@ -49,7 +49,7 @@ class IBiomarkerSummarizerGenerator(ISummarizerGenerator):
     )
 
 class BiomarkerJsonGenerator(grok.Adapter):
-    '''A Json generator that produces statements about EDRN's biomarker statistics using the BMDB's web service.'''
+    '''A Json generator that produces statements about EDRN's biomarker and organ statistics using the BMDB's web service.'''
     def addOrganSpecificInformation(self, biomarkers, statements, biomarkerOrganFreq):
         '''Populate JSON with body system (aka "organ") biomarker assocation statistics.'''
         for uri, predicates in statements.items():

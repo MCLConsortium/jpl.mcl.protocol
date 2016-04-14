@@ -2,7 +2,7 @@
 # Copyright 2012 California Institute of Technology. ALL RIGHTS
 # RESERVED. U.S. Government Sponsorship acknowledged.
 
-'''Biomarker Json Generator. An Json generator that describes EDRN biomarker mutation statistics using Biomarker webservices.
+'''Publicatoin Json Generator. An Json generator that describes EDRN publication statistics using publication webservices.
 '''
 
 from Acquisition import aq_inner

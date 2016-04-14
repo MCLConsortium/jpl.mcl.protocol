@@ -8,7 +8,7 @@
 from Acquisition import aq_inner
 from edrn.summarizer import _
 from five import grok
-from interfaces import IJsonGenerator
+from interfaces import IJsonGenerator, IGraphGenerator
 from summarizergenerator import ISummarizerGenerator
 from rdflib.term import URIRef, Literal
 from utils import validateAccessibleURL
@@ -78,11 +78,11 @@ class IBiomutaSummarizerGenerator(ISummarizerGenerator):
 
 class BiomutaJsonGenerator(grok.Adapter):
     '''A graph generator that produces statements about EDRN's committees using the DMCC's fatuous web service.'''
-    grok.provides(IJsonGenerator)
+    grok.provides(IGraphGenerator)
     grok.context(IBiomutaSummarizerGenerator)
-    def generateJson(self):
-        #graph = rdflib.Graph()
-        jsondata = {}
+    def generateGraph(self):
+        graph = rdflib.Graph()
+        #jsondata = {}
         context = aq_inner(self.context)
         mutations = urlopen(context.webServiceURL)
         inputPredicates = None
@@ -94,14 +94,17 @@ class BiomutaJsonGenerator(grok.Adapter):
             else:
                 geneName = elements[0].strip()
                 subjectURI = URIRef(context.uriPrefix + geneName)
-                jsondata[subjectURI] = [URIRef(context.typeURI)]
+                graph.add((subjectURI, rdflib.RDF.type, URIRef(context.typeURI)))
+                #jsondata[subjectURI] = [URIRef(context.typeURI)]
                 for idx in range(0,len(inputPredicates)):
                     key = inputPredicates[idx]
                     predicateURI = URIRef(getattr(context, _biomarkerPredicates[key]))
                     try:
-                      jsondata[subjectURI].append(Literal(elements[idx].strip()))
+                      #jsondata[subjectURI].append(Literal(elements[idx].strip()))
+                      graph.add((subjectURI, predicateURI, Literal(elements[idx].strip())))
                     except Exception as e:
                       print str(e)
 
         # C'est tout.
-        return jsonlib.write(jsondata)
+        #return jsonlib.write(jsondata)
+        return graph
