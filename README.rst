@@ -1,4 +1,4 @@
-This product, ``eke.study``, provides display and RDF ingest of participating
+This product, ``jpl.mcl.protocol``, provides display and RDF ingest of participating
 studies and medical protocols that are being executed, will be executed, or
 have been executed by the Early Detection Research Network (EDRN_).  Studies
 and protocols are the major research efforts (and therefore funded entities)

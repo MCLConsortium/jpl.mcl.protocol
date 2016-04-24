@@ -9,15 +9,15 @@ import os.path
 # Package data
 # ------------
 
-_name        = 'eke.study'
-_version     = '1.1.14'
-_description = 'Study and protocol information for the EDRN Knowledge Environment'
+_name        = 'jpl.mcl.protocol'
+_version     = '0.0.1'
+_description = 'Study and protocol information for the MCL'
 _author      = 'Sean Kelly'
 _authorEmail = 'sean.kelly@jpl.nasa.gov'
 _license     = 'ALv2'
 _namespaces  = ['eke']
 _zipSafe     = False
-_keywords    = 'web zope plone edrn cancer biomarkers eke study protocol'
+_keywords    = 'web zope plone edrn cancer biomarkers jpl.mcl.protocol protocol'
 _entryPoints = {
     'z3c.autoinclude.plugin': ['target=plone'],
 }
