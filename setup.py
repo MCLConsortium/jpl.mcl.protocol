@@ -10,12 +10,12 @@ import os.path
 # ------------
 
 _name        = 'jpl.mcl.protocol'
-_version     = '0.0.1'
+_version     = '0.0.2'
 _description = 'Study and protocol information for the MCL'
 _author      = 'Sean Kelly'
 _authorEmail = 'sean.kelly@jpl.nasa.gov'
 _license     = 'ALv2'
-_namespaces  = ['eke']
+_namespaces  = ['jpl.mcl']
 _zipSafe     = False
 _keywords    = 'web zope plone edrn cancer biomarkers jpl.mcl.protocol protocol'
 _entryPoints = {
@@ -78,7 +78,7 @@ setup(
     name=_name,
     namespace_packages=_namespaces,
     packages=find_packages(exclude=['ez_setup']),
-    url='https://github.com/EDRN/' + _name,
+    url='https://github.com/MCLConsortium/' + _name,
     version=_version,
     zip_safe=_zipSafe,
 )
