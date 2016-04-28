@@ -49,7 +49,7 @@ portal::
 Now, these things are supposed to produce JSON when called with the appropriate
 view.  Does it?
 
-    >>> browser.open(portalURL + '/a-simple-source/@@json')
+    >>> browser.open(portalURL + '/a-simple-source/@@summary')
     Traceback (most recent call last):
     ...
     ValueError: The Summarizer Source at /plone/a-simple-source does not have an active Summarizer file to send
@@ -80,6 +80,7 @@ useful, but it's nice to have for testing.  Check it out::
     >>> l.click()
     >>> browser.getControl(name='form.widgets.title').value = u'Silence'
     >>> browser.getControl(name='form.widgets.description').value = u'Just for testing.'
+    >>> browser.getControl(name='form.widgets.datatype').value = u'json'
     >>> browser.getControl(name='form.buttons.save').click()
     >>> 'silence' in portal.keys()
     True
@@ -88,6 +89,8 @@ useful, but it's nice to have for testing.  Check it out::
     u'Silence'
     >>> generator.description
     u'Just for testing.'
+    >>> generator.datatype
+    u'json'
 
 We'll set up our Summarizer source with this generator (and hand-craft the POST
 because it's AJAX)::
@@ -110,7 +113,7 @@ because it's AJAX)::
 
 The Summarizer source still doesn't produce any JSON, though::
 
-    >>> browser.open(portalURL + '/a-simple-source/@@json')
+    >>> browser.open(portalURL + '/a-simple-source/@@summary')
     Traceback (most recent call last):
     ...
     ValueError: The Summarizer Source at /plone/a-simple-source does not have an active Summarizer file to send
@@ -131,11 +134,11 @@ demanded.
 
 Tickling::
 
-    >>> browser.open(portalURL + '/@@updateJSON')
+    >>> browser.open(portalURL + '/@@updateSummary')
 
 And is there any JSON?  Let's check::
 
-    >>> browser.open(portalURL + '/a-simple-source/@@json')
+    >>> browser.open(portalURL + '/a-simple-source/@@summary')
     Traceback (most recent call last):
     ...
     ValueError: The Summarizer Source at /plone/a-simple-source does not have an active Summarizer file to send
@@ -148,13 +151,13 @@ active box when we made it.  So, let's fix that and re-tickle::
     >>> browser.open(portalURL + '/a-simple-source/edit')
     >>> browser.getControl(name='form.widgets.active:list').value = True
     >>> browser.getControl(name='form.buttons.save').click()
-    >>> browser.open(portalURL + '/@@updateJSON')
+    >>> browser.open(portalURL + '/@@updateSummary')
     >>> browser.contents
     '...Sources updated:...<span id="numberSuccesses">1</span>...'
 
 That looks promising: one source got updated.  I hope it was our simple source::
 
-    >>> browser.open(portalURL + '/a-simple-source/@@json')
+    >>> browser.open(portalURL + '/a-simple-source/@@summary')
     >>> browser.isHtml
     False
     >>> browser.headers['content-type']
@@ -173,10 +176,10 @@ Finally, an JSON graph that makes absolutely no statements!
     >>> source.approvedFile.to_object.id == generatedFileID
     True
 
-By the way, that "updateJSON" is a Zope view that's available at the site root
+By the way, that "updateSummary" is a Zope view that's available at the site root
 only::
 
-    >>> browser.open(portalURL + '/a-simple-source/@@updateJSON')
+    >>> browser.open(portalURL + '/a-simple-source/@@updateSummary')
     Traceback (most recent call last):
     ...
     NotFound:   <h2>Site Error</h2>

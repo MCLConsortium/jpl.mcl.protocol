@@ -86,6 +86,8 @@ class PublicationJsonGenerator(grok.Adapter):
             if _pmidURI not in predicates: continue
             pmID = predicates[_pmidURI][0]
             pmID = unicode(pmID).strip()
+            if _yearURI in predicates:
+                year = predicates[_yearURI][0]
             if not pmID: continue
             if pmID == u'N/A': continue
             if pmID in pubMedIDs:
@@ -93,7 +95,7 @@ class PublicationJsonGenerator(grok.Adapter):
                 continue
             pubMedIDs.add(pmID)
             if _yearURI in predicates:
-                year = predicates[_yearURI][0]
+                year = str(predicates[_yearURI][0])
                 if int(year) < START_YEAR:
                     continue
                 #Get pubmed year frequencies
@@ -103,7 +105,7 @@ class PublicationJsonGenerator(grok.Adapter):
                     pubMedYears[year] = 1
             else:
                 identifiers[uri] = pmID
-
+                
         return identifiers, pubMedYears
     def divvy(self, identifiers):
         identifiers = identifiers.items()
@@ -127,9 +129,9 @@ class PublicationJsonGenerator(grok.Adapter):
                         u'Year', None
                     )
                     if not year or year is None : continue
+                    year = str(unicode(year))
                     if int(year) < START_YEAR:
                         continue
-                    year = str(unicode(year))
                     if pubMedID not in allPublications:
                         allPublications[pubMedID] = 1
                         #Get pubmed year frequencies

@@ -6,10 +6,11 @@ identifiers appear, you can find more about them by visiting this project's
 issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
 0.0.1 - Released
-------------------
+----------------
 
 * First release
 * Generates summarized data from dmcc
+* CA-1340, edrn.summarizer tests fail
 
 0.0.0 - Unreleased
 ------------------
