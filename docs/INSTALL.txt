@@ -1,5 +1,5 @@
 edrn.summarizer Installation
-=====================
+============================
 
 Use zc.buildout and the plone.recipe.zope2instance recipe to manage your
 project, and do the following:

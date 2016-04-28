@@ -5,6 +5,17 @@ What follows is a log of changes from release to release.  Where issue
 identifiers appear, you can find more about them by visiting this project's
 issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
+0.0.3 - Tests fixed, naming corrected
+-------------------------------------
+
+* CA-1340, edrn.summarizer tests fail
+
+0.0.2 - JSON Sumarization added
+-------------------------------
+
+* Updated edrn.summarizer with json
+* CA-1329, Create a set of summarization services that summarizes and serves json data for visualizations as well as external data sources
+
 0.0.1 - Released
 ----------------
 

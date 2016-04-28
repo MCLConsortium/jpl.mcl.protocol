@@ -9,7 +9,7 @@ import os.path
 # ------------
 
 _name            = 'edrn.summarizer'
-_version         = '0.0.2'
+_version         = '0.0.3'
 _description     = 'EDRN Summarizer Server'
 _author          = 'David Liu'
 _authorEmail     = 'david.liu@jpl.nasa.gov'
