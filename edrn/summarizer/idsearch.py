@@ -49,19 +49,23 @@ class IDSearch(Service):
         newresponse = {}
         if response['success'] and response['total'] > 0:
             hit = response['hits'][0]
-            newresponse['ensembl'] = hit['ensembl']['gene']
-            newresponse['uniprot'] = hit['uniprot']['Swiss-Prot']
+            newresponse['ensembl'] = [hit['ensembl']['gene']]
+            newresponse['uniprot'] = [hit['uniprot']['Swiss-Prot']]
             pubmeds = []
             for dic in hit["generif"]:
                 pubmeds.append(str(dic['pubmed']))
-            newresponse['pubmed'] = ",".join(pubmeds)
+            newresponse['pubmed'] = pubmeds
             probeids = []
             for key in hit["reporter"].keys():
-                if not isinstance(hit["reporter"][key], basestring):
-                    hit["reporter"][key] = ",".join(hit["reporter"][key])
-                if hit["reporter"][key].endswith("_at"):
-                    probeids.append(hit["reporter"][key])
-            newresponse['probe_id'] = ",".join(probeids)
+                if isinstance(hit["reporter"][key], basestring):
+                    hit["reporter"][key] = [hit["reporter"][key]]
+                for item in hit["reporter"][key]:
+                    if item.endswith("_at"):
+                        probeids.append(item)
+
+            newresponse['probe_id'] = probeids
+            newresponse['pdb'] = [hit['pdb']]
+            newresponse['symbol'] = [hit['symbol']]
 
         return newresponse
 
@@ -136,24 +140,57 @@ class IDSearch(Service):
                 "pubmed":"PubMed ID",
                 "uniprot":"UniProt Accession"
             }
-        for key in packagedmygene.keys():
+        for key in bdbMygeneMapping.keys():
             if bdbresp[bdbMygeneMapping[key]] != "-":
-                packagedmygene[key] = re.sub(r'\/\/+',',',bdbresp[bdbMygeneMapping[key]])
+                packagedmygene[key] = re.compile(r'\/\/+').split(bdbresp[bdbMygeneMapping[key]])
 
         return packagedmygene
 
+    def addLinkAnnotation(self, geneinfo):
+        urlMapping = {
+                "symbol":"http://www.genecards.org/cgi-bin/carddisp.pl?gene=",
+                "ensembl":"http://uswest.ensembl.org/Homo_sapiens/Gene/Summary?g=",
+                "pdb":"http://www.rcsb.org/pdb/explore.do?structureId=",
+                "pubmed":"http://www.ncbi.nlm.nih.gov/pubmed/",
+                "uniprot":"http://www.uniprot.org/uniprot/"
+            }
+        titleMapping = {
+                "symbol":"GeneCards",
+                "ensembl":"Ensembl",
+                "pdb":"PDB",
+                "pubmed":"PubMed",
+                "uniprot":"Uniprot",
+                "probe_id":"Probe ID"
+            }
+        newgeneinfo = {}
+        for key in geneinfo.keys():
+
+            newgeneinfo[key] = {}
+            if key in titleMapping.keys():
+                newgeneinfo[key]['Title'] = titleMapping[key]
+
+            uriprefix = ""
+            newgeneinfo[key]['Items'] = []
+            if key in urlMapping.keys():
+                uriprefix = urlMapping[key]
+            for item in geneinfo[key]:
+                newgeneinfo[key]['Items'].append(uriprefix + item)
+
+        return newgeneinfo
+            
     def render(self):
         if len(self.params) > 0:
             id = self.params[0]
             mygeneresults = self.queryMyGene(id)
-            final_ids = self.packageMyGeneResp(mygeneresults)
+            #biomartresults = self.queryBiomart(id)    - disabled because biomart is currently under maintenance
+            tempids = self.packageMyGeneResp(mygeneresults)
             bdbresp = self.queryBioDBnet(id)
             
             if len(bdbresp.keys()) > 0:
-                final_ids = self.replaceBDBwithMyGene(bdbresp, final_ids)
+                tempids = self.replaceBDBwithMyGene(bdbresp, tempids)
 
-            #biomartresults = self.queryBiomart(id)    - disabled because biomart is currently under maintenance
-
+            final_ids = self.addLinkAnnotation(tempids)
             return final_ids
+
         else:
             return {'Error': "No query inputed. Please use idsearch/query to get info on your prospective id"}
