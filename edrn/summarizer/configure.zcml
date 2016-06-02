@@ -8,6 +8,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     xmlns:browser='http://namespaces.zope.org/browser'
     xmlns:grok='http://namespaces.zope.org/grok'
     xmlns:zcml='http://namespaces.zope.org/zcml'
+    xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
     i18n_domain='edrn.summarizer'>
     <include package='z3c.autoinclude' file='meta.zcml' />
@@ -37,6 +38,14 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         zcml:condition='installed Products.GenericSetup.upgrade'
         file='upgrades.zcml'
     />
+    <plone:service
+      method="GET"
+      accept="application/json"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      factory=".idsearch.IDSearch"
+      name="idsearch"
+      permission="zope2.View" 
+      />
 </configure>
 <!--
 What was I thinking here?

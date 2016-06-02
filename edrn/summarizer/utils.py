@@ -38,6 +38,20 @@ def splitDMCCRows(horribleString):
     i = i[1:] # Skip first item, which is the empty string to the left of the first row separator
     return i
 
+
+#converts csv file into dictionary, colkey and colvay determines which column
+#is key and which column is value in the dictionary
+def csvToDict(file, colkey, colval):
+  dict = {}
+  with open(file) as f:
+    for line in f:
+      line_split = line.split(",")
+      if line_split[colkey].strip() not in list(dict.keys()):
+         dict[line_split[colkey].strip()] = []
+      dict[line_split[colkey].strip()].append(line_split[colval].strip())
+    f.close()
+  return dict
+
 _biomutaRowSep = re.compile(u'\t')
 def splitBiomutaRows(horribleString):
     u'''Split a horrible Biomuta string into rows.  Returns an iterable.'''
