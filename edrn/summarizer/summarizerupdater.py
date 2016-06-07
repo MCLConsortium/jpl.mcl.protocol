@@ -15,6 +15,7 @@ from zope.lifecycleevent import ObjectModifiedEvent
 from five import grok
 from exceptions import NoGeneratorError, NoUpdateRequired, SourceNotActive, UnknownGeneratorError
 import datetime
+import jsonlib
 
 SUMMARIZER_XML_MIMETYPE = 'application/rdf+xml'
 SUMMARIZER_JSON_MIMETYPE = 'application/json'
@@ -40,23 +41,33 @@ class SummarizerUpdater(grok.Adapter):
         mimetype = None
         if generator.datatype == 'json':
             generator = IJsonGenerator(generator)
-            json = generator.generateJson()
-            serialized = json
+            serialized = generator.generateJson()
+            json = jsonlib.read(serialized)
             mimetype = SUMMARIZER_JSON_MIMETYPE
+
+            # Is there an active file?
+            if context.approvedFile:
+                # Is it identical to what we just generated?
+                print context.approvedFile.to_object.get_data()
+                current = jsonlib.read(context.approvedFile.to_object.get_data())
+                if sorted(json.items()) == sorted(current.items()):
+                    raise NoUpdateRequired(context)
+
         elif generator.datatype == 'rdf':
             generator = IGraphGenerator(generator)
             rdf = generator.generateGraph()
             serialized = rdf.serialize()
             mimetype = SUMMARIZER_XML_MIMETYPE
+
+            # Is there an active file?
+            if context.approvedFile:
+                # Is it identical to what we just generated?
+                current = Graph().parse(data=context.approvedFile.to_object.get_data())
+                if isomorphic(rdf, current):
+                    raise NoUpdateRequired(context)
         else:
             raise UnknownGeneratorError(context)
             
-        # Is there an active file?
-        #if context.approvedFile:
-            # Is it identical to what we just generated?
-        #    current = Graph().parse(data=context.approvedFile.to_object.get_data())
-        #    if isomorphic(json, current):
-        #        raise NoUpdateRequired(context)
 
         # Create a new file and set it active
         # TODO: Add validation steps here

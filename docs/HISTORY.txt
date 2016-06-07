@@ -5,6 +5,12 @@ What follows is a log of changes from release to release.  Where issue
 identifiers appear, you can find more about them by visiting this project's
 issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 
+0.0.4 - ID Webservice
+---------------------
+
+* CA-1352
+* CA-1353
+
 0.0.3 - Tests fixed, naming corrected
 -------------------------------------
 
