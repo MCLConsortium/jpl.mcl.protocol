@@ -15,11 +15,11 @@ _dmccURL = u'https://www.compass.fhcrc.org/edrn_ws/ws_newcompass.asmx?WSDL'
 _biomutaURL = u'https://hive.biochemistry.gwu.edu/tools/biomuta/download.php?file=BioMuta_stat.csv'
 _biomarkerURL = u'https://edrn.jpl.nasa.gov/bmdb/rdf/biomarkers?qastate=all'
 _organURL = u'https://edrn.jpl.nasa.gov/bmdb/rdf/biomarkerorgans?qastate=all'
-_dmccpublicationURL = u'http://edrn.jpl.nasa.gov/dmcc/rdf-data/publications/@@rdf'
+_dmccpublicationURL = u'http://edrn.jpl.nasa.gov/cancerdataexpo/rdf-data/publications/@@rdf'
 _bmdbpublicationURL = u'http://edrn.jpl.nasa.gov/bmdb/rdf/publications'
 _fmproddatasetURL  = u'http://edrn.jpl.nasa.gov/fmprodp3/rdf/dataset?type=ALL&baseUrl=http://edrn.jpl.nasa.gov/ecas/data/dataset'
-_dmccprotocolURL = u'http://edrn.jpl.nasa.gov/dmcc/rdf-data/protocols/@@rdf'
-_dmcccommitteeURL = u'http://edrn.jpl.nasa.gov/dmcc/rdf-data/committees/@@rdf'
+_dmccprotocolURL = u'http://edrn.jpl.nasa.gov/cancerdataexpo/rdf-data/protocols/@@rdf'
+_dmcccommitteeURL = u'http://edrn.jpl.nasa.gov/cancerdataexpo/rdf-data/committees/@@rdf'
 
 def addDCTitle(context, key):
     createContentInContainer(
