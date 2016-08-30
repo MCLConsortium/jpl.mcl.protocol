@@ -45,27 +45,50 @@ class IDSearch(Service):
             results['success'] = True
 
         return results
+
     def packageMyGeneResp(self, response):
         newresponse = {}
         if response['success'] and response['total'] > 0:
-            hit = response['hits'][0]
-            newresponse['ensembl'] = [hit['ensembl']['gene']]
-            newresponse['uniprot'] = [hit['uniprot']['Swiss-Prot']]
-            pubmeds = []
-            for dic in hit["generif"]:
-                pubmeds.append(str(dic['pubmed']))
-            newresponse['pubmed'] = pubmeds
-            probeids = []
-            for key in hit["reporter"].keys():
-                if isinstance(hit["reporter"][key], basestring):
-                    hit["reporter"][key] = [hit["reporter"][key]]
-                for item in hit["reporter"][key]:
-                    if item.endswith("_at"):
-                        probeids.append(item)
+            newresponse["uniprot"] = []
+            newresponse["probe_id"] = []
+            newresponse["pubmed"] = []
+            newresponse["pdb"] = []
+            newresponse["symbol"] = []
+            newresponse["ensembl"] = []
 
-            newresponse['probe_id'] = probeids
-            newresponse['pdb'] = [hit['pdb']]
-            newresponse['symbol'] = [hit['symbol']]
+            for hit in response['hits']:
+                if 'ensembl' in hit:
+                    if 'gene' in hit['ensembl']:
+                        if not isinstance(hit['ensembl']['gene'], basestring):
+                            newresponse['ensembl'] += hit['ensembl']['gene']
+                        else:
+                            newresponse['ensembl'] += [hit['ensembl']['gene']]
+                if 'uniprot' in hit:
+                    if 'Swiss-Prot' in hit['uniprot']:
+                        if not isinstance(hit['uniprot']['Swiss-Prot'], basestring):
+                            newresponse['uniprot'] += hit['uniprot']['Swiss-Prot']
+                        else:
+                            newresponse['uniprot'] += [hit['uniprot']['Swiss-Prot']]
+                if 'generif' in hit:
+                    pubmeds = []
+                    for dic in hit["generif"]:
+                        pubmeds.append(str(dic['pubmed']))
+                    newresponse['pubmed'] += pubmeds
+                if "reporter" in hit:
+                    probeids = []
+                    for key in hit["reporter"].keys():
+                        if isinstance(hit["reporter"][key], basestring):
+                            hit["reporter"][key] = [hit["reporter"][key]]
+                        for item in hit["reporter"][key]:
+                            if item.endswith("_at"):
+                                probeids.append(item)
+
+                    newresponse['probe_id'] += probeids
+
+                if 'pdb' in hit:
+                    newresponse['pdb'] += hit['pdb']
+                if 'symbol' in hit:
+                    newresponse['symbol'] += [hit['symbol']]
 
         return newresponse
 
@@ -184,10 +207,10 @@ class IDSearch(Service):
             mygeneresults = self.queryMyGene(id)
             #biomartresults = self.queryBiomart(id)    - disabled because biomart is currently under maintenance
             tempids = self.packageMyGeneResp(mygeneresults)
-            bdbresp = self.queryBioDBnet(id)
+            #bdbresp = self.queryBioDBnet(id)
             
-            if len(bdbresp.keys()) > 0:
-                tempids = self.replaceBDBwithMyGene(bdbresp, tempids)
+            #if len(bdbresp.keys()) > 0:
+            #    tempids = self.replaceBDBwithMyGene(bdbresp, tempids)
 
             final_ids = self.addLinkAnnotation(tempids)
             return final_ids
