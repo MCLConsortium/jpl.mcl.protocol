@@ -8,7 +8,6 @@ import mygene, json
 class IDSearch(Service):
 
     implements(IPublishTraverse)
-
     def __init__(self, context, request):
         super(IDSearch, self).__init__(context, request)
         self.params = []
@@ -23,7 +22,7 @@ class IDSearch(Service):
         while True:
             try:
                 mg = mygene.MyGeneInfo()
-                results = mg.query(query, fields="symbol,ensembl.gene,pdb,reporter,generif.pubmed,uniprot.Swiss-Prot", species="human", size="1")
+                results = mg.query(query, fields="symbol,ensembl.gene,pdb,pfam,summary,taxid,type_of_gene,reporter,generif.pubmed,uniprot.Swiss-Prot,uniprot.TrEMBL,entrezgene,refseq.rna,refseq.protein,pathway.kegg,HGNC", species="human", size="1")
                 break
             except requests.ConnectionError:
                 #connection not working, retry
@@ -45,30 +44,51 @@ class IDSearch(Service):
             results['success'] = True
 
         return results
-
+    def basestring_check(self,query, dic):
+        if query in dic:
+            if not isinstance(dic[query], basestring):
+                return dic[query]
+            else:
+                return [dic[query]]
     def packageMyGeneResp(self, response):
         newresponse = {}
         if response['success'] and response['total'] > 0:
             newresponse["uniprot"] = []
+            newresponse["trembl"] = []
             newresponse["probe_id"] = []
             newresponse["pubmed"] = []
             newresponse["pdb"] = []
+            newresponse["pfam"] = []
             newresponse["symbol"] = []
             newresponse["ensembl"] = []
+            newresponse["entrezgene"] = []
+            newresponse["refseqrna"] = []
+            newresponse["refseqprotein"] = []
+            newresponse["keggid"] = []
+            newresponse["keggpathwayid"] = []
+            newresponse["keggpathwayname"] = []
+            newresponse["hgncid"] = []
+            newresponse["summary"] = []
+            newresponse["taxid"] = []
+            newresponse["type_of_gene"] = []
+            newresponse["gwas"] = []
+            newresponse["genecard"] = []
 
             for hit in response['hits']:
-                if 'ensembl' in hit:
-                    if 'gene' in hit['ensembl']:
-                        if not isinstance(hit['ensembl']['gene'], basestring):
-                            newresponse['ensembl'] += hit['ensembl']['gene']
-                        else:
-                            newresponse['ensembl'] += [hit['ensembl']['gene']]
-                if 'uniprot' in hit:
-                    if 'Swiss-Prot' in hit['uniprot']:
-                        if not isinstance(hit['uniprot']['Swiss-Prot'], basestring):
-                            newresponse['uniprot'] += hit['uniprot']['Swiss-Prot']
-                        else:
-                            newresponse['uniprot'] += [hit['uniprot']['Swiss-Prot']]
+                if 'ensembl' in hit:  #hits for ensembl database
+                    newresponse['ensembl'] += self.basestring_check('gene', hit['ensembl'])
+                if 'uniprot' in hit:    #hits for uniprot trembl and swiss-prot database
+                    newresponse['uniprot'] += self.basestring_check('Swiss-Prot', hit['uniprot'])
+                    newresponse['trembl'] += self.basestring_check('TrEMBL', hit['uniprot'])
+                if 'refseq' in hit:    #hits for uniprot trembl and swiss-prot database
+                    newresponse['refseqrna'] += self.basestring_check('rna', hit['refseq'])
+                    newresponse['refseqprotein'] += self.basestring_check('protein', hit['refseq'])
+                if 'pathway' in hit:
+                    if 'kegg' in hit['pathway']:
+                        if 'id' in hit['pathway']['kegg']:
+                            newresponse["keggpathwayid"] += [hit['pathway']['kegg']['id']]
+                        if 'name' in hit['pathway']['kegg']:
+                            newresponse["keggpathwayname"] += [hit['pathway']['kegg']['name']]
                 if 'generif' in hit:
                     pubmeds = []
                     for dic in hit["generif"]:
@@ -86,9 +106,24 @@ class IDSearch(Service):
                     newresponse['probe_id'] += probeids
 
                 if 'pdb' in hit:
-                    newresponse['pdb'] += hit['pdb']
+                    newresponse['pdb'].append(hit['pdb'])
+                if 'pfam' in hit:
+                    newresponse['pfam'].append(hit['pfam'])
+                if 'taxid' in hit:
+                    newresponse['taxid'].append(hit['taxid'])
+                if 'type_of_gene' in hit:
+                    newresponse['type_of_gene'].append(hit['type_of_gene'])
+                if 'summary' in hit:
+                    newresponse['summary'].append(hit['summary'])
+                if 'entrezgene' in hit:
+                    newresponse['entrezgene'].append(hit['entrezgene'])
+                    newresponse['keggid'].append(hit['entrezgene'])
+                if 'HGNC' in hit:
+                    newresponse['hgncid'].append(hit['HGNC'])
                 if 'symbol' in hit:
-                    newresponse['symbol'] += [hit['symbol']]
+                    newresponse['symbol'].append(hit['symbol'])
+                    newresponse["gwas"].append(hit['symbol'])
+                    newresponse["genecard"].append(hit['symbol'])
 
         return newresponse
 
@@ -175,15 +210,35 @@ class IDSearch(Service):
                 "ensembl":"http://uswest.ensembl.org/Homo_sapiens/Gene/Summary?g=",
                 "pdb":"http://www.rcsb.org/pdb/explore.do?structureId=",
                 "pubmed":"http://www.ncbi.nlm.nih.gov/pubmed/",
-                "uniprot":"http://www.uniprot.org/uniprot/"
+                "uniprot":"http://www.uniprot.org/uniprot/",
+                "trembl":"http://www.uniprot.org/uniprot/",
+                "gwas":"https://www.ebi.ac.uk/gwas/search?query=",
+                "pfam":"http://pfam.xfam.org/family/",
+                "genecard":"http://www.genecards.org/cgi-bin/carddisp.pl?gene=",
+                "hgncid":"http://www.genenames.org/cgi-bin/gene_symbol_report?q=data/hgnc_data.php&hgnc_id=",
+                "refseqprotein":"https://www.ncbi.nlm.nih.gov/protein/",
+                "refseqrna":"https://www.ncbi.nlm.nih.gov/nuccore/",
+                "entrezgene":"https://www.ncbi.nlm.nih.gov/gene/",
+                "keggpathwayid":"http://www.genome.jp/dbget-bin/www_bget?",
+                "keggid":"http://www.genome.jp/dbget-bin/www_bget?hsa:",
             }
         titleMapping = {
                 "symbol":"GeneCards",
                 "ensembl":"Ensembl",
                 "pdb":"PDB",
                 "pubmed":"PubMed",
-                "uniprot":"Uniprot",
-                "probe_id":"Probe ID"
+                "uniprot":"SwissProt",
+                "trembl":"Trembl",
+                "probe_id":"Probe ID",
+                "gwas":"GWAS Catalog",
+                "pfam":"Pfam",
+                "genecard":"Genecard",
+                "hgncid":"Genenames",
+                "refseqprotein":"Protein Refseq",
+                "refseqrna":"DNA/RNA Refseq",
+                "entrezgene":"Entrez Gene",
+                "keggpathwayid":"KEGG Pathway",
+                "keggid":"KEGG Pathway"
             }
         newgeneinfo = {}
         for key in geneinfo.keys():
@@ -194,10 +249,12 @@ class IDSearch(Service):
 
             uriprefix = ""
             newgeneinfo[key]['Items'] = []
+            newgeneinfo[key]['Labels'] = []
             if key in urlMapping.keys():
                 uriprefix = urlMapping[key]
             for item in geneinfo[key]:
-                newgeneinfo[key]['Items'].append(uriprefix + item)
+                newgeneinfo[key]['Labels'].append(str(item))
+                newgeneinfo[key]['Items'].append(uriprefix + str(item))
 
         return newgeneinfo
             
