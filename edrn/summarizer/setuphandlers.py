@@ -69,6 +69,16 @@ def createPublicationGenerator(context):
         datatype = u'json'
     )
 
+def createDatasetGenerator(context):
+    return createContentInContainer(
+        context,
+        'edrn.summarizer.datasetsummarizergenerator',
+        title=u'Dataset Generator',
+        description=u'Generates json describing the EDRN\'s dataset statistics.',
+        rdfDataSource=_fmproddatasetURL,
+        datatype = u'json'
+    )
+
 def createBiomarkerGenerator(context):
     return createContentInContainer(
         context,
@@ -111,6 +121,7 @@ def createSummarizerGenerators(context):
     generators['biomuta']           = createBiomutaGenerator(folder)
     generators['biomarker']         = createBiomarkerGenerator(folder)
     generators['publication']       = createPublicationGenerator(folder)
+    generators['dataset']           = createDatasetGenerator(folder)
     generators['collaboration']     = createCollaborationGenerator(folder)
     generators['extresources']      = createExtResourceGenerator(folder)
 
@@ -123,6 +134,7 @@ def createSummarizerSources(context, generators):
     for objID, title, desc in (
         ('biomuta', u'Biomuta', u'Source of Summarizer for biomarker mutation statistics in EDRN.'),
         ('publication', u'Publication', u'Source of Summarizer for publication statistics in EDRN.'),
+        ('dataset', u'Dataset', u'Source of Summarizer for dataset statistics in EDRN.'),
         ('collaboration', u'Collaboration', u'Source of Summarizer for collaboration statistics in EDRN.'),
         ('biomarker', u'Biomarker', u'Source of Summarizer for biomarker statistics in EDRN.'),
         ('extresources', u'External Resources', u'Source of Summarizer for External Resource references in EDRN.')

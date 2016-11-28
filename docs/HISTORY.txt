@@ -9,7 +9,7 @@ issue tracker at https://oodt.jpl.nasa.gov/jira/browse/CA.
 -----------
 
 * CA-1412 - Fetch group too large
-
+* CA-1421 - Added dataset to organ summary statistics
 
 0.0.4 - ID Webservice
 ---------------------
