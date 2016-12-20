@@ -11,6 +11,3 @@ def nullUpgradeStep(setupTool):
 
 def upgrade3to4(setupTool):
     setupTool.runImportStepFromProfile(DEFAULT_PROFILE, 'typeinfo')
-def upgrade4to5(setupTool):
-    setupTool.runImportStepFromProfile(DEFAULT_PROFILE, 'typeinfo')
-

@@ -44,21 +44,6 @@ _requirements = [
 _extras = {
     'test': ['plone.app.testing', 'rdfextras'],
 }
-_name        = 'jpl.mcl.protocol'
-_version     = '0.0.2'
-_description = 'Study and protocol information for the MCL'
-_author      = 'Sean Kelly'
-_authorEmail = 'sean.kelly@jpl.nasa.gov'
-_license     = 'ALv2'
-_namespaces  = ['jpl.mcl']
-_zipSafe     = False
-_keywords    = 'web zope plone edrn cancer biomarkers jpl.mcl.protocol protocol'
-_entryPoints = {
-    'z3c.autoinclude.plugin': ['target=plone'],
-}
-_extras = {
-    'test': ['plone.app.testing'],
-}
 _externalRequirements = [
     'setuptools',
     'Products.CMFPlone',
@@ -98,7 +83,6 @@ _longDescription = _header + '\n\n' + _read('README.rst') + '\n\n' + _read('docs
 open('doc.txt', 'w').write(_longDescription)
 _cp = SafeConfigParser()
 _cp.read([os.path.join(os.path.dirname(__file__), 'setup.cfg')])
-_reqs = _externalRequirements + _cp.get('source-dependencies', 'eggs').strip().split()
 
 setup(
     author=_author,
@@ -117,14 +101,6 @@ setup(
     name=_name,
     namespace_packages=_namespaces,
     packages=find_packages(exclude=['ez_setup', 'distribute_setup', 'bootstrap']),
-    url='https://github.com/EDRN/' + _name,
-    install_requires=_reqs,
-    keywords=_keywords,
-    license=_license,
-    long_description=_longDescription,
-    name=_name,
-    namespace_packages=_namespaces,
-    packages=find_packages(exclude=['ez_setup']),
     url='https://github.com/MCLConsortium/' + _name,
     version=_version,
     zip_safe=_zipSafe,

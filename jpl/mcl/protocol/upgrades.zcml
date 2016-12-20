@@ -22,13 +22,4 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         handler='jpl.mcl.protocol.upgrades.upgrade3to4'
         sortkey='1'
     />
-    <genericsetup:upgradeStep
-        source='4'
-        destination='5'
-        title='Upgrade 4 to 5'
-        description='The edrn.summarizer package has a new content type and therefore requires an upgrade step for 3→4'
-        profile='edrn.summarizer:default'
-        handler='edrn.summarizer.upgrades.upgrade4to5'
-        sortkey='1'
-    />
 </configure>
