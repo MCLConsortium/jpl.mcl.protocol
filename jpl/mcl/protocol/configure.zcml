@@ -8,7 +8,11 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     xmlns:browser='http://namespaces.zope.org/browser'
     xmlns:grok='http://namespaces.zope.org/grok'
     xmlns:zcml='http://namespaces.zope.org/zcml'
+<<<<<<< HEAD:jpl/mcl/protocol/configure.zcml
     xmlns:five='http://namespaces.zope.org/five'
+=======
+    xmlns:plone="http://namespaces.plone.org/plone"
+>>>>>>> dba0333d7f736c78c47cb8df2c39777524ac6bef:edrn/summarizer/configure.zcml
     xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
     i18n_domain='jpl.mcl.protocol'>
     <include package='z3c.autoinclude' file='meta.zcml' />
@@ -38,11 +42,21 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         zcml:condition='installed Products.GenericSetup.upgrade'
         file='upgrades.zcml'
     />
+<<<<<<< HEAD:jpl/mcl/protocol/configure.zcml
     <browser:page
       name="testtest"
       for="jpl.mcl.protocol.program.IProgram"
       class="jpl.mcl.protocol.program.ProgramView"
       template="templates/programview.pt"
       permission="zope2.Public"
+=======
+    <plone:service
+      method="GET"
+      accept="application/json"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      factory=".idsearch.IDSearch"
+      name="idsearch"
+      permission="zope2.View" 
+>>>>>>> dba0333d7f736c78c47cb8df2c39777524ac6bef:edrn/summarizer/configure.zcml
       />
 </configure>

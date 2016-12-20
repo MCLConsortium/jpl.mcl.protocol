@@ -10,7 +10,7 @@ import os.path
 
 _name            = 'jpl.mcl.protocol'
 _version         = '0.0.2'
-_description     = 'EDRN Summarizer Server'
+_description     = 'JPL MCL Protocol Server'
 _author          = 'David Liu'
 _authorEmail     = 'david.liu@jpl.nasa.gov'
 _maintainer      = 'David Liu'
@@ -18,7 +18,7 @@ _maintainerEmail = 'david.liu@jpl.nasa.gov'
 _license         = 'ALv2'
 _namespaces      = ['jpl', 'jpl.mcl']
 _zipSafe         = False
-_keywords        = 'summary summarizer web zope plone cancer bioinformatics detection informatics edrn'
+_keywords        = 'JPL MCL Protocol web zope plone cancer bioinformatics detection informatics edrn'
 _testSuite       = 'jpl.mcl.protocol.tests.test_suite'
 _entryPoints     = {
     'z3c.autoinclude.plugin': ['target=plone'],
@@ -29,10 +29,13 @@ _requirements = [
     'plone.app.dexterity [grok, relations]',
     'z3c.relationfield',
     'plone.app.relationfield',
+    'plone.rest',
     'plone.behavior',
     'Products.CMFPlone',
     'rdflib',
     'jsonlib',
+    'mygene',
+    'requests',
     'biopython',
     'setuptools',
     'z3c.suds',
