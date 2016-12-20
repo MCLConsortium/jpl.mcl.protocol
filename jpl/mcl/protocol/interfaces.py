@@ -11,11 +11,6 @@ from jpl.mcl.protocol import _
 from plone.app.textfield import RichText
 from zope import schema
 
-class ISummarizerUpdater(Interface):
-    '''An object whose Summarizer may be updated'''
-    def updateSummary():
-        '''Update this object's Summarizer file.'''
-
 class IGraphGenerator(Interface):
     '''An object that creates statement graphs.'''
     def generateGraph():
