@@ -1,0 +1,33 @@
+id: front-page
+title: Welcome to ESIS
+description: Study Information System
+subject: 
+relatedItems: 
+location: 
+language: en-us
+effectiveDate: None
+expirationDate: None
+creation_date: 2007/04/02 14:28:30 US/Central
+modification_date: 2008/11/22 15:42:30.510 US/Central
+creators: admin
+contributors: 
+rights: 
+allowDiscussion: 0
+excludeFromNav: False
+presentation: True
+tableContents: False
+Content-Type: text/html
+
+<p>Welcome to the ESIS (based on Zope and Plone) for EDRN and MCL</p>
+<p>The goal of this system is to maintain generalized project information to be used for any bioinformatics knowledge system that the JPL Informatics Center supports. For example, EDRN or MCL. The system will be a standalone system that allows users to create, read, update and delete any of the following:</p>
+<ul>
+<li>knowledge system project</li>
+<li>institution</li>
+<li>project funded site</li>
+<li>personnel</li>
+<li>protocol </li>
+<li>publication</li>
+</ul>
+<p>
+and allow these to be used and linked to by any of the JPL bioinformatics knowledge systems.
+</p>

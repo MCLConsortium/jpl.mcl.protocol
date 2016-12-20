@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2009 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<configure xmlns='http://namespaces.zope.org'
+    xmlns:browser='http://namespaces.zope.org/browser'
+    i18n_domain='jpl.mcl.protocol'>
+    <include package='plone.app.contentmenu'/>
+
+    <!-- Package-specific stylesheet -->
+    <browser:resource name='protocol.css' file='stylesheets/protocol.css' />
+    
+    <!-- Study Folder -->
+    <browser:resource name='protocol-folder.gif' file='images/protocol-folder.gif'/>
+    <browser:page
+        class='.views.ProtocolFolderView'
+        for='..interfaces.IProtocolFolder'
+        name='view'
+        permission='zope2.View'
+    />
+    <browser:menuItem
+        action='@@view'
+        description='Default representation of a Protocol Folder.'
+        for='..interfaces.IProtocolFolder'
+        menu='plone_displayviews'
+        title='Protocol Folder view'
+    />  
+    <browser:page
+          for="*"
+          name="test"
+          permission="zope2.Public"
+          class=".views.MyView"
+      />
+
+</configure>

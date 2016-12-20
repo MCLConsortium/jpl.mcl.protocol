@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+/* Copyright 2011–2013 California Institute of Technology. ALL RIGHTS
+ * RESERVED. U.S. Government Sponsorship acknowledged.
+ */
+
+.teamProjectBeacon {
+    float: right;
+}
+.nonEDRNBeacon {
+    float: right;
+}
+.protocolTitle {
+    margin-right: 80px;
+}

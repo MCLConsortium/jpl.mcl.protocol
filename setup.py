@@ -8,7 +8,7 @@ import os.path
 # Package data
 # ------------
 
-_name            = 'edrn.summarizer'
+_name            = 'jpl.mcl.protocol'
 _version         = '0.0.2'
 _description     = 'EDRN Summarizer Server'
 _author          = 'David Liu'
@@ -16,10 +16,10 @@ _authorEmail     = 'david.liu@jpl.nasa.gov'
 _maintainer      = 'David Liu'
 _maintainerEmail = 'david.liu@jpl.nasa.gov'
 _license         = 'ALv2'
-_namespaces      = ['edrn']
+_namespaces      = ['jpl', 'jpl.mcl']
 _zipSafe         = False
 _keywords        = 'summary summarizer web zope plone cancer bioinformatics detection informatics edrn'
-_testSuite       = 'edrn.summarizer.tests.test_suite'
+_testSuite       = 'jpl.mcl.protocol.tests.test_suite'
 _entryPoints     = {
     'z3c.autoinclude.plugin': ['target=plone'],
 }

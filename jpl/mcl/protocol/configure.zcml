@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+Copyright 2008—2012 California Institute of Technology. ALL RIGHTS
+RESERVED. U.S. Government Sponsorship acknowledged.
+-->
+<configure
+    xmlns='http://namespaces.zope.org/zope'
+    xmlns:browser='http://namespaces.zope.org/browser'
+    xmlns:grok='http://namespaces.zope.org/grok'
+    xmlns:zcml='http://namespaces.zope.org/zcml'
+    xmlns:five='http://namespaces.zope.org/five'
+    xmlns:genericsetup='http://namespaces.zope.org/genericsetup'
+    i18n_domain='jpl.mcl.protocol'>
+    <include package='z3c.autoinclude' file='meta.zcml' />
+    <include package="plone.behavior" file='meta.zcml' />
+    <include package="plone.app.relationfield" />
+    <includeDependencies package='.' />
+    <!--<grok:grok package='.' />-->
+    <five:registerPackage package="." initialize=".initialize" />
+    <include package='.browser'/>
+    <include package='.content'/>
+
+    <genericsetup:registerProfile
+        name='default'
+        title='ESIS'
+        directory='profiles/default'
+        description='Manage study information'
+        provides='Products.GenericSetup.interfaces.EXTENSION'
+    />
+    <genericsetup:importStep
+        name='jpl.mcl.protocol'
+        title='JPL Protocol data'
+        description='Protocol information associated with JPL'
+        handler='jpl.mcl.protocol.setuphandlers.setupVarious'>
+        <depends name='content' />
+    </genericsetup:importStep>
+    <include
+        zcml:condition='installed Products.GenericSetup.upgrade'
+        file='upgrades.zcml'
+    />
+    <browser:page
+      name="testtest"
+      for="jpl.mcl.protocol.program.IProgram"
+      class="jpl.mcl.protocol.program.ProgramView"
+      template="templates/programview.pt"
+      permission="zope2.Public"
+      />
+</configure>
