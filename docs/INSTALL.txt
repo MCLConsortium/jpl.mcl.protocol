@@ -1,11 +1,16 @@
-edrn.summarizer Installation
-============================
 
 Use zc.buildout and the plone.recipe.zope2instance recipe to manage your
 project, and do the following:
 
 * Add ``edrn.summarizer`` to the list of eggs to install, e.g.::
 
+Installation
+============
+
+Use Buildout_ with the plone.recipe.zope2instance recipe.
+
+• Add ``eke.study`` to the list of eggs to install, e.g.::
+ 
     [buildout]
     ...
     eggs =
@@ -18,3 +23,13 @@ project, and do the following:
     
 You don't need a ZCML slug because it uses z3c.autoinclude.plugin with the
 Plone target.
+        
+• Re-run buildout, e.g. with::
+  
+    % ./bin/buildout
+        
+You can skip the ZCML slug if you are going to explicitly include the package
+from another package's configure.zcml file.
+
+.. References:
+.. _Buildout: http://www.buildout.org/
