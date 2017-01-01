@@ -19,6 +19,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <class class='.person.Person'>
         <require permission='zope2.View' interface='..interfaces.IPerson'/>
     </class>
+    <class class='.signature.Signature'>
+        <require permission='zope2.View' interface='..interfaces.ISignature'/>
+    </class>
+    <class class='.science.ScienceData'>
+        <require permission='zope2.View' interface='..interfaces.IScience'/>
+    </class>
     <class class='.fundedsite.FundedSite'>
         <require permission='zope2.View' interface='..interfaces.IFundedSite'/>
     </class>

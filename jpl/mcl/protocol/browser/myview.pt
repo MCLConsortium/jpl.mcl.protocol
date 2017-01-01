@@ -6,6 +6,7 @@
 
     <metal:block fill-slot="content-core">
             XXX - this text comes below title and description
+        arlkjsdf
     </metal:block>
     <body>
         HELLO WORLD

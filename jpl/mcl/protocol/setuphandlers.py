@@ -45,6 +45,12 @@ def createProtocolGenerator(context):
 
 def intializeFolders(context):
     generators = {}
+    signaturefolder = context[context.invokeFactory(
+        'Folder', 'signature', title=u'Signatures', description=u'Signatures managed in MCL.'
+    )]
+    sciencedatafolder = context[context.invokeFactory(
+        'Folder', 'sciencedata', title=u'Science-Data', description=u'Science Data managed in LabCAS.'
+    )]
     projectfolder = context[context.invokeFactory(
         'Folder', 'projects', title=u'Projects', description=u'Projects managed in ESIS.'
     )]
@@ -103,6 +109,8 @@ def installInitialSources(portal):
     publish(portal['fundedsites'], wfTool)
     publish(portal['persons'], wfTool)
     publish(portal['institutions'], wfTool)
+    publish(portal['sciencedata'], wfTool)
+    publish(portal['signature'], wfTool)
 
 def setupVarious(context):
     if context.readDataFile('jpl.mcl.protocol.marker.txt') is None: return

@@ -22,6 +22,8 @@ Content-Type: text/html
 <p>The goal of this system is to maintain generalized project information to be used for any bioinformatics knowledge system that the JPL Informatics Center supports. For example, EDRN or MCL. The system will be a standalone system that allows users to create, read, update and delete any of the following:</p>
 <ul>
 <li>knowledge system project</li>
+<li>signature</li>
+<li>sciencedata</li>
 <li>institution</li>
 <li>project funded site</li>
 <li>personnel</li>

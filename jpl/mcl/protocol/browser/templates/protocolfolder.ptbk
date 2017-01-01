@@ -4,28 +4,30 @@
     xmlns:tal='http://xml.zope.org/namespaces/tal'
     xmlns:metal='http://xml.zope.org/namespaces/metal'
     xmlns:i18n='http://xml.zope.org/namespaces/i18n'
-    metal:use-macro='context/main_template/macros/master'
-    i18n:domain='jpl.mc.protocol'>
+    metal:use-macro='context/main_template/macros/master'>
     <head>
-        <title>Protocol Folder</title>
+        <title>Study Folder</title>
     </head>
     <body>
-        <metal:main fill-slot='content-core' metal:define-macro='content-core'>
+        <metal:main fill-slot='content-core'>
             <tal:main-macro metal:define-macro='content-core'
                 tal:define='
+                    haveContents   view/haveProtocols;
                     contents       view/protocols;
                     subfolders     view/subfolders;
                     kssClassesView context/@@kss_field_decorator_view;
                     getKssClasses  nocall:kssClassesView/getKssClassesInlineEditable;
                     templateId     template/getId;
+                    descLength     site_properties/search_results_description_length;
+                    descEllipsis   site_properties/ellipsis;
                     Batch          python:modules["Products.CMFPlone"].Batch;
                     b_size         python:30;
                     b_start        python:0;
                     b_start        request/b_start|b_start;
                 '>
-           
+                <div metal:use-macro='context/@@standardRDFAttribute/macros/rdfDataSource'>Standard RDF</div>
                 <div tal:condition='subfolders' tal:omit-tag=''>
-                    <f3 i18n:translate='protocolFolder_subfolders'>Subfolders in this Folder</f3>
+                    <f3 i18n:translate='studyFolder_subfolders'>Subfolders in this Folder</f3>
                     <ul>
                        <li tal:repeat='subfolder subfolders'>
                             <a href='#' title='Scintilating sub-folders exposed!' tal:content='subfolder/title'
@@ -36,17 +38,18 @@
                     </ul>
                 </div>
 
-                <p tal:condition='not:contents' i18n:translate='protocolFolder_noProtocols' class='discreet'>
+                <h2 i18n:translate='studyFolder_inThisFolder'>Contents</h2>
+                <p tal:condition='not:contents' i18n:translate='studyFolder_noProtocols' class='discreet'>
                     There are currently no protocols in this folder.
                 </p>
-                <div tal:define='batch python:Batch(contents, b_size, int(b_start), orphan=1);'
+                <div tal:condition='haveContents' tal:define='batch python:Batch(contents, b_size, int(b_start), orphan=1);'
                     tal:omit-tag=''>
                     <table class='listing'>
                         <thead>
                             <tr>
-                                <th i18n:translate='protocolFolder_titleHeading'>Title</th>
-                                <th i18n:translate='protocolFolder_abstractHeading'>Abstract</th>
-                                <th i18n:translate='protocolFolder_piHeading'>Investigator</th>
+                                <th i18n:translate='studyFolder_titleHeading'>Title</th>
+                                <th i18n:translate='studyFolder_abstractHeading'>Abstract</th>
+                                <th i18n:translate='studyFolder_piHeading'>Investigator</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,7 +63,7 @@
                                                 Slimiest Protocol Ever
                                             </a>
                                         </td>
-                                        <td tal:content='description'>
+                                        <td tal:content='python:plone_view.cropText(description, descLength, descEllipsis)'>
                                             Lorem ipsum etc.
                                         </td>
                                         <td>
@@ -69,14 +72,14 @@
                                                 Joe Smellbucket
                                             </a>
                                             <a href='#' tal:condition='python:piURL and not piName' tal:attributes='href piURL'
-                                                i18n:translate='protocolFolder_unknownPIbutKnownURL'>
+                                                i18n:translate='studyFolder_unknownPIbutKnownURL'>
                                                 Unnamed
                                             </a>
                                             <span tal:condition='python:not piURL and piName' tal:content='piName'>
                                                 Joe Smellbucket
                                             </span>
                                             <span class='discreet' tal:condition='python:not piURL and not piName'
-                                                i18n:translate='protocolFolder_unknownPIandURL'>
+                                                i18n:translate='studyFolder_unknownPIandURL'>
                                                 Not listed
                                             </span>
                                         </td>

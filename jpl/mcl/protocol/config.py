@@ -16,4 +16,6 @@ ADD_PERMISSIONS = {
     'FundedSite':      'JPL: Add Funded Site',
     'Project':         'JPL: Add Project',
     'Publication':     'JPL: Add Publication',
+    'Signature':       'JPL: Add Signature',
+    'ScienceData':     'JPL: Add Science Data',
 }

@@ -10,6 +10,8 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <object name='jpl.mcl.protocol.content.institution' meta_type='Dexterity FTI' />
     <object name='jpl.mcl.protocol.content.person' meta_type='Dexterity FTI' />
     <object name='jpl.mcl.protocol.content.fundedsite' meta_type='Dexterity FTI' />
+    <object name='jpl.mcl.protocol.content.sciencedata' meta_type='Dexterity FTI' />
+    <object name='jpl.mcl.protocol.content.signature' meta_type='Dexterity FTI' />
 <!--    <object name='jpl.mcl.protocol.content.protocolfolder' meta_type='Dexterity FTI' />-->
     <object name='Protocol'     meta_type='Factory-based Type Information with dynamic views'/>
     <object name='Publication'     meta_type='Factory-based Type Information with dynamic views'/>
@@ -17,4 +19,6 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <object name='Institution'     meta_type='Factory-based Type Information with dynamic views'/>
     <object name='Person'     meta_type='Factory-based Type Information with dynamic views'/>
     <object name='Protocol Folder' meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Science Data Folder' meta_type='Factory-based Type Information with dynamic views'/>
+    <object name='Signature Folder' meta_type='Factory-based Type Information with dynamic views'/>
 </object>

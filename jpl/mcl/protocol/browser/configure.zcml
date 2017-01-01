@@ -13,11 +13,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     
     <!-- Study Folder -->
     <browser:resource name='protocol-folder.gif' file='images/protocol-folder.gif'/>
+        <!--for='..interfaces.IProtocolFolder'-->
     <browser:page
         class='.views.ProtocolFolderView'
-        for='..interfaces.IProtocolFolder'
-        name='view'
-        permission='zope2.View'
+        for='*'
+        name='protocolfolderview'
+        permission='zope.Public'
     />
     <browser:menuItem
         action='@@view'
@@ -26,11 +27,5 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         menu='plone_displayviews'
         title='Protocol Folder view'
     />  
-    <browser:page
-          for="*"
-          name="test"
-          permission="zope2.Public"
-          class=".views.MyView"
-      />
 
 </configure>
