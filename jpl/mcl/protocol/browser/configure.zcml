@@ -20,6 +20,12 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         name='protocolfolderview'
         permission='zope.Public'
     />
+    <browser:page
+        class='.views.ScienceFolderView'
+        for='*'
+        name='sciencefolderview'
+        permission='zope.Public'
+    />
     <browser:menuItem
         action='@@view'
         description='Default representation of a Protocol Folder.'

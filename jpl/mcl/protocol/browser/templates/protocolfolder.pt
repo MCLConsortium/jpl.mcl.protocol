@@ -14,7 +14,6 @@
             <tal:main-macro metal:define-macro='content-core'
                 tal:define='
                     contents       view/protocols;
-                    subfolders     view/subfolders;
                     kssClassesView context/@@kss_field_decorator_view;
                     getKssClasses  nocall:kssClassesView/getKssClassesInlineEditable;
                     templateId     template/getId;
@@ -23,18 +22,6 @@
                     b_start        python:0;
                     b_start        request/b_start|b_start;
                 '>
-           
-                <div tal:condition='subfolders' tal:omit-tag=''>
-                    <f3 i18n:translate='protocolFolder_subfolders'>Subfolders in this Folder</f3>
-                    <ul>
-                       <li tal:repeat='subfolder subfolders'>
-                            <a href='#' title='Scintilating sub-folders exposed!' tal:content='subfolder/title'
-                                tal:attributes='href subfolder/url; title subfolder/description'>
-                                Sub-Protocol Action Folder
-                            </a>
-                       </li> 
-                    </ul>
-                </div>
 
                 <p tal:condition='not:contents' i18n:translate='protocolFolder_noProtocols' class='discreet'>
                     There are currently no protocols in this folder.

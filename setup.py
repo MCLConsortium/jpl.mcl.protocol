@@ -40,6 +40,7 @@ _requirements = [
     'biopython',
     'setuptools',
     'z3c.suds',
+    'mysolr'
 ]
 _extras = {
     'test': ['plone.app.testing', 'rdfextras'],
