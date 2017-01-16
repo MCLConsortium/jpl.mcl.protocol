@@ -27,64 +27,6 @@ class IAsserter(Interface):
         '''Characterize some subject using a known predicate for complementary ``obj``.  Returns a sequence of doubles
         containing a predicate URI (a URIRef) and an appropriate Literal or URIRef object.'''
 
-class ISignature(Interface):
-    '''An object that describes a signature'''
-    name = schema.TextLine(
-        title=_(u'Signature Name'),
-        description=_(u'Name of this signature.'),
-        required=True,
-    )
-    collections = schema.TextLine(
-        title=_(u'List of Collections'),
-        description=_(u'Collections associated with this signature.'),
-        required=True,
-    )
-    type = schema.TextLine(
-        title=_(u'Signature Type'),
-        description=_(u'Signature type.'),
-        required=False,
-    )
-    protocol = schema.TextLine(
-        title=_(u'Protocol'),
-        description=_(u'Protocols associated with this signature.'),
-        required=False,
-    )
-    disease = schema.TextLine(
-        title=_(u'Disease'),
-        description=_(u'Disease associated with this signature.'),
-        required=False,
-    )
-    species = schema.TextLine(
-        title=_(u'Species'),
-        description=_(u'Species associated with this signature.'),
-        required=False,
-    )
-    status = schema.TextLine(
-        title=_(u'Validation Status'),
-        description=_(u'Validation status of this signature.'),
-        required=False,
-    )
-    purpose = schema.TextLine(
-        title=_(u'Clinical Purpose'),
-        description=_(u'Clinical purpose of this signature.'),
-        required=False,
-    )
-    evidence = schema.TextLine(
-        title=_(u'Evidence Code'),
-        description=_(u'Evidence Code of this signature.'),
-        required=False,
-    )
-    specimen = schema.TextLine(
-        title=_(u'Specimen'),
-        description=_(u'Specimen associated with this signature.'),
-        required=False,
-    )
-    registered = schema.Datetime(
-        title=_(u'Registered Date'),
-        description=_(u'Registered date of this signature.'),
-        required=False,
-    )
-
 class IScience(Interface):
     '''An object that describes a Science Data'''
     collectionname = schema.TextLine(

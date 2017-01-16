@@ -43,33 +43,41 @@ def createProtocolGenerator(context):
         webServiceURL="Test",
     )
 
-def intializeFolders(context):
-    generators = {}
+def initializeFolders(context):
+    folders = {}
     signaturefolder = context[context.invokeFactory(
-        'Folder', 'signature', title=u'Signatures', description=u'Signatures managed in MCL.'
+        'Folder', 'signature', title=u'Signature', description=u'Signatures managed in MCL.'
     )]
+
     sciencedatafolder = context[context.invokeFactory(
-        'Folder', 'sciencedata', title=u'Science-Data', description=u'Science Data managed in LabCAS.'
+        'Folder', 'sciencedata', title=u'Science-Data', description=u'Science Collections managed in LabCAS.'
     )]
+    sciencedatafolder.setLayout("sciencefolderview")
+
     projectfolder = context[context.invokeFactory(
-        'Folder', 'projects', title=u'Projects', description=u'Projects managed in ESIS.'
+        'Folder', 'projects', title=u'Project', description=u'Projects managed in ESIS.'
     )]
+    projectfolder.setLayout("projectfolderview")
+
     institutionfolder = context[context.invokeFactory(
-        'Folder', 'institutions', title=u'Institutions', description=u'Insitutions managed in ESIS.'
+        'Folder', 'institutions', title=u'Institution', description=u'Insitutions managed in ESIS.'
     )]
+    institutionfolder.setLayout("institutionfolderview")
+
     fundedsitefolder = context[context.invokeFactory(
-        'Folder', 'fundedsites', title=u'Funded Sites', description=u'Funded Sites managed in ESIS.'
+        'Folder', 'fundedsites', title=u'Funded Site', description=u'Funded Sites managed in ESIS.'
     )]
-    personfolder = context[context.invokeFactory(
-        'Folder', 'persons', title=u'Personnel', description=u'Personnel managed in ESIS.'
-    )]
+    fundedsitefolder.setLayout("partsitefolderview")
+
     protocolfolder = context[context.invokeFactory(
-        'Folder', 'protocols', title=u'Protocols', description=u'Protocols managed in ESIS.'
+        'Folder', 'protocols', title=u'Protocol', description=u'Protocols managed in ESIS.'
     )]
-    publicationfolder = context[context.invokeFactory(
-        'Folder', 'publications', title=u'Publications', description=u'Publications managed in ESIS.'
-    )]
-    return generators
+    protocolfolder.setLayout("protocolfolderview")
+
+    #publicationfolder = context[context.invokeFactory(
+    #    'Folder', 'publications', title=u'Publication', description=u'Publications managed in ESIS.'
+    #)]
+    return folders
 
 def publish(item, wfTool):
     try:
@@ -101,13 +109,12 @@ def installInitialSources(portal):
         portal.manage_delObjects('news')
     if 'Members' in portal.keys():
         portal.manage_delObjects('Members')
-    generators = intializeFolders(portal)
+    generators = initializeFolders(portal)
     wfTool = getToolByName(portal, 'portal_workflow')
     setUpHomePage(portal, wfTool)
     publish(portal['protocols'], wfTool)
-    publish(portal['publications'], wfTool)
+    #publish(portal['publications'], wfTool)
     publish(portal['fundedsites'], wfTool)
-    publish(portal['persons'], wfTool)
     publish(portal['institutions'], wfTool)
     publish(portal['sciencedata'], wfTool)
     publish(portal['signature'], wfTool)

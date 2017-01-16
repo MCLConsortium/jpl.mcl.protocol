@@ -7,13 +7,13 @@
     metal:use-macro='context/main_template/macros/master'
     i18n:domain='jpl.mc.protocol'>
     <head>
-        <title>Protocol Folder</title>
+        <title>Institutions</title>
     </head>
     <body>
         <metal:main fill-slot='content-core' metal:define-macro='content-core'>
             <tal:main-macro metal:define-macro='content-core'
                 tal:define='
-                    contents       view/protocols;
+                    contents       view/institutions;
                     kssClassesView context/@@kss_field_decorator_view;
                     getKssClasses  nocall:kssClassesView/getKssClassesInlineEditable;
                     templateId     template/getId;
@@ -32,57 +32,44 @@
                         <thead>
                             <tr>
                                 <th i18n:translate='protocolFolder_titleHeading'>Title</th>
-                                <th i18n:translate='protocolFolder_abstractHeading'>Abstract</th>
-                                <th i18n:translate='protocolFolder_piHeading'>Organs</th>
-                                <th i18n:translate='protocolFolder_piHeading'>PI</th>
-                                <th i18n:translate='protocolFolder_piHeading'>Start date</th>
-                                <th i18n:translate='protocolFolder_piHeading'>IRB Approval</th>
-                                <th i18n:translate='protocolFolder_piHeading'>Site Contact</th>
+                                <th i18n:translate='protocolFolder_abbrNameHeading'>Abbreviation Name</th>
+                                <th i18n:translate='protocolFolder_deptHeading'>Department</th>
+                                <th i18n:translate='protocolFolder_descHeading'>Description</th>
+                                <th i18n:translate='protocolFolder_exturlHeading'>External Link</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tal:row repeat='item batch'>
                                 <tal:def define='
                                     url item/url;
-                                    abstract item/abstract;
                                     title item/title;
                                     oddrow repeat/item/odd;
-                                    organ item/organ;
-                                    pi item/pi;
-                                    startdate item/startdate;
-                                    irbapproval item/irbapproval;
-                                    sitecontact item/sitecontact;
-                                    irbcontact item/irbcontact;'>
+                                    abbrName item/abbrName;
+                                    description item/description;
+                                    department item/department;
+                                    exturl item/exturl;
+                                    '>
                                     <tr tal:attributes='class python:oddrow and "odd" or "even";'>
                                         <td>
-                                            <a href='#' title='A questionable protocol of ill repute.' tal:content='title'
+                                            <a href='#' title='A questionable project of ill repute.' tal:content='title'
                                                 tal:attributes='href url; title title;'>
-                                                Slimiest Protocol Ever
+                                                Slimiest Project Ever
                                             </a>
                                         </td>
-                                        <td tal:content='abstract'>
+                                        <td tal:content='abbrName'>
+                                            Lorem ipsum etc.
+                                        </td>
+                                        <td tal:content='department'>
+                                            Description
+                                        </td>
+                                        <td tal:content='description'>
                                             Lorem ipsum etc.
                                         </td>
                                         <td>
-                                            <a href='#' tal:condition='python:organ'
-                                                tal:content='python:u", ".join(organ)'>
-                                                Finger
+                                            <a href='#' tal:content='python:"External Link"'
+                                                tal:attributes='href exturl; title title;'>
+                                                External Link
                                             </a>
-                                        </td>
-                                        <td>
-                                            <a href='#' tal:condition='python:pi'
-                                                tal:content='python:u", ".join(pi)'>
-                                                PI
-                                            </a>
-                                        </td>
-                                        <td tal:content='python:u", ".join(startdate)'>
-                                            1/2/2100
-                                        </td>
-                                        <td tal:content='python:u", ".join(irbapproval)'>
-                                            IRB Approval
-                                        </td>
-                                        <td tal:content='python:u", ".join(sitecontact)'>
-                                            Site Contact
                                         </td>
                                     </tr>
                                 </tal:def>

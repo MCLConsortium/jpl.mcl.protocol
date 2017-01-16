@@ -33,12 +33,13 @@
                             <tr>
                                 <th i18n:translate='scienceFolder_titleHeading'>Collection Name</th>
                                 <th i18n:translate='scienceFolder_descriptionHeading'>Description</th>
-                                <th i18n:translate='scienceFolder_siteHeading'>Lead PI</th>
+                                <th i18n:translate='scienceFolder_leadpiHeading'>Lead PI</th>
                                 <th i18n:translate='scienceFolder_organHeading'>Organ</th>
-                                <th i18n:translate='scienceFolder_diseaseHeading'>Discipline</th>
-                                <th i18n:translate='scienceFolder_imageHeading'>Protocol</th>
-                                <th i18n:translate='scienceFolder_pathologyHeading'>Species</th>
-                                <th i18n:translate='scienceFolder_pathologyHeading'>QA State</th>
+                                <th i18n:translate='scienceFolder_disciplineHeading'>Discipline</th>
+                                <th i18n:translate='scienceFolder_protocolHeading'>Protocol</th>
+                                <th i18n:translate='scienceFolder_speciesHeading'>Species</th>
+                                <th i18n:translate='scienceFolder_qaHeading'>QA State</th>
+                                <th i18n:translate='scienceFolder_datasetHeading'># Dataset</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -54,6 +55,7 @@
                                     protocol item/protocol;
                                     qastate item/qastate;
                                     species item/species;
+                                    datasetcount item/datasetcount;
                                 '>
                                     <tr tal:attributes='class python:oddrow and "odd" or "even";'>
                                         <td>
@@ -91,6 +93,9 @@
                                         </td>
                                         <td tal:content='python:u", ".join(qastate)'>
                                             Out of this world
+                                        </td>
+                                        <td tal:content='python:datasetcount'>
+                                            2000
                                         </td>
                                     </tr>
                                 </tal:def>

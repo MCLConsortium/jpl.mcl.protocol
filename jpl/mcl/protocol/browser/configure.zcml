@@ -21,6 +21,24 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         permission='zope.Public'
     />
     <browser:page
+        class='.views.ProjectFolderView'
+        for='*'
+        name='projectfolderview'
+        permission='zope.Public'
+    />
+    <browser:page
+        class='.views.InstitutionFolderView'
+        for='*'
+        name='institutionfolderview'
+        permission='zope.Public'
+    />
+    <browser:page
+        class='.views.PartSiteFolderView'
+        for='*'
+        name='partsitefolderview'
+        permission='zope.Public'
+    />
+    <browser:page
         class='.views.ScienceFolderView'
         for='*'
         name='sciencefolderview'

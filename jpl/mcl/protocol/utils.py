@@ -8,6 +8,7 @@ EDRN Summarizer Service: utilities.
 
 from zope.interface import implements
 import urlparse, re
+from HTMLParser import HTMLParser
 
  # Why, why, why? DMCC, you so stupid!
 DEFAULT_VERIFICATION_NUM = u'0' * 40960
@@ -69,4 +70,28 @@ def parseTokens(s):
         value = match.group(1)
         s = s[match.end():].lstrip()
         yield key, value
-        
+
+def _parseRDF(graph):
+    statements = {}
+    for s, p, o in graph:
+        if s not in statements:
+            statements[s] = {}
+        predicates = statements[s]
+        if p not in predicates:
+            predicates[p] = []
+        predicates[p].append(o)
+    return statements
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()

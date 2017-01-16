@@ -1,0 +1,65 @@
+<html xmlns='http://www.w3.org/1999/xhtml'
+    xml:lang='en'
+    lang='en'
+    xmlns:tal='http://xml.zope.org/namespaces/tal'
+    xmlns:metal='http://xml.zope.org/namespaces/metal'
+    xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+    metal:use-macro='context/main_template/macros/master'
+    i18n:domain='jpl.mc.protocol'>
+    <head>
+        <title>Participating Sites</title>
+    </head>
+    <body>
+        <metal:main fill-slot='content-core' metal:define-macro='content-core'>
+            <tal:main-macro metal:define-macro='content-core'
+                tal:define='
+                    contents       view/partsites;
+                    kssClassesView context/@@kss_field_decorator_view;
+                    getKssClasses  nocall:kssClassesView/getKssClassesInlineEditable;
+                    templateId     template/getId;
+                    Batch          python:modules["Products.CMFPlone"].Batch;
+                    b_size         python:30;
+                    b_start        python:0;
+                    b_start        request/b_start|b_start;
+                '>
+
+                <p tal:condition='not:contents' i18n:translate='protocolFolder_noProtocols' class='discreet'>
+                    There are currently no protocols in this folder.
+                </p>
+                <div tal:define='batch python:Batch(contents, b_size, int(b_start), orphan=1);'
+                    tal:omit-tag=''>
+                    <table class='listing'>
+                        <thead>
+                            <tr>
+                                <th i18n:translate='protocolFolder_titleHeading'>Title</th>
+                                <th i18n:translate='protocolFolder_piHeading'>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tal:row repeat='item batch'>
+                                <tal:def define='
+                                    url item/url;
+                                    title item/title;
+                                    oddrow repeat/item/odd;
+                                    description item/description;'>
+                                    <tr tal:attributes='class python:oddrow and "odd" or "even";'>
+                                        <td>
+                                            <a href='#' title='A questionable project of ill repute.' tal:content='title'
+                                                tal:attributes='href url; title title;'>
+                                                Slimiest Project Ever
+                                            </a>
+                                        </td>
+                                        <td tal:content='description'>
+                                            Description
+                                        </td>
+                                    </tr>
+                                </tal:def>
+                            </tal:row>
+                        </tbody>
+                    </table>
+                    <div metal:use-macro='context/batch_macros/macros/navigation'>Navigation here.</div>
+                </div>
+            </tal:main-macro>
+        </metal:main>
+    </body>
+</html>

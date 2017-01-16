@@ -14,7 +14,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <property name='allowed_content_types'>
         <element value='File' />
     </property>
-    <property name='schema'>jpl.mcl.protocol.content.signature.ISignature</property>
+    <property name='schema'>jpl.mcl.protocol.signature.ISignature</property>
     <property name='klass'>plone.dexterity.content.Item</property>
     <property name='add_permission'>cmf.AddPortalContent</property>
     <property name='behaviors'>
