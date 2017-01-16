@@ -6,15 +6,11 @@
 '''
 
 from jpl.mcl.protocol import _
-from jpl.mcl.knowledge._base import IKnowledgeObject
-from jpl.mcl.protocol.interfaces import ISignature
-from Products.ATContentTypes.lib.constraintypes import ConstrainTypesMixinSchema
-from Products.ATContentTypes.content.schemata import NextPreviousAwareSchema, finalizeATCTSchema
-from jpl.mcl.protocol.config import PROJECTNAME
-from Products.Archetypes import atapi
-from zope.interface import implements
+from zope import schema
+from plone.app.textfield import RichText
+from plone.supermodel import model
 
-class ISignature(IKnowledgeObject):
+class ISignature(model.Schema):
     '''An object that describes a signature'''
     name = schema.TextLine(
         title=_(u'Signature Name'),
@@ -77,5 +73,5 @@ ISignature.setTaggedValue('predicateMap', {
     u'http://purl.org/dc/terms/title': 'title',
     u'http://purl.org/dc/terms/description': 'description'
 })
-ISignature.setTaggedValue('fti', 'jpl.mcl.site.knowledge.signature')
+ISignature.setTaggedValue('fti', 'jpl.mcl.protocol.signature')
 ISignature.setTaggedValue('typeURI', u'https://mcl.jpl.nasa.gov/rdf/types.rdf#Signature')

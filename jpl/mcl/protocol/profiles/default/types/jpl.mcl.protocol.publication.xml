@@ -3,10 +3,10 @@
 Copyright 2012 California Institute of Technology. ALL RIGHTS
 RESERVED. U.S. Government Sponsorship acknowledged.
 -->
-<object name='jpl.mcl.protocol.content.signature' meta_type='Dexterity FTI' i18n:domain='jpl.mcl.protocol'
+<object name='jpl.mcl.protocol.publication' meta_type='Dexterity FTI' i18n:domain='jpl.mcl.protocol'
     xmlns:i18n='http://xml.zope.org/namespaces/i18n'>
-    <property name='title' i18n:translate=''>Signature</property>
-    <property name='description' i18n:translate=''>Signature that describes methodologies used in studies.</property>
+    <property name='title' i18n:translate=''>Publication</property>
+    <property name='description' i18n:translate=''>Publication that describes methodologies used in studies.</property>
     <property name='content_icon'>++resource++jpl.mcl.protocol/summarizersource.png</property>
     <property name='allow_discussion'>False</property>
     <property name='global_allow'>True</property>
@@ -14,7 +14,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <property name='allowed_content_types'>
         <element value='File' />
     </property>
-    <property name='schema'>jpl.mcl.protocol.signature.ISignature</property>
+    <property name='schema'>jpl.mcl.protocol.publication.IPublication</property>
     <property name='klass'>plone.dexterity.content.Item</property>
     <property name='add_permission'>cmf.AddPortalContent</property>
     <property name='behaviors'>

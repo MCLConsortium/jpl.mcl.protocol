@@ -6,73 +6,46 @@
 '''
 
 from jpl.mcl.protocol import _
-from five import grok
-from jpl.mcl.protocol.interfaces import IPublication
-from Products.ATContentTypes.lib.constraintypes import ConstrainTypesMixinSchema
-from Products.ATContentTypes.content.schemata import NextPreviousAwareSchema, finalizeATCTSchema
-from jpl.mcl.protocol.config import PROJECTNAME
-from Products.Archetypes import atapi
-from zope.interface import implements
 from zope import schema
+from plone.app.textfield import RichText
+from plone.supermodel import model
 
-PublicationSchema = ConstrainTypesMixinSchema.copy()
-PublicationSchema += atapi.Schema((
-    atapi.StringField(
-        'journal',
-        storage=atapi.AnnotationStorage(),
+class IPublication(model.Schema):
+    '''An object that describes an Publication'''
+    title = schema.TextLine(
+        title=_(u'Title'),
+        description=_(u'Title of this resource.'),
+        required=True,
+    )
+    description = RichText(
+        title=_(u'Description'),
+        description=_(u'A short summary of the resource.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Journal'), 
-            description=_(u'Journal of this publication.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#journal',
-    ),
-    atapi.StringField(
-        'author',
-        storage=atapi.AnnotationStorage(),
+    )
+    journal = schema.TextLine(
+        title=_(u'Journal'),
+        description=_(u'Journal of this publication.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Authors'),
-            description=_(u'Author of this publication.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#author',
-    ),
-    atapi.StringField(
-        'publicationdate',
-        storage=atapi.AnnotationStorage(),
+    )
+    author = schema.TextLine(
+        title=_(u'Author'),
+        description=_(u'Author of this publication.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Publication Date'),
-            description=_(u'Date of this publication.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#date',
-    ),
-    atapi.StringField(
-        'pubmedid',
-        storage=atapi.AnnotationStorage(),
+    )
+    publicationdate= schema.Datetime(
+        title=_(u'Publication Date'),
+        description=_(u'Date of this publication.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Pubmed ID'),
-            description=_(u'Pubmed ID of this publication.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#pubmedid',
-    ),
-))
+    )
+    pubmedid= schema.TextLine(
+        title=_(u'Pubmed ID'),
+        description=_(u'Pubmed ID of this publication.'),
+        required=False,
+    )
 
-class Publication(grok.Adapter):
-    '''A graph generator that produces statements about EDRN's committees using the DMCC's fatuous web service.'''
-    grok.context(IPublication)
-    implements(IPublication)
-    schema                       = PublicationSchema
-    portal_type                  = 'Publication'
-    title                        = atapi.ATFieldProperty('title')
-    author                       = atapi.ATReferenceFieldProperty('author')
-    journal                      = atapi.ATFieldProperty('journal')
-    publicationdate              = atapi.ATFieldProperty('publicationdate')
-    pubmedid                     = atapi.ATReferenceFieldProperty('pubmedid')
-
-atapi.registerType(Publication, PROJECTNAME)
+IPublication.setTaggedValue('predicateMap', {
+    u'http://purl.org/dc/terms/title': 'title',
+    u'http://purl.org/dc/terms/description': 'description'
+})
+IPublication.setTaggedValue('fti', 'jpl.mcl.protocol.publication')
+IPublication.setTaggedValue('typeURI', u'https://mcl.jpl.nasa.gov/rdf/types.rdf#Publication')

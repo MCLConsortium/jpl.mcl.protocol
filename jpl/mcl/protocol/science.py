@@ -6,133 +6,61 @@
 '''
 
 from jpl.mcl.protocol import _
-from five import grok
-from jpl.mcl.protocol.interfaces import IScience
-from Products.ATContentTypes.lib.constraintypes import ConstrainTypesMixinSchema
-from Products.ATContentTypes.content.schemata import NextPreviousAwareSchema, finalizeATCTSchema
-from jpl.mcl.protocol.config import PROJECTNAME
-from Products.Archetypes import atapi
-from zope.interface import implements
 from zope import schema
+from plone.app.textfield import RichText
+from plone.supermodel import model
 
-ScienceDataSchema = ConstrainTypesMixinSchema.copy()
-ScienceDataSchema += atapi.Schema((
-    atapi.StringField(
-        'collectionname',
-        storage=atapi.AnnotationStorage(),
+class IScience(model.Schema):
+    '''An object that describes a Science Data'''
+    collectionname = schema.TextLine(
+        title=_(u'Collection Name'),
+        description=_(u'Name of this collection.'),
+        required=True,
+    )
+    description = schema.TextLine(
+        title=_(u'Collection Description'),
+        description=_(u'Description of this collection.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Collection Name'), 
-            description=_(u'Collection name of this science data.'),
-            visible={'edit': 'invisible', 'view': 'visible'},
-        ),
-        predicateURI='http://mcl.jpl.nasa.gov/rdf/schema.rdf#collectionname',
-    ),
-    atapi.StringField(
-        'description',
-        storage=atapi.AnnotationStorage(),
+    )
+    site = schema.TextLine(
+        title=_(u'Participating Site'),
+        description=_(u'Participating site for this collection.'),
+        required=True,
+    )
+    organ = schema.TextLine(
+        title=_(u'Organ'),
+        description=_(u'Organ associated with this collection.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Collection Description'),
-            visible={'edit': 'visible', 'view': 'visible'},
-        ),
-    ),
-    atapi.StringField(
-        'site',
-        storage=atapi.AnnotationStorage(),
+    )
+    disease = schema.TextLine(
+        title=_(u'Disease'),
+        description=_(u'Disease of this collection.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Participating Site'),
-            description=_(u'Participating Site associated with this science data.'),
-        ),
-        predicateURI='http://mcl.jpl.nasa.gov/rdf/schema.rdf#collectionsite',
-    ),
-    atapi.StringField(
-        'organ',
-        storage=atapi.AnnotationStorage(),
+    )
+    imagedata = schema.TextLine(
+        title=_(u'Image Data'),
+        description=_(u'Image Data in this collection.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Collection Organ'),
-            description=_(u'Collection Organ associated with this science data.'),
-            visible={'edit': 'invisible', 'view': 'visible'},
-        ),
-        predicateURI='http://mcl.jpl.nasa.gov/rdf/schema.rdf#collectionorgan',
-    ),
-    atapi.StringField(
-        'disease',
-        storage=atapi.AnnotationStorage(),
+    )
+    pathologydata= schema.TextLine(
+        title=_(u'Pathology Data'),
+        description=_(u'Pathology Data of this collection.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Collection Disease'),
-            description=_(u'Collection disease associated with this science data.'),
-        ),
-        predicateURI='http://mcl.jpl.nasa.gov/rdf/schema.rdf#collectiondisease',
-    ),
-    atapi.StringField(
-        'imagedata',
-        storage=atapi.AnnotationStorage(),
+    )
+    clinicaldata= schema.TextLine(
+        title=_(u'Clinical Data'),
+        description=_(u'Clinical Data of this collection.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Image Data'),
-            description=_(u'Image data associated with this science data.'),
-        ),
-        predicateURI='http://mcl.jpl.nasa.gov/rdf/schema.rdf#imagedata',
-    ),
-    atapi.StringField(
-        'pathologydata',
-        storage=atapi.AnnotationStorage(),
+    )
+    genomicdata= schema.TextLine(
+        title=_(u'Genomic Data'),
+        description=_(u'Genomic Data of this collection.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Pathology Data'),
-            description=_(u'Pathology data associated with this science data.'),
-        ),
-        predicateURI='http://mcl.jpl.nasa.gov/rdf/schema.rdf#pathologydata',
-    ),
-    atapi.StringField(
-        'clinicaldata',
-        storage=atapi.AnnotationStorage(),
-        required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Clinical Data'),
-            description=_(u'Clinical data associated with this science data.'),
-        ),
-        predicateURI='http://mcl.jpl.nasa.gov/rdf/schema.rdf#clinicaldata',
-    ),
-    atapi.StringField(
-        'genomicdata',
-        storage=atapi.AnnotationStorage(),
-        required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Genomic Data'),
-            description=_(u'Genomic data associated with this science data.'),
-        ),
-        predicateURI='http://mcl.jpl.nasa.gov/rdf/schema.rdf#genomicdata',
-    ),
-))
+    )
 
-class ScienceData(grok.Adapter):
-    '''A graph generator that produces statements about EDRN's committees using the DMCC's fatuous web service.'''
-    grok.context(IScience)
-    implements(IScience)
-    schema                      = ScienceDataSchema
-    portal_type                 = 'ScienceData'
-    collectionname              = atapi.ATFieldProperty('collectionname')
-    description                 = atapi.ATFieldProperty('description')
-    site                        = atapi.ATFieldProperty('site')
-    organ                       = atapi.ATReferenceFieldProperty('organ')
-    disease                     = atapi.ATFieldProperty('disease')
-    imagedata                   = atapi.ATFieldProperty('imagedata')
-    pathologydata               = atapi.ATReferenceFieldProperty('pathologydata')
-    clinicaldata                = atapi.ATReferenceFieldProperty('clinicaldata')
-    genomicdata                 = atapi.ATReferenceFieldProperty('genomicdata')
-
-atapi.registerType(ScienceData, PROJECTNAME)
+IScience.setTaggedValue('predicateMap', {
+    u'http://purl.org/dc/terms/title': 'title',
+    u'http://purl.org/dc/terms/description': 'description'
+})
+IScience.setTaggedValue('fti', 'jpl.mcl.protocol.science')
+IScience.setTaggedValue('typeURI', u'https://mcl.jpl.nasa.gov/rdf/types.rdf#Science')

@@ -6,157 +6,89 @@
 '''
 
 from jpl.mcl.protocol import _
-from five import grok
-from jpl.mcl.protocol.interfaces import IProtocol
-from Products.ATContentTypes.lib.constraintypes import ConstrainTypesMixinSchema
-from Products.ATContentTypes.content.schemata import NextPreviousAwareSchema, finalizeATCTSchema
-from jpl.mcl.protocol.config import PROJECTNAME
-from Products.Archetypes import atapi
-from zope.interface import implements
 from zope import schema
+from plone.app.textfield import RichText
+from plone.supermodel import model
 
-ProtocolSchema = ConstrainTypesMixinSchema.copy()
-ProtocolSchema += atapi.Schema((
-    atapi.StringField(
-        'description',
-        accessor='Description',
-        allowable_content_types=('text/plain',),
-        default=u'',
-        default_content_type='text/plain',
-        expression='context._computeDescription()',
-        searchable=True,
-        widget=atapi.ComputedWidget(
-            visible={'edit': 'invisible', 'view': 'invisible'},
-        ),
-    ),
-    atapi.StringField(
-        'organs',
-        storage=atapi.AnnotationStorage(),
+class IProtocol(model.Schema):
+    contains(
+        'Products.ATContentTypes.interfaces.IATDocument',
+        'Products.ATContentTypes.interfaces.IATFile',
+        'Products.ATContentTypes.interfaces.IATImage',
+    )
+    '''Protocol.'''
+    title = schema.TextLine(
+        title=_(u'Title'),
+        description=_(u'Title of this resource.'),
+        required=True,
+    )
+    description = RichText(
+        title=_(u'Description'),
+        description=_(u'A short summary of the resource.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Organs'), 
-            description=_(u'Organs associated with this protocol.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#abbreviatedName',
-    ),
-    atapi.ComputedField(
-        'principleInvestigator',
+    )
+    identifier = schema.TextLine(
+        title=_(u'Identifier'),
+        description=_(u'The Uniform Resource Identifier identifying the resource.'),
+        required=True,
+    )
+    organs = schema.TextLine(
+        title=_(u'Organs'),
+        description=_(u'Organs associated with this protocol.'),
         required=False,
-        searchable=True,
-        storage=atapi.AnnotationStorage(),
-        expression='context._computePIName()',
-        multiValued=False,
-        modes=('view',),
-        widget=atapi.ComputedWidget(
-            visible={'edit': 'invisible', 'view': 'invisible'},
-        ),
-    ),
-    atapi.DateTimeField(
-        'startDate',
-        storage=atapi.AnnotationStorage(),
+#        schema=IOrgan
+    )
+    principleInvestigator = schema.TextLine(
+        title=_(u'PIs'),
+        description=_(u'Principle Investigator leading this protocol.'),
         required=False,
-        widget=atapi.CalendarWidget(
-            label=_(u'Start Date'),
-            description=_(u'When this protocol began or will begin.'),
-            show_hm=False,
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#startDate',
-    ),
-    atapi.StringField(
-        'siteContact',
-        storage=atapi.AnnotationStorage(),
+#        schema=IPerson
+    )
+    startDate = schema.Datetime(
+        title=_(u'Start Date'),
+        description=_(u'When this protocol began or will begin.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Site Contact'),
-            description=_(u'Site contact associated with this protocol.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#abbreviatedName',
-    ),
-    atapi.StringField(
-        'irbApproval',
-        storage=atapi.AnnotationStorage(),
+    )
+    siteContact = schema.TextLine(
+        title=_(u'Site Contact'),
+        description=_(u'Site contact associated with this protocol.'),
         required=False,
-        widget=atapi.StringWidget(
-            label=_(u'IRB Approval'),
-            description=_(u'A note about whether Internal Review Board approval is required, has been given, or otherwise.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#irbApprovalNeeded',
-    ),
-    atapi.StringField(
-        'irbNumber',
-        storage=atapi.AnnotationStorage(),
+    )
+    irbApproval = schema.TextLine(
+        title=_(u'IRB Approval'),
+        description=_(u'A note about whether Internal Review Board approval is required, has been given, or has not been given.'),
         required=False,
-        widget=atapi.StringWidget(
-            label=_(u'IRB Number'),
-            description=_(u'The approval identification number given to this protocol by the Internal Review Board.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#irbNumber',
-    ),
-    atapi.StringField(
-        'irbContact',
-        storage=atapi.AnnotationStorage(),
+    )
+    irbNumber = schema.TextLine(
+        title=_(u'IRB Approval #'),
+        description=_(u'The approval identification number given to this protocol by the Internal Review Board.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'IRB Contact Name'),
-            description=_(u'Name of point of contact for IRB approver.'),
-        ),  
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#abbreviatedName',
-    ),
-    atapi.StringField(
-        'irbContactEmail',
-        storage=atapi.AnnotationStorage(),
+    )
+    irbContact = schema.TextLine(
+        title=_(u'IRB Contact'),
+        description=_(u'Contact in the Internal Review Board protocol.'),
         required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'IRB Contact Email'),
-            description=_(u'Email of IRB Contact Approver.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#abbreviatedName',
-    ),
-    atapi.StringField(
-        'humanSubjectTraining',
-        storage=atapi.AnnotationStorage(),
+    )
+    irbContactEmail = schema.TextLine(
+        title=_(u'IRB Contact Email'),
+        description=_(u'Contact email in the Internal Review Board protocol.'),
         required=False,
-        widget=atapi.StringWidget(
-            label=_(u'Human Subject Training'),
-            description=_(u'A note about whether human subject training is required, has been given, or has not been given.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#humanSubjectTrainingReceived',
-    ),
-    atapi.TextField(
-        'abstract',
-        storage=atapi.AnnotationStorage(),
+    )
+    humanSubjectTraining = schema.TextLine(
+        title=_(u'Human Subject Training'),
+        description=_(u'A note about whether human subject training is required, has been given, or has not been given.'),
         required=False,
-        searchable=True,
-        widget=atapi.TextAreaWidget(
-            label=_(u'Abstract'),
-            description=_(u'A not-quite-as-brief summary.'),
-        ),
-        predicateURI='http://purl.org/dc/terms/description',
-    ),
-))
+    )
+    abstract = RichText(
+        title=_(u'Abstract'),
+        description=_(u'A not-quite-as-brief summary.'),
+        required=False
+    )
 
-class Protocol(grok.Adapter):
-    '''A graph generator that produces statements about EDRN's committees using the DMCC's fatuous web service.'''
-    grok.context(IProtocol)
-    implements(IProtocol)
-    schema                       = ProtocolSchema
-    portal_type                  = 'Protocol'
-    title                        = atapi.ATFieldProperty('title')
-    description                  = atapi.ATFieldProperty('description')
-    organs                       = atapi.ATReferenceFieldProperty('organs')
-    principleInvestigator        = atapi.ATReferenceFieldProperty('principleInvestigator')
-    startDate                    = atapi.ATFieldProperty('startDate')
-    siteContact                  = atapi.ATFieldProperty('siteContact')
-    irbApproval                  = atapi.ATFieldProperty('irbApproval')
-    irbNumber                    = atapi.ATFieldProperty('irbNumber')
-    irbContact                   = atapi.ATFieldProperty('irbContact')
-    irbContact                   = atapi.ATFieldProperty('irbContact')
-    irbContactEmail              = atapi.ATFieldProperty('irbContactEmail')
-    humanSubject                 = atapi.ATFieldProperty('humanSubjectTraining')
-    abstract                     = atapi.ATFieldProperty('abstract')
 
-atapi.registerType(Protocol, PROJECTNAME)
+IProtocol.setTaggedValue('predicateMap', {
+    u'http://purl.org/dc/terms/title': 'title',
+    u'http://purl.org/dc/terms/description': 'description'
+})
+IProtocol.setTaggedValue('fti', 'jpl.mcl.protocol.protocol')
+IProtocol.setTaggedValue('typeURI', u'https://mcl.jpl.nasa.gov/rdf/types.rdf#Protocol')

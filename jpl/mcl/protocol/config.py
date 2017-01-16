@@ -5,17 +5,3 @@
 '''
 JPL MCL Protocol: old-style configuration information.
 '''
-
-PROJECTNAME = 'jpl.mcl.protocol'
-
-ADD_PERMISSIONS = {
-    'Protocol Folder': 'JPL: Add Protocol Folder',
-    'Protocol':        'JPL: Add Protocol',
-    'Person':          'JPL: Add Person',
-    'Institution':     'JPL: Add Institution',
-    'FundedSite':      'JPL: Add Funded Site',
-    'Project':         'JPL: Add Project',
-    'Publication':     'JPL: Add Publication',
-    'Signature':       'JPL: Add Signature',
-    'ScienceData':     'JPL: Add Science Data',
-}

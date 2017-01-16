@@ -6,86 +6,46 @@
 '''
 
 from jpl.mcl.protocol import _
-from five import grok
-from jpl.mcl.protocol.interfaces import IFundedSite
-from Products.ATContentTypes.lib.constraintypes import ConstrainTypesMixinSchema
-from Products.ATContentTypes.content.schemata import NextPreviousAwareSchema, finalizeATCTSchema
-from jpl.mcl.protocol.config import PROJECTNAME
-from Products.Archetypes import atapi
-from zope.interface import implements
 from zope import schema
+from plone.app.textfield import RichText
+from plone.supermodel import model
 
-FundedSiteSchema = ConstrainTypesMixinSchema.copy()
-FundedSiteSchema += atapi.Schema((
-    atapi.ComputedField(
-        'description',
-        accessor='Description',
-        allowable_content_types=('text/plain',),
-        default=u'',
-        default_content_type='text/plain',
-        expression='context._computeDescription()',
-        searchable=True,
-        widget=atapi.ComputedWidget(
-            visible={'edit': 'invisible', 'view': 'invisible'},
-        ),
-    ),
-    atapi.StringField(
-        'abstract',
-        storage=atapi.AnnotationStorage(),
-        required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Abstract'), 
-            description=_(u'Abstract of this funded site.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#abstract',
-    ),
-    atapi.StringField(
-        'organ',
-        storage=atapi.AnnotationStorage(),
-        required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Organs'),
-            description=_(u'Organs associated with this funded site.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#organ',
-    ),
-    atapi.StringField(
-        'principalInvestigator',
-        storage=atapi.AnnotationStorage(),
-        required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Principal Investigators'),
-            description=_(u'Organs associated with this funded site.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#PI',
-    ),
-    atapi.StringField(
-        'additionalStaff',
-        storage=atapi.AnnotationStorage(),
-        required=False,
-        searchable=True,
-        widget=atapi.StringWidget(
-            label=_(u'Additional Staff'),
-            description=_(u'Additional Staff associated with this funded site.'),
-        ),
-        predicateURI='http://edrn.nci.nih.gov/rdf/schema.rdf#addstaff',
-    ),
-))
+class IFundedSite(model.Schema):
+    '''An object that describes an Funded Site'''
+    title = schema.TextLine(
+        title=_(u'Title'),
+        description=_(u'Title of this funded site.'),
+        required=True,
+    )
+    description = RichText(
+        title=_(u'Description'),
+        description=_(u'Description of this institution.'),
+        required=True,
+    )
+    abstract = RichText(
+        title=_(u'Abstract'),
+        description=_(u'Abstract of this funded site.'),
+        required=True,
+    )
+    organ = schema.TextLine(
+        title=_(u'Organ'),
+        description=_(u'Organs associated with this institutionn.'),
+        required=True,
+    )
+    principalInvestigator = schema.TextLine(
+        title=_(u'Principal Investigators'),
+        description=_(u'Principal Investigators in this institution.'),
+        required=True,
+    )
+    additionalStaff = schema.TextLine(
+        title=_(u'Additional Staff'),
+        description=_(u'Additional staff of this institution.'),
+        required=True,
+    )
 
-class FundedSite(grok.Adapter):
-    '''A graph generator that produces statements about EDRN's committees using the DMCC's fatuous web service.'''
-    grok.context(IFundedSite)
-    implements(IFundedSite)
-    schema                       = FundedSiteSchema
-    portal_type                  = 'FundedSite'
-    title                        = atapi.ATFieldProperty('title')
-    description                  = atapi.ATFieldProperty('description')
-    abstract                     = atapi.ATReferenceFieldProperty('abstract')
-    organ                        = atapi.ATReferenceFieldProperty('organ')
-    principalInvestigator        = atapi.ATReferenceFieldProperty('principalInvestigator')
-    additionalStaff              = atapi.ATReferenceFieldProperty('additionalStaff')
-
-atapi.registerType(FundedSite, PROJECTNAME)
+IFundedSite.setTaggedValue('predicateMap', {
+    u'http://purl.org/dc/terms/title': 'title',
+    u'http://purl.org/dc/terms/description': 'description'
+})
+IFundedSite.setTaggedValue('fti', 'jpl.mcl.protocol.fundedsite')
+IFundedSite.setTaggedValue('typeURI', u'https://mcl.jpl.nasa.gov/rdf/types.rdf#FundedSite')

@@ -15,10 +15,7 @@ RESERVED. U.S. Government Sponsorship acknowledged.
     <include package="plone.behavior" file='meta.zcml' />
     <include package="plone.app.relationfield" />
     <includeDependencies package='.' />
-    <!--<grok:grok package='.' />-->
-    <five:registerPackage package="." initialize=".initialize" />
     <include package='.browser'/>
-    <include package='.content'/>
 
     <genericsetup:registerProfile
         name='default'
@@ -38,11 +35,4 @@ RESERVED. U.S. Government Sponsorship acknowledged.
         zcml:condition='installed Products.GenericSetup.upgrade'
         file='upgrades.zcml'
     />
-    <browser:page
-      name="testtest"
-      for="jpl.mcl.protocol.program.IProgram"
-      class="jpl.mcl.protocol.program.ProgramView"
-      template="templates/programview.pt"
-      permission="zope2.Public"
-      />
 </configure>

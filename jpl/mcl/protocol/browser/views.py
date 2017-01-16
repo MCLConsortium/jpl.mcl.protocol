@@ -15,8 +15,6 @@ from Products.CMFPlone.browser.interfaces import IMainTemplate
 from zope.interface import implements
 from mysolr import Solr
 
-from jpl.mcl.protocol.interfaces import IProtocolFolder, IProtocol, IScience
-
 #Temporary, will be removed after rdf is ingested instead
 from rdflib import URIRef, ConjunctiveGraph, Graph, Literal, Namespace, RDF
 from rdflib.parser import URLInputSource
